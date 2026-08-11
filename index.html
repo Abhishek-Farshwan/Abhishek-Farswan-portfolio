@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0d12" />
+  <meta name="description" content="Abhishek Farshwan — game dev, 3D artist, systems designer." />
+  <title>abhishek.exe — portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#080a0f; --panel:#0d1017; --panel2:#11151e; --line:#202734;
+      --text:#e8edf6; --muted:#8994a8; --soft:#b9c2d2; --lime:#b7ff5f;
+      --cyan:#72e7ff; --orange:#ffb86b; --pink:#ff7bbd;
+      --shadow:0 20px 80px rgba(0,0,0,.4);
+      --mono:'DM Mono', monospace; --sans:'Space Grotesk', system-ui, sans-serif;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;background:
+      radial-gradient(circle at 85% 7%, rgba(114,231,255,.08), transparent 22rem),
+      radial-gradient(circle at 10% 20%, rgba(183,255,95,.055), transparent 25rem),
+      var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 80%)}
+    a{color:inherit;text-decoration:none}.container{width:min(1160px,calc(100% - 32px));margin:0 auto}
+    .shell{border:1px solid var(--line);background:rgba(10,13,19,.78);backdrop-filter:blur(12px);box-shadow:var(--shadow);border-radius:18px;overflow:hidden}
+    .topbar{position:sticky;top:14px;z-index:10;margin:14px auto 0;width:min(1160px,calc(100% - 32px));border:1px solid var(--line);background:rgba(10,13,19,.86);backdrop-filter:blur(16px);border-radius:14px;box-shadow:0 14px 35px rgba(0,0,0,.28)}
+    .tabs{display:flex;align-items:center;gap:2px;min-height:50px;padding:4px;overflow:auto}.tab{padding:10px 14px;border-radius:9px;color:var(--muted);font-family:var(--mono);font-size:12px;white-space:nowrap}.tab:hover,.tab.active{color:var(--text);background:var(--panel2)}.tab.active:before{content:'>';color:var(--lime);margin-right:6px}.brand{margin-right:auto;padding:0 12px;font-family:var(--mono);font-size:12px;color:var(--lime);white-space:nowrap}
+    .hero{padding:92px 0 64px}.path{font:12px var(--mono);color:var(--muted);margin-bottom:20px}.path b{color:var(--cyan);font-weight:500}
+    .hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:28px;align-items:end}.eyebrow{font:13px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--lime);margin-bottom:18px}.hero h1{font-size:clamp(58px,8vw,108px);line-height:.92;letter-spacing:-.065em;margin:0;max-width:850px}.hero h1 span{color:var(--soft)}.hero p{font-size:clamp(17px,2vw,21px);max-width:710px;color:var(--soft);margin:26px 0 0}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.btn{border:1px solid var(--line);background:var(--panel2);padding:11px 15px;border-radius:9px;font-family:var(--mono);font-size:12px}.btn.primary{background:var(--lime);border-color:var(--lime);color:#0b0d0f}.btn:hover{transform:translateY(-2px)}
+    .status-card{border:1px solid var(--line);background:linear-gradient(145deg,#10141d,#0b0e14);border-radius:14px;padding:18px;font-family:var(--mono);font-size:12px}.status-head{display:flex;justify-content:space-between;margin-bottom:17px;color:var(--muted)}.dot{width:8px;height:8px;border-radius:50%;background:var(--lime);display:inline-block;box-shadow:0 0 15px var(--lime);margin-right:8px}.status-row{display:flex;justify-content:space-between;padding:10px 0;border-top:1px dashed #242b37;color:var(--muted)}.status-row strong{font-weight:500;color:var(--text)}
+    section{padding:36px 0 72px}.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:18px}.section-title{font-size:30px;letter-spacing:-.035em;margin:0}.section-kicker{font:12px var(--mono);color:var(--muted)}
+    .grid{display:grid;gap:14px}.art-grid{grid-template-columns:repeat(12,1fr)}.card{position:relative;overflow:hidden;border:1px solid var(--line);background:var(--panel);border-radius:14px;min-height:250px}.card:hover{border-color:#364154;transform:translateY(-3px)}.art{grid-column:span 5;min-height:420px}.art.wide{grid-column:span 7}.thumb{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(.82)}.thumb:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.82) 92%)}
+    .placeholder-1{background:radial-gradient(circle at 60% 30%,rgba(183,255,95,.4),transparent 18%),radial-gradient(circle at 70% 60%,rgba(114,231,255,.35),transparent 30%),linear-gradient(140deg,#1a2230,#0a0d13)}
+    .placeholder-2{background:radial-gradient(circle at 25% 25%,rgba(255,123,189,.35),transparent 18%),linear-gradient(135deg,#2a1728,#0c0e17)}
+    .placeholder-3{background:radial-gradient(circle at 70% 20%,rgba(255,184,107,.45),transparent 20%),linear-gradient(135deg,#282118,#0b0e13)}
+    .placeholder-4{background:linear-gradient(140deg,#141b2b,#0a0d12);background-image:linear-gradient(120deg,rgba(114,231,255,.25) 1px,transparent 1px),linear-gradient(30deg,rgba(183,255,95,.18) 1px,transparent 1px),linear-gradient(135deg,#182131,#0b0e14);background-size:35px 35px,35px 35px,auto}
+    .card-body{position:absolute;left:0;right:0;bottom:0;padding:19px;z-index:2}.tag{font:10px var(--mono);color:var(--lime);text-transform:uppercase;letter-spacing:.08em}.card h3{margin:5px 0 3px;font-size:20px}.card p{margin:0;color:#aeb7c7;font-size:13px;max-width:680px}.meta{margin-top:10px;color:#7f8a9e;font:11px var(--mono)}
+    .systems{display:grid;grid-template-columns:1fr 1fr;gap:14px}.system-card{padding:20px;min-height:245px;display:flex;flex-direction:column;justify-content:space-between}.icon{font:22px var(--mono);color:var(--cyan)}.system-card h3{font-size:22px;margin:12px 0 5px}.system-card p{color:var(--soft);margin:0;max-width:500px}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}.chip{border:1px solid #28303d;background:#0b0f16;padding:6px 9px;border-radius:999px;font:11px var(--mono);color:#98a4b7}
+    .about{display:grid;grid-template-columns:.8fr 1.2fr;gap:14px}.about-panel{padding:24px}.about-panel p{font-size:18px;color:var(--soft);margin:0 0 16px}.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.fact{padding:12px;border:1px solid var(--line);border-radius:9px;background:#0a0d12}.fact span{display:block;color:var(--muted);font:10px var(--mono);text-transform:uppercase;margin-bottom:3px}.fact strong{font-size:14px}
+    .contact{padding-bottom:100px}.contact-box{padding:28px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;border:1px solid #334050;background:linear-gradient(120deg,#10161f,#0c1017);border-radius:14px}.contact-box h2{font-size:38px;line-height:1;margin:0 0 8px;letter-spacing:-.045em}.contact-box p{margin:0;color:var(--muted)}.contact-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.contact-links a{border:1px solid var(--line);padding:10px 13px;border-radius:8px;font:12px var(--mono);color:var(--soft)}.contact-links a:hover{border-color:#3a4556;color:var(--text)}
+    footer{padding:22px 0 35px;border-top:1px solid var(--line);font:11px var(--mono);color:#667184;display:flex;justify-content:space-between;gap:20px}
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}
+    @media(max-width:860px){.hero-grid,.about,.contact-box{grid-template-columns:1fr}.status-card{max-width:600px}.art{grid-column:span 12!important;min-height:330px}.systems{grid-template-columns:1fr}.contact-links{justify-content:flex-start}.brand{display:none}}
+    @media(max-width:560px){.container{width:min(100% - 20px,1160px)}.topbar{width:calc(100% - 20px);top:8px}.hero{padding-top:68px}.hero h1{font-size:55px}.section-title{font-size:26px}.art{min-height:290px}.facts{grid-template-columns:1fr}.contact-box h2{font-size:30px}}
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="tabs">
+      <div class="brand">/abhishek/portfolio</div>
+      <a class="tab active" href="#home">home</a>
+      <a class="tab" href="#art">art_3d</a>
+      <a class="tab" href="#systems">systems</a>
+      <a class="tab" href="#about">about</a>
+      <a class="tab" href="#contact">contact</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="hero" id="home">
+      <div class="path">~/portfolio <b>/</b> <span>main_scene</span> <b>/</b> <span>player_01</span></div>
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">[ available for interesting problems ]</div>
+          <h1>Game dev.<br><span>3D art.</span><br>Systems brain.</h1>
+          <p>I build interactive worlds, weird little systems, and visuals that feel like they belong in a game you accidentally lose 80 hours to.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#art">view projects ↘</a>
+            <a class="btn" href="#contact">open comms</a>
+          </div>
+        </div>
+        <aside class="status-card reveal">
+          <div class="status-head"><span><i class="dot"></i>session.status</span><span>v0.9.3</span></div>
+          <div class="status-row"><span>role</span><strong>game dev / 3D / systems</strong></div>
+          <div class="status-row"><span>stack</span><strong>Godot · Blender · C#</strong></div>
+          <div class="status-row"><span>current_mode</span><strong>building things</strong></div>
+          <div class="status-row"><span>coffee</span><strong>∞</strong></div>
+        </aside>
+      </div>
+    </header>
+
+    <section id="art" class="reveal">
+      <div class="section-head"><div><div class="section-kicker">01 / visual_work</div><h2 class="section-title">art_3d</h2></div><div class="section-kicker">drop real renders here later</div></div>
+      <div class="grid art-grid">
+        <article class="card art wide"><div class="thumb placeholder-1"></div><div class="card-body"><div class="tag">environment / 3d</div><h3>Neon Outpost</h3><p>Stylized sci-fi scene study with modular props, lighting passes and a tiny amount of questionable fog.</p><div class="meta">blender · materials · lighting</div></div></article>
+        <article class="card art"><div class="thumb placeholder-2"></div><div class="card-body"><div class="tag">character / sculpt</div><h3>Unknown Unit</h3><p>Placeholder character concept for a future playable prototype.</p><div class="meta">sculpt · retopo · lookdev</div></div></article>
+        <article class="card art"><div class="thumb placeholder-3"></div><div class="card-body"><div class="tag">props / hard surface</div><h3>Field Kit_01</h3><p>Modular hard-surface prop set built around a shared visual language.</p><div class="meta">blender · uv · bake</div></div></article>
+        <article class="card art wide"><div class="thumb placeholder-4"></div><div class="card-body"><div class="tag">worldbuilding / scene</div><h3>After Hours</h3><p>Atmospheric environment pass exploring readable composition, silhouettes and interactive spaces.</p><div class="meta">layout · lighting · composition</div></div></article>
+      </div>
+    </section>
+
+    <section id="systems" class="reveal">
+      <div class="section-head"><div><div class="section-kicker">02 / gameplay_logic</div><h2 class="section-title">systems_design</h2></div><div class="section-kicker">the fun brain stuff</div></div>
+      <div class="systems">
+        <article class="card system-card"><div><div class="icon">[AI]</div><h3>Character AI</h3><p>State-driven NPC logic with clear transitions, readable behaviors and room for more complex decision layers later.</p></div><div class="chips"><span class="chip">FSM</span><span class="chip">decision logic</span><span class="chip">navigation</span></div></article>
+        <article class="card system-card"><div><div class="icon">[SYS]</div><h3>Gameplay Systems</h3><p>Reusable components for interactions, abilities, inventory-like data and rules that should survive the next design change.</p></div><div class="chips"><span class="chip">modular scripts</span><span class="chip">components</span><span class="chip">data-driven</span></div></article>
+        <article class="card system-card"><div><div class="icon">[FX]</div><h3>Combat & Feedback</h3><p>Mechanics where input, timing and feedback all snap together—making basic actions feel intentional instead of floaty.</p></div><div class="chips"><span class="chip">state</span><span class="chip">hit feedback</span><span class="chip">timing</span></div></article>
+        <article class="card system-card"><div><div class="icon">[LAB]</div><h3>Prototype Lab</h3><p>Small experimental builds used to answer one question at a time before committing to a larger implementation.</p></div><div class="chips"><span class="chip">rapid prototyping</span><span class="chip">iteration</span><span class="chip">playtesting</span></div></article>
+      </div>
+    </section>
+
+    <section id="about" class="reveal">
+      <div class="section-head"><div><div class="section-kicker">03 / player_profile</div><h2 class="section-title">about_me</h2></div></div>
+      <div class="about">
+        <div class="card about-panel"><div class="tag">operator.log</div><p>I like building the part between “cool idea” and “actually works.” That usually means code, systems design, 3D work, and a suspicious number of test scenes.</p><div class="facts"><div class="fact"><span>focus</span><strong>interactive systems</strong></div><div class="fact"><span>medium</span><strong>games + realtime 3D</strong></div><div class="fact"><span>weapon</span><strong>clean architecture</strong></div><div class="fact"><span>weakness</span><strong>adding one more feature</strong></div></div></div>
+        <div class="card about-panel"><div class="tag">toolchain.txt</div><p style="font-family:var(--mono);font-size:14px;color:#a9b3c4;white-space:pre-line">01  Godot      // gameplay + prototypes
+02  Blender     // modeling + lookdev
+03  C# / GDScript // systems + tools
+04  Git         // versioning + experiments
+05  Photoshop   // quick texture / paintover work</p><p style="font-size:15px;color:var(--muted)">Everything here is placeholder content. Swap cards, screenshots, links and project details with your actual work when the portfolio goes live.</p></div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact reveal">
+      <div class="contact-box">
+        <div><div class="tag">open_channel</div><h2>let’s make something playable.</h2><p>Replace these links with your real contact details / socials.</p></div>
+        <div class="contact-links"><a href="mailto:hello@example.com">email ↗</a><a href="#">github ↗</a><a href="#">linkedin ↗</a><a href="#">artstation ↗</a></div>
+      </div>
+    </section>
+
+    <footer><span>© 2026 Abhishek Farshwan</span><span>built like a game menu, shipped like a portfolio</span></footer>
+  </main>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')), {threshold:.12});
+    reveals.forEach(el => io.observe(el));
+
+    const links = [...document.querySelectorAll('.tab')];
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const spy = new IntersectionObserver(entries => entries.forEach(entry => {
+      if(entry.isIntersecting){
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + entry.target.id));
+      }
+    }), {rootMargin:'-35% 0px -55% 0px',threshold:0});
+    sections.forEach(s => spy.observe(s));
+  </script>
+</body>
+</html>
