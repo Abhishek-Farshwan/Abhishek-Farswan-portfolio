@@ -39,8 +39,8 @@
     .dl-btn:disabled{opacity:.6;cursor:progress;transform:none}
 
     #resumeSheet{padding:36px 0 90px;background:#0a0b0e}
-    .pdf-export{position:fixed!important;left:-9999px!important;top:0!important;
-      width:794px!important;max-width:794px!important;padding:48px!important;background:#0a0b0e!important}
+    .pdf-export{width:794px!important;max-width:794px!important;padding:48px!important;
+      background:#0a0b0e!important;margin:0 auto!important}
     .path{font:13px var(--mono);color:var(--muted);margin-bottom:22px}
     .path b{color:var(--accent);font-weight:500}
 
@@ -225,7 +225,7 @@
         margin: 0,
         filename: 'Abhishek_Farswan_Resume.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, backgroundColor: '#0a0b0e', useCORS: true, windowWidth: 794 },
+        html2canvas: { scale: 2, backgroundColor: '#0a0b0e', useCORS: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
         pagebreak: { mode: ['css', 'legacy'], avoid: ['.card', '.xp-item', '.edu-item'] }
       }).from(el).save().then(finish).catch(finish);
