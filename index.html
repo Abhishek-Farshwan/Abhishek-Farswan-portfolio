@@ -92,9 +92,10 @@
       background:var(--panel2);border-bottom:1px solid var(--line);font:12px var(--mono);color:var(--accent)}
     .game-modal-head button{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1;padding:2px 4px}
     .game-modal-head button:hover{color:var(--text)}
-    .game-modal-body{padding:32px 28px}
-    .game-modal-icon{font-size:30px;margin-bottom:16px}
-    .game-modal-body p{margin:0 0 24px;color:var(--soft);font-size:15px;line-height:1.65}
+    .game-modal-body{padding:30px 28px}
+    .game-modal-body p{margin:0 0 22px;color:var(--soft);font-size:15px;line-height:1.65}
+    .game-modal-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .game-modal-actions .btn{flex:1;text-align:center;white-space:nowrap}
     .hud-xy{font:10px var(--mono);color:#454b56;line-height:1.5;text-align:center;letter-spacing:.02em}
     .hero .container{position:relative;z-index:2}
 
@@ -108,7 +109,7 @@
     .hero h1 span{color:var(--muted)}
     .hero p{font-size:clamp(17px,1.8vw,19px);max-width:640px;color:var(--soft);margin:24px 0 0}
     .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
-    .btn{border:1px solid var(--line);background:var(--panel2);padding:12px 18px;border-radius:6px;font-family:var(--mono);font-size:13px;color:var(--soft);transition:border-color .15s ease,color .15s ease,transform .15s ease}
+    .btn{border:1px solid var(--line);background:var(--panel2);padding:12px 18px;border-radius:6px;font-family:var(--mono);font-size:13px;color:var(--soft);transition:border-color .15s ease,color .15s ease,transform .15s ease;cursor:pointer;appearance:none;-webkit-appearance:none}
     .btn.primary{background:var(--accent);border-color:var(--accent);color:#0a0b0e;font-weight:600}
     .btn:hover{transform:translateY(-2px);border-color:#3a4250;color:var(--text)}
     .btn.primary:hover{color:#0a0b0e;border-color:var(--accent)}
@@ -248,9 +249,11 @@
         <div class="game-modal">
           <div class="game-modal-head"><span>secret_level.exe</span><button id="gameModalClose" aria-label="Close">✕</button></div>
           <div class="game-modal-body">
-            <div class="game-modal-icon">🎮</div>
-            <p>you scrolled the whole scene — nice. a small playable build lives here once it's ready.</p>
-            <a class="btn primary" href="secret_level.html">enter secret_level ↗</a>
+            <p>🎮&nbsp; you scrolled the whole scene — nice. a small playable build lives here once it's ready.</p>
+            <div class="game-modal-actions">
+              <a class="btn primary" href="secret_level.html">enter secret_level ↗</a>
+              <button class="btn" id="gameModalHome">return home</button>
+            </div>
           </div>
         </div>
       </div>
@@ -433,10 +436,12 @@
     // secret-level modal
     const gameModal = document.getElementById('gameModalOverlay');
     const gameModalClose = document.getElementById('gameModalClose');
+    const gameModalHome = document.getElementById('gameModalHome');
     function openGameModal(){ gameModal.classList.add('open'); }
     function closeGameModal(){ gameModal.classList.remove('open'); }
     if(hudPlayBtn) hudPlayBtn.addEventListener('click', openGameModal);
     if(gameModalClose) gameModalClose.addEventListener('click', closeGameModal);
+    if(gameModalHome) gameModalHome.addEventListener('click', closeGameModal);
     if(gameModal) gameModal.addEventListener('click', (e) => { if(e.target === gameModal) closeGameModal(); });
     window.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeGameModal(); });
   </script>
