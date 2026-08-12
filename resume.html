@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root{
       --bg:#0a0b0e; --panel:#111318; --panel2:#161a20; --line:#242830; --line-soft:#1a1e24;
@@ -33,14 +32,8 @@
     .back{font:13px var(--mono);color:var(--muted)}
     .back:hover{color:var(--text)}
     .back b{color:var(--accent);font-weight:500}
-    .dl-btn{border:1px solid var(--accent);background:var(--accent);color:#0a0b0e;font-family:var(--mono);
-      font-size:13px;font-weight:600;padding:9px 14px;border-radius:6px;cursor:pointer;transition:transform .15s ease}
-    .dl-btn:hover{transform:translateY(-2px)}
-    .dl-btn:disabled{opacity:.6;cursor:progress;transform:none}
 
     #resumeSheet{padding:36px 0 90px;background:#0a0b0e}
-    .pdf-export{width:794px!important;max-width:794px!important;padding:48px!important;
-      background:#0a0b0e!important;margin:0 auto!important}
     .path{font:13px var(--mono);color:var(--muted);margin-bottom:22px}
     .path b{color:var(--accent);font-weight:500}
 
@@ -95,7 +88,6 @@
 <body>
   <nav class="topbar">
     <a class="back" href="index.html"><b>‹</b> /abhishek/portfolio</a>
-    <button class="dl-btn" id="downloadBtn">↓ download pdf</button>
   </nav>
 
   <main class="container" id="resumeSheet">
@@ -204,32 +196,5 @@
       </div>
     </div>
   </main>
-
-  <script>
-    document.getElementById('downloadBtn').addEventListener('click', function(){
-      const btn = this;
-      const el = document.getElementById('resumeSheet');
-      btn.disabled = true;
-      btn.textContent = 'generating…';
-
-      el.classList.add('pdf-export');
-      void el.offsetWidth; // force reflow before capture
-
-      const finish = () => {
-        el.classList.remove('pdf-export');
-        btn.disabled = false;
-        btn.textContent = '↓ download pdf';
-      };
-
-      html2pdf().set({
-        margin: 0,
-        filename: 'Abhishek_Farswan_Resume.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, backgroundColor: '#0a0b0e', useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['css', 'legacy'], avoid: ['.card', '.xp-item', '.edu-item'] }
-      }).from(el).save().then(finish).catch(finish);
-    });
-  </script>
 </body>
 </html>
