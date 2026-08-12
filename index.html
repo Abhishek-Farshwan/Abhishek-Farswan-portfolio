@@ -55,12 +55,17 @@
       -webkit-mask-image:linear-gradient(to bottom, transparent 0%, black 35%, black 80%, transparent 100%);
       mask-image:linear-gradient(to bottom, transparent 0%, black 35%, black 80%, transparent 100%);}
     .viewport-grid svg{width:100%;height:100%}
-    .gizmo{position:absolute;top:96px;right:0;width:64px;height:64px;z-index:1;opacity:.85}
+    .viewport-hud{position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;align-items:center;gap:8px;
+      padding:14px 16px 12px;border:1px solid var(--line);border-radius:8px;background:rgba(17,19,24,.82);backdrop-filter:blur(6px)}
+    .hud-gizmo{width:52px;height:52px;opacity:.9}
+    .hud-divider{width:100%;height:1px;background:var(--line)}
+    .hud-coords{font:11px var(--mono);color:#5a616d;line-height:1.6;text-align:center;letter-spacing:.02em}
+    .hud-coords .hud-section{color:var(--accent)}
+    .hud-xy{font:10px var(--mono);color:#454b56;line-height:1.5;text-align:center;letter-spacing:.02em}
     .hero .container{position:relative;z-index:2}
 
     .path{font:13px var(--mono);color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:8px}
     .path b{color:var(--accent);font-weight:500}
-    .path .cursor-readout{margin-left:auto;color:#5a616d;font-size:11px;letter-spacing:.02em}
 
     .hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:28px;align-items:end}
     .eyebrow{display:inline-flex;align-items:center;gap:8px;font:13px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:18px;padding:5px 10px;border:1px solid var(--line);border-radius:5px;background:var(--panel)}
@@ -148,6 +153,9 @@
     .reveal.visible{opacity:1;transform:none}
     @media (prefers-reduced-motion: reduce){.reveal{transition:none;opacity:1;transform:none}.dot{animation:none}}
 
+    @media(max-width:1240px){
+      .viewport-hud{display:none}
+    }
     @media(max-width:860px){
       .hero-grid,.about{grid-template-columns:1fr}
       .contact-box{grid-template-columns:1fr}
@@ -156,7 +164,6 @@
       .art{grid-column:span 12!important;min-height:300px}
       .systems{grid-template-columns:1fr}
       .brand{display:none}
-      .gizmo{display:none}
     }
     @media(max-width:560px){
       .container{width:min(100% - 20px,1160px)}
@@ -167,7 +174,6 @@
       .art{min-height:260px}
       .facts{grid-template-columns:1fr}
       .contact-box h2{font-size:28px}
-      .path .cursor-readout{display:none}
     }
   </style>
 </head>
@@ -186,17 +192,23 @@
   <main class="container">
     <header class="hero" id="home">
       <div class="viewport-grid" aria-hidden="true"></div>
-      <svg class="gizmo" viewBox="0 0 64 64" aria-hidden="true">
-        <circle cx="32" cy="32" r="30" fill="none" stroke="#242830" stroke-width="1"/>
-        <line x1="32" y1="32" x2="32" y2="8" stroke="#8fe14a" stroke-width="2"/>
-        <circle cx="32" cy="8" r="4" fill="#8fe14a"/>
-        <line x1="32" y1="32" x2="52" y2="42" stroke="#e2564f" stroke-width="2"/>
-        <circle cx="52" cy="42" r="4" fill="#e2564f"/>
-        <line x1="32" y1="32" x2="14" y2="46" stroke="#4f8ef0" stroke-width="2"/>
-        <circle cx="14" cy="46" r="4" fill="#4f8ef0"/>
-      </svg>
+      <div class="viewport-hud">
+        <svg class="hud-gizmo" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="none" stroke="#242830" stroke-width="1"/>
+          <line x1="32" y1="32" x2="32" y2="8" stroke="#8fe14a" stroke-width="2"/>
+          <circle cx="32" cy="8" r="4" fill="#8fe14a"/>
+          <line x1="32" y1="32" x2="52" y2="42" stroke="#e2564f" stroke-width="2"/>
+          <circle cx="52" cy="42" r="4" fill="#e2564f"/>
+          <line x1="32" y1="32" x2="14" y2="46" stroke="#4f8ef0" stroke-width="2"/>
+          <circle cx="14" cy="46" r="4" fill="#4f8ef0"/>
+        </svg>
+        <div class="hud-divider"></div>
+        <div class="hud-coords" id="cursorReadout"><span class="hud-section">home</span><br>0%</div>
+        <div class="hud-divider"></div>
+        <div class="hud-xy" id="hudXY">x: 0.00<br>y: 0.00</div>
+      </div>
 
-      <div class="path">~/portfolio <b>/</b> <span>main_scene</span> <b>/</b> <span>player_01</span><span class="cursor-readout" id="cursorReadout">x: 0.00&nbsp;&nbsp;y: 0.00</span></div>
+      <div class="path">~/portfolio <b>/</b> <span>main_scene</span> <b>/</b> <span>player_01</span></div>
       <div class="hero-grid">
         <div>
           <div class="eyebrow">available for interesting problems</div>
@@ -317,29 +329,47 @@
 
     const links = [...document.querySelectorAll('.tab')];
     const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    let activeId = 'home';
     const spy = new IntersectionObserver(entries => entries.forEach(entry => {
       if(entry.isIntersecting){
-        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + entry.target.id));
+        activeId = entry.target.id;
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + activeId));
       }
     }), {rootMargin:'-35% 0px -55% 0px',threshold:0});
     sections.forEach(s => spy.observe(s));
 
-    // viewport-style cursor readout in hero (cheap: one text node, throttled)
-    const hero = document.getElementById('home');
+    // fixed-position HUD: shows current section + how far scrolled down the page
     const readout = document.getElementById('cursorReadout');
     let ticking = false;
-    if(hero && readout){
-      hero.addEventListener('mousemove', (e) => {
+    function updateHud(){
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? Math.round((window.scrollY / max) * 100) : 0;
+      const label = activeId === 'home' ? 'home' : activeId;
+      readout.innerHTML = `<span class="hud-section">${label}</span><br>${pct}%`;
+      ticking = false;
+    }
+    if(readout){
+      window.addEventListener('scroll', () => {
         if(ticking) return;
         ticking = true;
+        requestAnimationFrame(updateHud);
+      }, {passive:true});
+      updateHud();
+    }
+
+    const hudXY = document.getElementById('hudXY');
+    let xyTicking = false;
+    if(hudXY){
+      window.addEventListener('mousemove', (e) => {
+        if(xyTicking) return;
+        xyTicking = true;
         requestAnimationFrame(() => {
-          const r = hero.getBoundingClientRect();
-          const x = ((e.clientX - r.left) / r.width - 0.5) * 20;
-          const y = ((e.clientY - r.top) / r.height - 0.5) * -20;
-          readout.textContent = `x: ${x.toFixed(2)}  y: ${y.toFixed(2)}`;
-          ticking = false;
+          const x = (e.clientX / window.innerWidth - 0.5) * 20;
+          const y = (e.clientY / window.innerHeight - 0.5) * -20;
+          hudXY.innerHTML = `x: ${x.toFixed(2)}<br>y: ${y.toFixed(2)}`;
+          xyTicking = false;
         });
-      });
+      }, {passive:true});
     }
   </script>
 </body>
