@@ -88,12 +88,13 @@
     .game-modal{width:100%;max-width:460px;border:1px solid var(--line);background:var(--panel);border-radius:10px;
       overflow:hidden;transform:translateY(10px);transition:transform .18s ease}
     .game-modal-overlay.open .game-modal{transform:translateY(0)}
-    .game-modal-head{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;
+    .game-modal-head{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;
       background:var(--panel2);border-bottom:1px solid var(--line);font:12px var(--mono);color:var(--accent)}
     .game-modal-head button{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1;padding:2px 4px}
     .game-modal-head button:hover{color:var(--text)}
-    .game-modal-body{padding:26px 22px}
-    .game-modal-body p{margin:0 0 18px;color:var(--soft);font-size:15px;line-height:1.6}
+    .game-modal-body{padding:32px 28px}
+    .game-modal-icon{font-size:30px;margin-bottom:16px}
+    .game-modal-body p{margin:0 0 24px;color:var(--soft);font-size:15px;line-height:1.65}
     .hud-xy{font:10px var(--mono);color:#454b56;line-height:1.5;text-align:center;letter-spacing:.02em}
     .hero .container{position:relative;z-index:2}
 
@@ -247,8 +248,9 @@
         <div class="game-modal">
           <div class="game-modal-head"><span>secret_level.exe</span><button id="gameModalClose" aria-label="Close">✕</button></div>
           <div class="game-modal-body">
-            <p>🎮 you scrolled the whole scene — nice. small playable stuff goes here once a build's ready. for now, here's where it'll live:</p>
-            <a class="btn primary" href="https://itch.io" target="_blank" rel="noopener">browse itch.io ↗</a>
+            <div class="game-modal-icon">🎮</div>
+            <p>you scrolled the whole scene — nice. a small playable build lives here once it's ready.</p>
+            <a class="btn primary" href="secret_level.html">enter secret_level ↗</a>
           </div>
         </div>
       </div>
@@ -330,7 +332,10 @@
       <div class="section-head"><div><div class="section-kicker">03 / player_profile</div><h2 class="section-title">about_me</h2></div></div>
       <div class="about">
         <div class="card about-panel">
-          <div class="tag">operator.log</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+            <div class="tag" style="margin:0">operator.log</div>
+            <div class="chip" style="color:var(--accent);border-color:#2a3a1e;background:var(--accent-dim)">class: systems_designer</div>
+          </div>
           <p>I like building the part between "cool idea" and "actually works." That usually means code, systems design, 3D work, and a suspicious number of test scenes.</p>
           <div class="facts">
             <div class="fact"><span>focus</span><strong>interactive systems</strong></div>
