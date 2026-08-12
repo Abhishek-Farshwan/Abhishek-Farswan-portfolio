@@ -38,7 +38,7 @@
     .dl-btn:hover{transform:translateY(-2px)}
     .dl-btn:disabled{opacity:.6;cursor:progress;transform:none}
 
-    #resumeSheet{padding:36px 0 90px}
+    #resumeSheet{padding:36px 0 90px;background:#0a0b0e}
     .path{font:13px var(--mono);color:var(--muted);margin-bottom:22px}
     .path b{color:var(--accent);font-weight:500}
 
@@ -213,7 +213,7 @@
         margin: 0,
         filename: 'Abhishek_Farswan_Resume.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, backgroundColor: '#0a0b0e' },
+        html2canvas: { scale: 2, backgroundColor: '#0a0b0e', useCORS: true },
         jsPDF: { unit: 'px', format: [900, el.scrollHeight + 60], orientation: 'portrait' }
       }).from(el).save().then(() => {
         btn.disabled = false;
