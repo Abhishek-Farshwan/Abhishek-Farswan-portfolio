@@ -6,12 +6,12 @@
   <meta name="theme-color" content="#0a0b0e" />
   <link rel="icon" type="image/png" href="user.png" />
   <meta name="description" content="Abhishek Farshwan — game dev, 3D artist, systems designer." />
-  <title>abhishek_farswan.exe — portfolio</title>
+  <title>abhishek_farshwan.exe — portfolio</title>
   <meta property="og:type" content="website">
-  <meta property="og:title" content="abhishek_farswan.exe — game dev / 3D art / systems design">
+  <meta property="og:title" content="abhishek_farshwan.exe — game dev / 3D art / systems design">
   <meta property="og:description" content="Portfolio of Abhishek Farshwan — interactive systems, 3D art, and gameplay logic.">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="abhishek_farswan.exe — game dev / 3D art / systems design">
+  <meta name="twitter:title" content="abhishek_farshwan.exe — game dev / 3D art / systems design">
   <meta name="twitter:description" content="Portfolio of Abhishek Farshwan — interactive systems, 3D art, and gameplay logic.">
   <!-- TODO: add og:image / twitter:image once a hosted preview banner exists -->
 
@@ -73,6 +73,27 @@
     .hud-divider{width:100%;height:1px;background:var(--line)}
     .hud-coords{font:11px var(--mono);color:#5a616d;line-height:1.6;text-align:center;letter-spacing:.02em}
     .hud-coords .hud-section{color:var(--accent)}
+    .hud-progress-track{width:100%;height:5px;border-radius:3px;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin-top:6px}
+    .hud-progress-fill{height:100%;width:0%;background:var(--accent);transition:width .12s linear}
+    .hud-play{display:none;width:100%;margin-top:6px;font:11px var(--mono);font-weight:600;letter-spacing:.05em;
+      color:#0a0b0e;background:var(--accent);border:1px solid var(--accent);border-radius:5px;padding:7px 0;
+      cursor:pointer;transition:transform .15s ease}
+    .hud-play:hover{transform:translateY(-1px)}
+    .hud-play.show{display:block}
+    .hud-progress-track.hide{display:none}
+
+    .game-modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(6,7,9,.78);backdrop-filter:blur(4px);
+      display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .18s ease}
+    .game-modal-overlay.open{opacity:1;pointer-events:auto}
+    .game-modal{width:100%;max-width:460px;border:1px solid var(--line);background:var(--panel);border-radius:10px;
+      overflow:hidden;transform:translateY(10px);transition:transform .18s ease}
+    .game-modal-overlay.open .game-modal{transform:translateY(0)}
+    .game-modal-head{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;
+      background:var(--panel2);border-bottom:1px solid var(--line);font:12px var(--mono);color:var(--accent)}
+    .game-modal-head button{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1;padding:2px 4px}
+    .game-modal-head button:hover{color:var(--text)}
+    .game-modal-body{padding:26px 22px}
+    .game-modal-body p{margin:0 0 18px;color:var(--soft);font-size:15px;line-height:1.6}
     .hud-xy{font:10px var(--mono);color:#454b56;line-height:1.5;text-align:center;letter-spacing:.02em}
     .hero .container{position:relative;z-index:2}
 
@@ -215,9 +236,21 @@
           <circle cx="14" cy="46" r="4" fill="#4f8ef0"/>
         </svg>
         <div class="hud-divider"></div>
-        <div class="hud-coords" id="cursorReadout"><span class="hud-section">home</span><br>0%</div>
+        <div class="hud-coords"><span class="hud-section" id="hudSection">home</span></div>
+        <div class="hud-progress-track" id="hudProgressTrack"><div class="hud-progress-fill" id="hudProgressFill"></div></div>
+        <button class="hud-play" id="hudPlayBtn">[ play ]</button>
         <div class="hud-divider"></div>
         <div class="hud-xy" id="hudXY">x: 0.00<br>y: 0.00</div>
+      </div>
+
+      <div class="game-modal-overlay" id="gameModalOverlay">
+        <div class="game-modal">
+          <div class="game-modal-head"><span>secret_level.exe</span><button id="gameModalClose" aria-label="Close">✕</button></div>
+          <div class="game-modal-body">
+            <p>🎮 you scrolled the whole scene — nice. small playable stuff goes here once a build's ready. for now, here's where it'll live:</p>
+            <a class="btn primary" href="https://itch.io" target="_blank" rel="noopener">browse itch.io ↗</a>
+          </div>
+        </div>
       </div>
 
       <div class="path">~/portfolio <b>/</b> <span>main_scene</span> <b>/</b> <span>player_01</span></div>
@@ -351,17 +384,24 @@
     }), {rootMargin:'-35% 0px -55% 0px',threshold:0});
     sections.forEach(s => spy.observe(s));
 
-    // fixed-position HUD: shows current section + how far scrolled down the page
-    const readout = document.getElementById('cursorReadout');
+    // fixed-position HUD: shows current section + a progress bar for scroll depth,
+    // which morphs into a [ play ] button once you've scrolled the whole page
+    const hudSection = document.getElementById('hudSection');
+    const hudFill = document.getElementById('hudProgressFill');
+    const hudTrack = document.getElementById('hudProgressTrack');
+    const hudPlayBtn = document.getElementById('hudPlayBtn');
     let ticking = false;
     function updateHud(){
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const pct = max > 0 ? Math.round((window.scrollY / max) * 100) : 0;
-      const label = activeId === 'home' ? 'home' : activeId;
-      readout.innerHTML = `<span class="hud-section">${label}</span><br>${pct}%`;
+      if(hudSection) hudSection.textContent = activeId === 'home' ? 'home' : activeId;
+      if(hudFill) hudFill.style.width = Math.min(pct, 100) + '%';
+      const complete = pct >= 100;
+      if(hudTrack) hudTrack.classList.toggle('hide', complete);
+      if(hudPlayBtn) hudPlayBtn.classList.toggle('show', complete);
       ticking = false;
     }
-    if(readout){
+    if(hudFill){
       window.addEventListener('scroll', () => {
         if(ticking) return;
         ticking = true;
@@ -384,6 +424,16 @@
         });
       }, {passive:true});
     }
+
+    // secret-level modal
+    const gameModal = document.getElementById('gameModalOverlay');
+    const gameModalClose = document.getElementById('gameModalClose');
+    function openGameModal(){ gameModal.classList.add('open'); }
+    function closeGameModal(){ gameModal.classList.remove('open'); }
+    if(hudPlayBtn) hudPlayBtn.addEventListener('click', openGameModal);
+    if(gameModalClose) gameModalClose.addEventListener('click', closeGameModal);
+    if(gameModal) gameModal.addEventListener('click', (e) => { if(e.target === gameModal) closeGameModal(); });
+    window.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeGameModal(); });
   </script>
 </body>
 </html>
