@@ -1,0 +1,82 @@
+.game-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+
+.game-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.game-modal {
+  width: 100%;
+  max-width: 460px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 10px;
+  overflow: hidden;
+  transform: translateY(10px);
+  transition: transform .18s ease;
+}
+
+.game-modal-overlay.open .game-modal {
+  transform: translateY(0);
+}
+
+.game-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  background: var(--panel2);
+  border-bottom: 1px solid var(--line);
+  font: 12px var(--mono);
+  color: var(--accent);
+}
+
+.game-modal-head button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 4px;
+}
+
+.game-modal-head button:hover {
+  color: var(--text);
+}
+
+.game-modal-body {
+  padding: 30px 28px;
+}
+
+.game-modal-body p {
+  margin: 0 0 22px;
+  color: var(--soft);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.game-modal-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.game-modal-actions .btn {
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+}

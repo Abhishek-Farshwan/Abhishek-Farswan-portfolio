@@ -1,0 +1,196 @@
+.container.resume-container {
+  width: min(880px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.topbar.resume-topbar {
+  width: min(880px, calc(100% - 32px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+}
+
+.back {
+  font: 13px var(--mono);
+  color: var(--muted);
+}
+
+.back:hover {
+  color: var(--text);
+}
+
+.back b {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+#resumeSheet {
+  padding: 56px 0 100px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Resume cards shouldn't enforce the portfolio min-height */
+#resumeSheet .card {
+  min-height: unset;
+}
+
+/* Breadcrumb path gets more space below it on the resume page */
+#resumeSheet .path {
+  margin-bottom: 32px;
+}
+
+/* Slightly taller tabstrip on resume for breathing room */
+#resumeSheet .card-tabstrip {
+  padding: 13px 18px;
+}
+
+/* More padding inside resume card bodies */
+#resumeSheet .card-body {
+  padding: 26px 28px;
+}
+
+.r-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.r-head h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 42px;
+  margin: 0;
+  letter-spacing: -.01em;
+}
+
+.r-head .role {
+  font: 14px var(--mono);
+  color: var(--accent);
+  margin-top: 6px;
+}
+
+.contact-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font: 13px var(--mono);
+  color: var(--soft);
+  text-align: right;
+}
+
+.contact-grid a:hover {
+  color: var(--accent);
+}
+
+.xp-item {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.xp-item:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.xp-date {
+  font: 12px var(--mono);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.xp-date .loc {
+  display: block;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.xp-role h3 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0 0 2px;
+}
+
+.xp-role .company {
+  font: 12px var(--mono);
+  color: var(--amber);
+  margin-bottom: 8px;
+}
+
+.xp-role ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--soft);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.xp-role li {
+  margin-bottom: 2px;
+}
+
+.edu-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.edu-item:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.edu-item .yr {
+  font: 12px var(--mono);
+  color: var(--muted);
+}
+
+.edu-item strong {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 15px;
+  display: block;
+}
+
+.edu-item span {
+  font: 12px var(--mono);
+  color: var(--muted);
+}
+
+.chip.amber {
+  color: var(--amber);
+  border-color: var(--accent-dim);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+@media(max-width:640px) {
+  .two-col { grid-template-columns: 1fr; }
+  .xp-item, .edu-item { grid-template-columns: 1fr; }
+  .contact-grid { text-align: left; }
+  .r-head { flex-direction: column; }
+  .r-head h1 { font-size: 34px; }
+  .topbar.resume-topbar { padding: 12px 14px; }
+}
+
+@media print {
+  .topbar.resume-topbar { display: none; }
+  body { background: #0a0b0e; }
+  .container.resume-container { width: 100%; }
+}

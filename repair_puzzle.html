@@ -1,423 +1,574 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>SECRET LEVEL — Repair Puzzle</title>
+  <meta charset="UTF-8">
+  <title>SECRET LEVEL — Repair Puzzle</title>
 
-<link
-  href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
-  rel="stylesheet"
->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
-<style>
+  <style>
+    :root {
+      --bg: #0a0d0f;
+      --panel: #0d1216;
+      --panel2: #10151a;
 
-:root{
-  --bg:#0a0d0f;
-  --panel:#0d1216;
-  --panel2:#10151a;
+      --line: #1c262c;
+      --line-soft: #151d22;
 
-  --line:#1c262c;
-  --line-soft:#151d22;
+      --text: #d7e2e6;
+      --dim: #5c7078;
+      --dim2: #3a4850;
 
-  --text:#d7e2e6;
-  --dim:#5c7078;
-  --dim2:#3a4850;
+      --ok: #39ff9d;
+      --warn: #ffcc4d;
+      --err: #ff4d5e;
 
-  --ok:#39ff9d;
-  --warn:#ffcc4d;
-  --err:#ff4d5e;
+      --motion: #566268;
+      --motion-glow: rgba(86, 98, 104, .12);
+    }
 
-  --motion:#566268;
-  --motion-glow:rgba(86,98,104,.12);
-}
+    * {
+      box-sizing: border-box;
+    }
 
-*{ box-sizing:border-box; }
-html,body{ margin:0; padding:0; }
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
 
-body{
-  background:
-    radial-gradient(circle at 20% 10%, #0d1216 0%, transparent 40%),
-    radial-gradient(circle at 80% 90%, #0d1216 0%, transparent 40%),
-    var(--bg);
-  color:var(--text);
-  font-family:'JetBrains Mono', monospace;
-  padding:48px 24px 80px;
-  min-height:100vh;
-}
+    body {
+      background:
+        radial-gradient(circle at 20% 10%, #0d1216 0%, transparent 40%),
+        radial-gradient(circle at 80% 90%, #0d1216 0%, transparent 40%),
+        var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      padding: 48px 24px 80px;
+      min-height: 100vh;
+    }
 
-/* ---------- shared site chrome (matches mystery_cards.html) ---------- */
+    /* ---------- shared site chrome (matches mystery_cards.html) ---------- */
 
-.page-head{
-  max-width:1180px;
-  margin:0 auto 44px;
-  border-bottom:1px solid var(--line);
-  padding-bottom:20px;
-}
-.page-head .tag{
-  color:var(--ok);
-  font-size:11px;
-  letter-spacing:.2em;
-  text-transform:uppercase;
-}
-.page-head h1{
-  font-size:22px;
-  letter-spacing:.04em;
-  margin:8px 0 4px;
-  font-weight:800;
-}
-.page-head p{
-  color:var(--dim);
-  font-size:12.5px;
-  margin:0;
-  max-width:560px;
-  line-height:1.6;
-}
+    .page-head {
+      max-width: 1180px;
+      margin: 0 auto 44px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 20px;
+    }
 
-.section-title{
-  max-width:1180px;
-  margin:0 auto 24px;
-  font-size:12px;
-  letter-spacing:.15em;
-  text-transform:uppercase;
-  color:var(--dim);
-  border-bottom:1px solid var(--line);
-  padding-bottom:14px;
-}
-.section-title span{ color:var(--text); }
+    .page-head .tag {
+      color: var(--ok);
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
 
-.legend{
-  max-width:1180px;
-  margin:60px auto 0;
-  border:1px solid var(--line);
-  background:var(--panel2);
-  padding:16px 20px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:24px;
-  align-items:center;
-  justify-content:space-between;
-  font-size:11px;
-}
-.legend .l-item{ color:var(--dim); display:flex; align-items:center; gap:8px; }
-.legend .l-item b{ color:var(--text); font-weight:500; }
-.legend .dot{ width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-.legend .dot.slow{ background:var(--dim2); }
-.legend .dot.good{ background:var(--ok); box-shadow:0 0 6px var(--ok); }
-.legend .dot.fast{ background:var(--warn); box-shadow:0 0 6px var(--warn); }
-.legend .dot.critical{ background:var(--err); box-shadow:0 0 6px var(--err); }
+    .page-head h1 {
+      font-size: 22px;
+      letter-spacing: .04em;
+      margin: 8px 0 4px;
+      font-weight: 800;
+    }
 
-/* ---------- puzzle layout ---------- */
+    .page-head p {
+      color: var(--dim);
+      font-size: 12.5px;
+      margin: 0;
+      max-width: 560px;
+      line-height: 1.6;
+    }
 
-.stage{
-  max-width:1180px;
-  margin:0 auto;
-}
+    .section-title {
+      max-width: 1180px;
+      margin: 0 auto 24px;
+      font-size: 12px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--dim);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+    }
 
-.split{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:28px;
-  align-items:stretch;
-}
+    .section-title span {
+      color: var(--text);
+    }
 
-@media(max-width:720px){
-  .split{ grid-template-columns:1fr; }
-}
+    .legend {
+      max-width: 1180px;
+      margin: 60px auto 0;
+      border: 1px solid var(--line);
+      background: var(--panel2);
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+
+    .legend .l-item {
+      color: var(--dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend .l-item b {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .legend .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legend .dot.slow {
+      background: var(--dim2);
+    }
+
+    .legend .dot.good {
+      background: var(--ok);
+      box-shadow: 0 0 6px var(--ok);
+    }
+
+    .legend .dot.fast {
+      background: var(--warn);
+      box-shadow: 0 0 6px var(--warn);
+    }
+
+    .legend .dot.critical {
+      background: var(--err);
+      box-shadow: 0 0 6px var(--err);
+    }
+
+    /* ---------- puzzle layout ---------- */
+
+    .stage {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    @media(max-width:720px) {
+      .split {
+        grid-template-columns: 1fr;
+      }
+    }
 
 
-/* =========================================================
+    /* =========================================================
    PANELS
    ========================================================= */
 
-.panel{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  height:100%;
-  padding:20px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  background: linear-gradient(160deg, var(--panel2), #0b0f12 80%);
-}
+    .panel {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(160deg, var(--panel2), #0b0f12 80%);
+    }
 
-.panel::before, .panel::after,
-.panel .pbl, .panel .pbr{
-  content:"";
-  position:absolute;
-  width:14px; height:14px;
-  border:2px solid var(--warn);
-  opacity:.75;
-}
-.panel::before{ top:8px; left:8px; border-right:0; border-bottom:0; }
-.panel::after{ top:8px; right:8px; border-left:0; border-bottom:0; }
-.panel .pbl{ bottom:8px; left:8px; border-right:0; border-top:0; }
-.panel .pbr{ bottom:8px; right:8px; border-left:0; border-top:0; }
+    .panel::before,
+    .panel::after,
+    .panel .pbl,
+    .panel .pbr {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--warn);
+      opacity: .75;
+    }
 
-.eyebrow{
-  position:relative; z-index:1;
-  display:flex; justify-content:space-between; align-items:center;
-  font-size:9px; letter-spacing:.15em; color:var(--dim); text-transform:uppercase;
-}
+    .panel::before {
+      top: 8px;
+      left: 8px;
+      border-right: 0;
+      border-bottom: 0;
+    }
 
-.fname{
-  position:relative; z-index:1;
-  margin-top:10px;
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:.02em;
-}
+    .panel::after {
+      top: 8px;
+      right: 8px;
+      border-left: 0;
+      border-bottom: 0;
+    }
 
-.ftype{
-  position:relative; z-index:1;
-  margin-top:3px;
-  margin-bottom:18px;
-  color:var(--dim);
-  font-size:9.5px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-}
+    .panel .pbl {
+      bottom: 8px;
+      left: 8px;
+      border-right: 0;
+      border-top: 0;
+    }
+
+    .panel .pbr {
+      bottom: 8px;
+      right: 8px;
+      border-left: 0;
+      border-top: 0;
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9px;
+      letter-spacing: .15em;
+      color: var(--dim);
+      text-transform: uppercase;
+    }
+
+    .fname {
+      position: relative;
+      z-index: 1;
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    .ftype {
+      position: relative;
+      z-index: 1;
+      margin-top: 3px;
+      margin-bottom: 18px;
+      color: var(--dim);
+      font-size: 9.5px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
 
 
-/* =========================================================
+    /* =========================================================
    PARAMETERS
    ========================================================= */
 
-.row{
-  position:relative; z-index:1;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:11px 0;
-  border-bottom:1px dashed var(--line-soft);
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:.05em;
-}
-.row:last-of-type{ border-bottom:0; }
+    .row {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 0;
+      border-bottom: 1px dashed var(--line-soft);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
 
-.slot{
-  position:relative;
-  width:78px;
-  height:30px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  border:1.5px solid var(--dim2);
-  background:var(--panel);
-  color:var(--text);
-  font-size:11.5px;
-  cursor:grab;
-  touch-action:none;
-  transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
-}
-.slot:active{ cursor:grabbing; }
+    .row:last-of-type {
+      border-bottom: 0;
+    }
 
-.slot.magnet{
-  transform:scale(1.08);
-  border-color:var(--warn);
-  box-shadow:0 0 14px rgba(255,204,77,.4);
-}
+    .slot {
+      position: relative;
+      width: 78px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1.5px solid var(--dim2);
+      background: var(--panel);
+      color: var(--text);
+      font-size: 11.5px;
+      cursor: grab;
+      touch-action: none;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
 
-.slot.empty{
-  border-style:dashed;
-  border-color:var(--warn);
-  color:var(--warn);
-  background:rgba(255,204,77,.04);
-}
+    .slot:active {
+      cursor: grabbing;
+    }
 
-.slot.empty .slot-scan{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(100deg, transparent 30%, rgba(255,204,77,.18) 50%, transparent 70%);
-  animation:slotScan 2.4s linear infinite;
-}
+    .slot.magnet {
+      transform: scale(1.08);
+      border-color: var(--warn);
+      box-shadow: 0 0 14px rgba(255, 204, 77, .4);
+    }
 
-@keyframes slotScan{
-  from{ transform:translateX(-100%); }
-  to{ transform:translateX(100%); }
-}
+    .slot.empty {
+      border-style: dashed;
+      border-color: var(--warn);
+      color: var(--warn);
+      background: rgba(255, 204, 77, .04);
+    }
 
-.slot.armed{ outline:2px solid var(--ok); }
+    .slot.empty .slot-scan {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, transparent 30%, rgba(255, 204, 77, .18) 50%, transparent 70%);
+      animation: slotScan 2.4s linear infinite;
+    }
 
-.slot.just-filled{ animation:settle .3s ease; }
-@keyframes settle{
-  0%{ transform:scale(1.18); }
-  100%{ transform:scale(1); }
-}
+    @keyframes slotScan {
+      from {
+        transform: translateX(-100%);
+      }
+
+      to {
+        transform: translateX(100%);
+      }
+    }
+
+    .slot.armed {
+      outline: 2px solid var(--ok);
+    }
+
+    .slot.just-filled {
+      animation: settle .3s ease;
+    }
+
+    @keyframes settle {
+      0% {
+        transform: scale(1.18);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
 
 
-/* =========================================================
+    /* =========================================================
    VALUE POOL
    ========================================================= */
 
-.pool-label{
-  position:relative; z-index:1;
-  margin-top:18px;
-  margin-bottom:8px;
-  color:var(--dim2);
-  font-size:8.5px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
+    .pool-label {
+      position: relative;
+      z-index: 1;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      color: var(--dim2);
+      font-size: 8.5px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
 
-.pool{
-  position:relative; z-index:1;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
+    .pool {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
-.chip{
-  padding:7px 13px;
-  border:1px solid var(--dim2);
-  background:var(--panel);
-  color:var(--dim);
-  font-size:11.5px;
-  cursor:grab;
-  user-select:none;
-  touch-action:none;
-  transition:border-color .15s ease, color .15s ease, background .15s ease;
-}
-.chip:hover{ border-color:var(--ok); color:var(--text); }
-.chip:active{ cursor:grabbing; }
-.chip.dragging{ opacity:.2; }
-.chip.armed{
-  border-color:var(--ok);
-  background:rgba(57,255,157,.08);
-  color:var(--text);
-}
+    .chip {
+      padding: 7px 13px;
+      border: 1px solid var(--dim2);
+      background: var(--panel);
+      color: var(--dim);
+      font-size: 11.5px;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      transition: border-color .15s ease, color .15s ease, background .15s ease;
+    }
+
+    .chip:hover {
+      border-color: var(--ok);
+      color: var(--text);
+    }
+
+    .chip:active {
+      cursor: grabbing;
+    }
+
+    .chip.dragging {
+      opacity: .2;
+    }
+
+    .chip.armed {
+      border-color: var(--ok);
+      background: rgba(57, 255, 157, .08);
+      color: var(--text);
+    }
 
 
-/* =========================================================
+    /* =========================================================
    DRAG GHOST
    ========================================================= */
 
-.ghost{
-  position:fixed;
-  z-index:200;
-  padding:7px 13px;
-  border:1px solid var(--ok);
-  background:var(--panel2);
-  color:var(--text);
-  font-size:11.5px;
-  pointer-events:none;
-  box-shadow:0 0 16px rgba(57,255,157,.3);
-}
+    .ghost {
+      position: fixed;
+      z-index: 200;
+      padding: 7px 13px;
+      border: 1px solid var(--ok);
+      background: var(--panel2);
+      color: var(--text);
+      font-size: 11.5px;
+      pointer-events: none;
+      box-shadow: 0 0 16px rgba(57, 255, 157, .3);
+    }
 
 
-/* =========================================================
+    /* =========================================================
    PREVIEW
    ========================================================= */
 
-.preview-box{
-  --grid-y:0px;
-  position:relative;
-  flex:1;
-  min-height:220px;
-  overflow:hidden;
-  border:1px solid var(--line-soft);
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px) 0 var(--grid-y) / 28px 28px,
-    linear-gradient(0deg, rgba(255,255,255,.045) 1px, transparent 1px) 0 var(--grid-y) / 28px 28px,
-    #060809;
-  transition:border-color .08s linear, box-shadow .08s linear;
-}
+    .preview-box {
+      --grid-y: 0px;
+      position: relative;
+      flex: 1;
+      min-height: 220px;
+      overflow: hidden;
+      border: 1px solid var(--line-soft);
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px) 0 var(--grid-y) / 28px 28px,
+        linear-gradient(0deg, rgba(255, 255, 255, .045) 1px, transparent 1px) 0 var(--grid-y) / 28px 28px,
+        #060809;
+      transition: border-color .08s linear, box-shadow .08s linear;
+    }
 
 
-/* =========================================================
+    /* =========================================================
    SHIP
    ========================================================= */
 
-.ship{
-  --ship-x:0px;
-  --ship-y:0px;
-  --ship-scale:1;
-  position:absolute;
-  left:50%;
-  bottom:26%;
-  width:20px;
-  height:26px;
-  margin-left:-10px;
-  clip-path:polygon(50% 0%, 100% 100%, 50% 78%, 0% 100%);
-  background:linear-gradient(180deg, #fff, var(--motion) 55%, var(--motion));
-  box-shadow:0 0 13px var(--motion-glow);
-  transform:translate(var(--ship-x), var(--ship-y)) scale(var(--ship-scale));
-  will-change:transform, background, box-shadow;
-}
+    .ship {
+      --ship-x: 0px;
+      --ship-y: 0px;
+      --ship-scale: 1;
+      position: absolute;
+      left: 50%;
+      bottom: 26%;
+      width: 20px;
+      height: 26px;
+      margin-left: -10px;
+      clip-path: polygon(50% 0%, 100% 100%, 50% 78%, 0% 100%);
+      background: linear-gradient(180deg, #fff, var(--motion) 55%, var(--motion));
+      box-shadow: 0 0 13px var(--motion-glow);
+      transform: translate(var(--ship-x), var(--ship-y)) scale(var(--ship-scale));
+      will-change: transform, background, box-shadow;
+    }
 
 
-/* =========================================================
+    /* =========================================================
    GLOW / ERROR / WARNING
    ========================================================= */
 
-.glow-ring{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  box-shadow:inset 0 0 20px var(--motion-glow);
-  transition:box-shadow .08s linear;
-}
+    .glow-ring {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 20px var(--motion-glow);
+      transition: box-shadow .08s linear;
+    }
 
-.error-overlay{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(255,77,94,.055);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .2s ease;
-}
-.error-overlay.show{ opacity:1; }
-.error-overlay span{
-  color:var(--err);
-  font-size:10px;
-  letter-spacing:.12em;
-  text-shadow:0 0 8px rgba(255,77,94,.6);
-}
+    .error-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 77, 94, .055);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+    }
 
-.motion-warning{
-  position:absolute;
-  left:10px;
-  bottom:9px;
-  padding:4px 7px;
-  border:1px solid transparent;
-  font-size:8px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  opacity:0;
-  transform:translateY(3px);
-  transition:opacity .15s ease, transform .15s ease;
-}
-.motion-warning.show{ opacity:1; transform:translateY(0); }
-.motion-warning.slow{ border-color:var(--dim2); color:var(--dim); }
-.motion-warning.fast{ border-color:rgba(255,204,77,.35); color:var(--warn); }
-.motion-warning.critical{ border-color:rgba(255,77,94,.4); color:var(--err); }
+    .error-overlay.show {
+      opacity: 1;
+    }
+
+    .error-overlay span {
+      color: var(--err);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-shadow: 0 0 8px rgba(255, 77, 94, .6);
+    }
+
+    .motion-warning {
+      position: absolute;
+      left: 10px;
+      bottom: 9px;
+      padding: 4px 7px;
+      border: 1px solid transparent;
+      font-size: 8px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(3px);
+      transition: opacity .15s ease, transform .15s ease;
+    }
+
+    .motion-warning.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .motion-warning.slow {
+      border-color: var(--dim2);
+      color: var(--dim);
+    }
+
+    .motion-warning.fast {
+      border-color: rgba(255, 204, 77, .35);
+      color: var(--warn);
+    }
+
+    .motion-warning.critical {
+      border-color: rgba(255, 77, 94, .4);
+      color: var(--err);
+    }
 
 
-/* =========================================================
+    /* =========================================================
    READOUT
    ========================================================= */
 
-.readout{
-  display:flex;
-  justify-content:space-between;
-  flex-shrink:0;
-  margin-top:14px;
-  font-size:10.5px;
-  letter-spacing:.05em;
-  text-transform:uppercase;
-}
-.readout .rv{ color:var(--dim); }
-.readout .slow{ color:var(--dim2); }
-.readout .good{ color:var(--ok); }
-.readout .fast{ color:var(--warn); }
-.readout .critical{ color:var(--err); }
-.readout .error{ color:var(--err); }
+    .readout {
+      display: flex;
+      justify-content: space-between;
+      flex-shrink: 0;
+      margin-top: 14px;
+      font-size: 10.5px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
 
-</style>
+    .readout .rv {
+      color: var(--dim);
+    }
+
+    .readout .slow {
+      color: var(--dim2);
+    }
+
+    .readout .good {
+      color: var(--ok);
+    }
+
+    .readout .fast {
+      color: var(--warn);
+    }
+
+    .readout .critical {
+      color: var(--err);
+    }
+
+    .readout .error {
+      color: var(--err);
+    }
+  </style>
 </head>
 
 
@@ -426,7 +577,8 @@ body{
   <div class="page-head">
     <div class="tag">// movement system — live consequence simulation</div>
     <h1>REPAIR PUZZLE</h1>
-    <p>Drag values from the pool into the open parameter to bring the object back under control. Acceleration is fixed. Speed is missing. The object keeps moving while you work — nothing pauses for you.</p>
+    <p>Drag values from the pool into the open parameter to bring the object back under control. Acceleration is fixed.
+      Speed is missing. The object keeps moving while you work — nothing pauses for you.</p>
   </div>
 
   <div class="section-title">01 — <span>TUNE &amp; OBSERVE</span></div>
@@ -436,7 +588,8 @@ body{
 
       <!-- PARAMETER PANEL -->
       <div class="panel">
-        <div class="pbl"></div><div class="pbr"></div>
+        <div class="pbl"></div>
+        <div class="pbr"></div>
 
         <div class="eyebrow"><span>MODULE</span><span>DAT-014</span></div>
         <div class="fname">movement.dat</div>
@@ -471,7 +624,8 @@ body{
 
       <!-- LIVE PREVIEW -->
       <div class="panel">
-        <div class="pbl"></div><div class="pbr"></div>
+        <div class="pbl"></div>
+        <div class="pbr"></div>
 
         <div class="eyebrow"><span>OUTPUT</span><span>REAL-TIME</span></div>
         <div class="fname">LIVE PREVIEW</div>
@@ -500,340 +654,341 @@ body{
     <div class="l-item"><span class="dot critical"></span>CRITICAL <b>70–90</b></div>
   </div>
 
-<script>
+  <script>
 
-/* ============================================================
-   SYSTEM PARAMETERS
+    /* ============================================================
+       SYSTEM PARAMETERS
+    
+       Speed:        missing initially.
+       Acceleration: fixed at 40 (units / sec of velocity change).
+       Friction:     removed — nothing slows the object down on its own.
+       ============================================================ */
 
-   Speed:        missing initially.
-   Acceleration: fixed at 40 (units / sec of velocity change).
-   Friction:     removed — nothing slows the object down on its own.
-   ============================================================ */
-
-const assigned = {
-  speed: null,
-  acceleration: "40"
-};
-
-
-/* ============================================================
-   DOM REFERENCES
-   ============================================================ */
-
-const slots = {
-  speed: document.getElementById("slot_speed"),
-  acceleration: document.getElementById("slot_acceleration")
-};
-
-const previewBox    = document.getElementById("previewBox");
-const glowRing      = document.getElementById("glowRing");
-const ship          = document.getElementById("ship");
-const errorOverlay  = document.getElementById("errorOverlay");
-const velVal        = document.getElementById("velVal");
-const stateVal      = document.getElementById("stateVal");
-const motionWarning = document.getElementById("motionWarning");
-const poolChips     = Array.from(document.querySelectorAll(".chip"));
+    const assigned = {
+      speed: null,
+      acceleration: "40"
+    };
 
 
-/* ============================================================
-   SIMULATION STATE
+    /* ============================================================
+       DOM REFERENCES
+       ============================================================ */
 
-   currentVelocity: what the object is actually doing right now.
-   targetVelocity:  what the assigned "speed" asks it to reach.
+    const slots = {
+      speed: document.getElementById("slot_speed"),
+      acceleration: document.getElementById("slot_acceleration")
+    };
 
-   currentVelocity is NEVER reset when a value changes — it eases
-   toward whatever target is currently set, at the fixed
-   acceleration rate.
-   ============================================================ */
+    const previewBox = document.getElementById("previewBox");
+    const glowRing = document.getElementById("glowRing");
+    const ship = document.getElementById("ship");
+    const errorOverlay = document.getElementById("errorOverlay");
+    const velVal = document.getElementById("velVal");
+    const stateVal = document.getElementById("stateVal");
+    const motionWarning = document.getElementById("motionWarning");
+    const poolChips = Array.from(document.querySelectorAll(".chip"));
 
-let currentVelocity = 0;
-let targetVelocity  = 0;
-let gridOffset       = 0;
-let lastTime          = performance.now();
+
+    /* ============================================================
+       SIMULATION STATE
+    
+       currentVelocity: what the object is actually doing right now.
+       targetVelocity:  what the assigned "speed" asks it to reach.
+    
+       currentVelocity is NEVER reset when a value changes — it eases
+       toward whatever target is currently set, at the fixed
+       acceleration rate.
+       ============================================================ */
+
+    let currentVelocity = 0;
+    let targetVelocity = 0;
+    let gridOffset = 0;
+    let lastTime = performance.now();
 
 
-/* ============================================================
-   COLOR CURVE
-   0–20  grey → muted green
-   20–50 green
-   50–70 green → orange
-   70–90 orange → red
-   ============================================================ */
+    /* ============================================================
+       COLOR CURVE
+       0–20  grey → muted green
+       20–50 green
+       50–70 green → orange
+       70–90 orange → red
+       ============================================================ */
 
-function getVelocityColor(velocity){
-  const stops = [
-    { v:0,  r:72,  g:82,  b:87  },
-    { v:20, r:57,  g:145, b:105 },
-    { v:50, r:57,  g:255, b:157 },
-    { v:70, r:255, g:160, b:55  },
-    { v:90, r:255, g:77,  b:94  }
-  ];
+    function getVelocityColor(velocity) {
+      const stops = [
+        { v: 0, r: 72, g: 82, b: 87 },
+        { v: 20, r: 57, g: 145, b: 105 },
+        { v: 50, r: 57, g: 255, b: 157 },
+        { v: 70, r: 255, g: 160, b: 55 },
+        { v: 90, r: 255, g: 77, b: 94 }
+      ];
 
-  if(velocity <= stops[0].v) return stops[0];
+      if (velocity <= stops[0].v) return stops[0];
 
-  for(let i = 1; i < stops.length; i++){
-    const a = stops[i - 1];
-    const b = stops[i];
+      for (let i = 1; i < stops.length; i++) {
+        const a = stops[i - 1];
+        const b = stops[i];
 
-    if(velocity <= b.v){
-      const t = (velocity - a.v) / (b.v - a.v);
-      return {
-        r: Math.round(a.r + (b.r - a.r) * t),
-        g: Math.round(a.g + (b.g - a.g) * t),
-        b: Math.round(a.b + (b.b - a.b) * t)
-      };
+        if (velocity <= b.v) {
+          const t = (velocity - a.v) / (b.v - a.v);
+          return {
+            r: Math.round(a.r + (b.r - a.r) * t),
+            g: Math.round(a.g + (b.g - a.g) * t),
+            b: Math.round(a.b + (b.b - a.b) * t)
+          };
+        }
+      }
+
+      return stops[stops.length - 1];
     }
-  }
-
-  return stops[stops.length - 1];
-}
 
 
-function updateLiveColor(velocity){
-  const color = getVelocityColor(velocity);
-  const normalized = Math.min(velocity / 90, 1);
+    function updateLiveColor(velocity) {
+      const color = getVelocityColor(velocity);
+      const normalized = Math.min(velocity / 90, 1);
 
-  const colorString = `rgb(${color.r}, ${color.g}, ${color.b})`;
-  const glowAlpha = .08 + normalized * .45;
-  const glow = `rgba(${color.r}, ${color.g}, ${color.b}, ${glowAlpha})`;
+      const colorString = `rgb(${color.r}, ${color.g}, ${color.b})`;
+      const glowAlpha = .08 + normalized * .45;
+      const glow = `rgba(${color.r}, ${color.g}, ${color.b}, ${glowAlpha})`;
 
-  document.documentElement.style.setProperty("--motion", colorString);
-  document.documentElement.style.setProperty("--motion-glow", glow);
+      document.documentElement.style.setProperty("--motion", colorString);
+      document.documentElement.style.setProperty("--motion-glow", glow);
 
-  previewBox.style.borderColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${.16 + normalized * .48})`;
-  glowRing.style.boxShadow = `inset 0 0 ${20 + normalized * 30}px var(--motion-glow)`;
-}
-
-
-/* ============================================================
-   SLOT HELPERS
-   ============================================================ */
-
-function slotRect(key){
-  return slots[key].getBoundingClientRect();
-}
-
-function nearestSlot(x, y, radius = 60){
-  let best = null;
-  let bestDistance = radius;
-
-  for(const key in slots){
-    const rect = slotRect(key);
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const distance = Math.hypot(x - cx, y - cy);
-
-    if(distance < bestDistance){
-      bestDistance = distance;
-      best = key;
+      previewBox.style.borderColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${.16 + normalized * .48})`;
+      glowRing.style.boxShadow = `inset 0 0 ${20 + normalized * 30}px var(--motion-glow)`;
     }
-  }
-
-  return best;
-}
-
-function clearMagnet(){
-  Object.values(slots).forEach(slot => slot.classList.remove("magnet"));
-}
 
 
-/* ============================================================
-   PAINT SLOT
-   ============================================================ */
+    /* ============================================================
+       SLOT HELPERS
+       ============================================================ */
 
-function paintSlot(key){
-  const slot = slots[key];
-  const value = assigned[key];
+    function slotRect(key) {
+      return slots[key].getBoundingClientRect();
+    }
 
-  if(value === null){
-    slot.classList.add("empty");
-    slot.innerHTML = `
+    function nearestSlot(x, y, radius = 60) {
+      let best = null;
+      let bestDistance = radius;
+
+      for (const key in slots) {
+        const rect = slotRect(key);
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const distance = Math.hypot(x - cx, y - cy);
+
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = key;
+        }
+      }
+
+      return best;
+    }
+
+    function clearMagnet() {
+      Object.values(slots).forEach(slot => slot.classList.remove("magnet"));
+    }
+
+
+    /* ============================================================
+       PAINT SLOT
+       ============================================================ */
+
+    function paintSlot(key) {
+      const slot = slots[key];
+      const value = assigned[key];
+
+      if (value === null) {
+        slot.classList.add("empty");
+        slot.innerHTML = `
       <div class="slot-scan"></div>
       <span>?????</span>
     `;
-  } else {
-    slot.classList.remove("empty");
-    slot.innerHTML = `<span>${value}</span>`;
-  }
-}
-
-function paintPool(){
-  poolChips.forEach(chip => {
-    const value = chip.dataset.value;
-    const isArmed = Object.values(assigned).some(v => v === value);
-    chip.classList.toggle("armed", isArmed);
-  });
-}
-
-
-/* ============================================================
-   ASSIGN
-
-   Intentionally NOT resetting the simulation — the object
-   continues from its current velocity toward the new target.
-   ============================================================ */
-
-function assign(key, value){
-  assigned[key] = value;
-  paintSlot(key);
-  paintPool();
-
-  slots[key].classList.remove("just-filled");
-  void slots[key].offsetWidth;
-  slots[key].classList.add("just-filled");
-
-  if(key === "speed"){
-    targetVelocity = value === null ? 0 : Number(value);
-  }
-
-  errorOverlay.classList.toggle("show", assigned.speed === null);
-}
-
-
-/* ============================================================
-   DRAG GHOST
-   ============================================================ */
-
-function makeGhost(text, rect){
-  const ghost = document.createElement("div");
-  ghost.className = "ghost";
-  ghost.textContent = text;
-  ghost.style.left = `${rect.left}px`;
-  ghost.style.top = `${rect.top}px`;
-  document.body.appendChild(ghost);
-  return ghost;
-}
-
-
-/* ============================================================
-   POOL DRAG
-   ============================================================ */
-
-function attachPoolDrag(chip){
-  chip.addEventListener("pointerdown", e => {
-    e.preventDefault();
-
-    const rect = chip.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-
-    const ghost = makeGhost(chip.dataset.value, rect);
-    chip.classList.add("dragging");
-
-    let current = { x: rect.left, y: rect.top };
-    let target = { ...current };
-
-    let raf = requestAnimationFrame(loop);
-
-    function loop(){
-      current.x += (target.x - current.x) * .35;
-      current.y += (target.y - current.y) * .35;
-      ghost.style.left = `${current.x}px`;
-      ghost.style.top = `${current.y}px`;
-      raf = requestAnimationFrame(loop);
-    }
-
-    function move(ev){
-      target = {
-        x: ev.clientX - offsetX,
-        y: ev.clientY - offsetY
-      };
-
-      const near = nearestSlot(ev.clientX, ev.clientY);
-      clearMagnet();
-
-      if(near){
-        slots[near].classList.add("magnet");
-
-        const r = slotRect(near);
-        target = {
-          x: r.left + (r.width - rect.width) / 2,
-          y: r.top + (r.height - rect.height) / 2
-        };
+      } else {
+        slot.classList.remove("empty");
+        slot.innerHTML = `<span>${value}</span>`;
       }
     }
 
-    function up(ev){
-      window.removeEventListener("pointermove", move);
-      window.removeEventListener("pointerup", up);
-      cancelAnimationFrame(raf);
-
-      const near = nearestSlot(ev.clientX, ev.clientY);
-      clearMagnet();
-      ghost.remove();
-      chip.classList.remove("dragging");
-
-      if(near){
-        assign(near, chip.dataset.value);
-      }
+    function paintPool() {
+      poolChips.forEach(chip => {
+        const value = chip.dataset.value;
+        const isArmed = Object.values(assigned).some(v => v === value);
+        chip.classList.toggle("armed", isArmed);
+      });
     }
 
-    window.addEventListener("pointermove", move);
-    window.addEventListener("pointerup", up);
-  });
-}
 
-poolChips.forEach(attachPoolDrag);
+    /* ============================================================
+       ASSIGN
+    
+       Intentionally NOT resetting the simulation — the object
+       continues from its current velocity toward the new target.
+       ============================================================ */
+
+    function assign(key, value) {
+      assigned[key] = value;
+      paintSlot(key);
+      paintPool();
+
+      slots[key].classList.remove("just-filled");
+      void slots[key].offsetWidth;
+      slots[key].classList.add("just-filled");
+
+      if (key === "speed") {
+        targetVelocity = value === null ? 0 : Number(value);
+      }
+
+      errorOverlay.classList.toggle("show", assigned.speed === null);
+    }
 
 
-/* ============================================================
-   RENDER / SIMULATION LOOP
-   ============================================================ */
+    /* ============================================================
+       DRAG GHOST
+       ============================================================ */
 
-function stateForVelocity(v){
-  if(assigned.speed === null) return { label:"INCOMPLETE", cls:"error" };
-  if(v < 20)  return { label:"SLOW",     cls:"slow" };
-  if(v < 50)  return { label:"STABLE",   cls:"good" };
-  if(v < 70)  return { label:"FAST",     cls:"fast" };
-  return          { label:"CRITICAL",  cls:"critical" };
-}
+    function makeGhost(text, rect) {
+      const ghost = document.createElement("div");
+      ghost.className = "ghost";
+      ghost.textContent = text;
+      ghost.style.left = `${rect.left}px`;
+      ghost.style.top = `${rect.top}px`;
+      document.body.appendChild(ghost);
+      return ghost;
+    }
 
-function tick(now){
-  const dt = Math.min((now - lastTime) / 1000, .05);
-  lastTime = now;
 
-  const accel = assigned.acceleration === null ? 0 : Number(assigned.acceleration);
+    /* ============================================================
+       POOL DRAG
+       ============================================================ */
 
-  if(currentVelocity < targetVelocity){
-    currentVelocity = Math.min(currentVelocity + accel * dt, targetVelocity);
-  } else if(currentVelocity > targetVelocity){
-    currentVelocity = Math.max(currentVelocity - accel * dt, targetVelocity);
-  }
+    function attachPoolDrag(chip) {
+      chip.addEventListener("pointerdown", e => {
+        e.preventDefault();
 
-  gridOffset = (gridOffset + currentVelocity * dt * 2) % 28;
-  previewBox.style.setProperty("--grid-y", `${gridOffset}px`);
+        const rect = chip.getBoundingClientRect();
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
 
-  const bob = Math.sin(now / 260) * (2 + currentVelocity * .04);
-  const scale = 1 + Math.min(currentVelocity / 90, 1) * .18;
-  ship.style.setProperty("--ship-y", `${-bob}px`);
-  ship.style.setProperty("--ship-scale", scale.toFixed(3));
+        const ghost = makeGhost(chip.dataset.value, rect);
+        chip.classList.add("dragging");
 
-  updateLiveColor(currentVelocity);
+        let current = { x: rect.left, y: rect.top };
+        let target = { ...current };
 
-  velVal.textContent = assigned.speed === null ? "—" : currentVelocity.toFixed(1);
+        let raf = requestAnimationFrame(loop);
 
-  const state = stateForVelocity(currentVelocity);
-  stateVal.textContent = state.label;
-  stateVal.className = `rv ${state.cls}`;
+        function loop() {
+          current.x += (target.x - current.x) * .35;
+          current.y += (target.y - current.y) * .35;
+          ghost.style.left = `${current.x}px`;
+          ghost.style.top = `${current.y}px`;
+          raf = requestAnimationFrame(loop);
+        }
 
-  if(assigned.speed === null){
-    motionWarning.classList.remove("show");
-  } else if(state.cls === "fast" || state.cls === "critical"){
-    motionWarning.textContent = state.cls === "critical" ? "OVERSPEED" : "APPROACHING LIMIT";
-    motionWarning.className = `motion-warning show ${state.cls === "critical" ? "critical" : "fast"}`;
-  } else if(state.cls === "slow" && currentVelocity > 0){
-    motionWarning.textContent = "UNDERPOWERED";
-    motionWarning.className = "motion-warning show slow";
-  } else {
-    motionWarning.classList.remove("show");
-  }
+        function move(ev) {
+          target = {
+            x: ev.clientX - offsetX,
+            y: ev.clientY - offsetY
+          };
 
-  requestAnimationFrame(tick);
-}
+          const near = nearestSlot(ev.clientX, ev.clientY);
+          clearMagnet();
 
-updateLiveColor(0);
-requestAnimationFrame(tick);
+          if (near) {
+            slots[near].classList.add("magnet");
 
-</script>
+            const r = slotRect(near);
+            target = {
+              x: r.left + (r.width - rect.width) / 2,
+              y: r.top + (r.height - rect.height) / 2
+            };
+          }
+        }
+
+        function up(ev) {
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", up);
+          cancelAnimationFrame(raf);
+
+          const near = nearestSlot(ev.clientX, ev.clientY);
+          clearMagnet();
+          ghost.remove();
+          chip.classList.remove("dragging");
+
+          if (near) {
+            assign(near, chip.dataset.value);
+          }
+        }
+
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", up);
+      });
+    }
+
+    poolChips.forEach(attachPoolDrag);
+
+
+    /* ============================================================
+       RENDER / SIMULATION LOOP
+       ============================================================ */
+
+    function stateForVelocity(v) {
+      if (assigned.speed === null) return { label: "INCOMPLETE", cls: "error" };
+      if (v < 20) return { label: "SLOW", cls: "slow" };
+      if (v < 50) return { label: "STABLE", cls: "good" };
+      if (v < 70) return { label: "FAST", cls: "fast" };
+      return { label: "CRITICAL", cls: "critical" };
+    }
+
+    function tick(now) {
+      const dt = Math.min((now - lastTime) / 1000, .05);
+      lastTime = now;
+
+      const accel = assigned.acceleration === null ? 0 : Number(assigned.acceleration);
+
+      if (currentVelocity < targetVelocity) {
+        currentVelocity = Math.min(currentVelocity + accel * dt, targetVelocity);
+      } else if (currentVelocity > targetVelocity) {
+        currentVelocity = Math.max(currentVelocity - accel * dt, targetVelocity);
+      }
+
+      gridOffset = (gridOffset + currentVelocity * dt * 2) % 28;
+      previewBox.style.setProperty("--grid-y", `${gridOffset}px`);
+
+      const bob = Math.sin(now / 260) * (2 + currentVelocity * .04);
+      const scale = 1 + Math.min(currentVelocity / 90, 1) * .18;
+      ship.style.setProperty("--ship-y", `${-bob}px`);
+      ship.style.setProperty("--ship-scale", scale.toFixed(3));
+
+      updateLiveColor(currentVelocity);
+
+      velVal.textContent = assigned.speed === null ? "—" : currentVelocity.toFixed(1);
+
+      const state = stateForVelocity(currentVelocity);
+      stateVal.textContent = state.label;
+      stateVal.className = `rv ${state.cls}`;
+
+      if (assigned.speed === null) {
+        motionWarning.classList.remove("show");
+      } else if (state.cls === "fast" || state.cls === "critical") {
+        motionWarning.textContent = state.cls === "critical" ? "OVERSPEED" : "APPROACHING LIMIT";
+        motionWarning.className = `motion-warning show ${state.cls === "critical" ? "critical" : "fast"}`;
+      } else if (state.cls === "slow" && currentVelocity > 0) {
+        motionWarning.textContent = "UNDERPOWERED";
+        motionWarning.className = "motion-warning show slow";
+      } else {
+        motionWarning.classList.remove("show");
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    updateLiveColor(0);
+    requestAnimationFrame(tick);
+
+  </script>
 </body>
+
 </html>

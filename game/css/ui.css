@@ -1,0 +1,279 @@
+/* ============================================================
+   game/css/ui.css
+   Menus, overlays, settings, buttons — all game UI chrome
+   ============================================================ */
+
+/* ── Shared overlay box ─────────────────────────────── */
+.overlay-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 48px 56px;
+  background: rgba(10, 11, 14, .92);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  min-width: 320px;
+  text-align: center;
+}
+
+.overlay-title {
+  font: 700 28px var(--display);
+  letter-spacing: .12em;
+  color: var(--text);
+}
+
+/* ── Main menu ──────────────────────────────────────── */
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.menu-title {
+  font: 700 72px var(--display);
+  color: var(--accent);
+  letter-spacing: .06em;
+  margin: 0 0 4px;
+  line-height: 1;
+  /* subtle glitch */
+  position: relative;
+}
+
+.menu-title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #4af;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+  transform: translateX(-3px);
+  animation: menuGlitch 6s infinite;
+  opacity: 0;
+}
+
+@keyframes menuGlitch {
+  0%, 92%, 100% { opacity: 0; }
+  93%           { opacity: .6; transform: translateX(-3px); }
+  95%           { opacity: .6; transform: translateX(3px); }
+  97%           { opacity: 0; }
+}
+
+.menu-tagline {
+  font: 13px var(--mono);
+  color: var(--muted);
+  margin: 0 0 24px;
+  letter-spacing: .1em;
+}
+
+/* ── Menu navigation ────────────────────────────────── */
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+/* ── Menu buttons ───────────────────────────────────── */
+.menu-btn {
+  font: 600 13px var(--mono);
+  letter-spacing: .1em;
+  color: var(--soft);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px 32px;
+  cursor: pointer;
+  width: min(280px, 90%);
+  transition: border-color .15s, color .15s, background .15s, box-shadow .15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity .15s;
+}
+
+.menu-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  box-shadow: 0 0 12px var(--accent-dim);
+}
+
+.menu-btn:active {
+  transform: scale(.97);
+}
+
+.menu-btn.primary {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 8px var(--accent-dim);
+}
+
+.menu-btn.primary:hover {
+  background: var(--accent-dim);
+  color: #fff;
+  box-shadow: 0 0 20px var(--accent-dim);
+}
+
+.menu-btn.danger {
+  border-color: #3a2020;
+  color: #b45656;
+}
+
+.menu-btn.danger:hover {
+  border-color: #c04040;
+  color: #f08080;
+  box-shadow: 0 0 12px rgba(200, 60, 60, .2);
+}
+
+.menu-btn:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Game Over ──────────────────────────────────────── */
+.gameover-title {
+  color: #c04040;
+  text-shadow: 0 0 20px rgba(200, 60, 60, .6);
+  animation: flicker 3s infinite;
+}
+
+@keyframes flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96%           { opacity: .4; }
+  98%           { opacity: .8; }
+}
+
+.gameover-score {
+  font: 600 20px var(--mono);
+  color: var(--muted);
+  letter-spacing: .1em;
+}
+
+.gameover-score span {
+  color: var(--accent);
+  font-size: 26px;
+}
+
+/* ── Settings ───────────────────────────────────────── */
+.settings-box {
+  min-width: 360px;
+}
+
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-label {
+  font: 12px var(--mono);
+  color: var(--soft);
+  letter-spacing: .08em;
+}
+
+/* ── Toggle switch ──────────────────────────────────── */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  background: var(--line);
+  transition: background .2s;
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--muted);
+  top: 3px;
+  left: 3px;
+  transition: transform .2s, background .2s;
+}
+
+.toggle input:checked + .toggle-track {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+}
+
+.toggle input:checked + .toggle-track::after {
+  transform: translateX(18px);
+  background: var(--accent);
+}
+
+/* ── Scanline overlay (cosmetic, on game screens) ─── */
+#screenMenu::before,
+#screenPause::before,
+#screenGameOver::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, .06) 0px,
+    rgba(0, 0, 0, .06) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Vignette on menu ───────────────────────────────── */
+#screenMenu::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.65) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#screenMenu .menu-content {
+  position: relative;
+  z-index: 1;
+}

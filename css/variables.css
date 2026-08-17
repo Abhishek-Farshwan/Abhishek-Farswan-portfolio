@@ -1,0 +1,48 @@
+:root {
+  /* ── Dark Sci-Fi Theme ─────────────────────────────── */
+  --bg:          #080a0d;         /* deeper cinematic black */
+  --panel:       #0e1217;         /* more distinct from bg */
+  --panel2:      #151c24;         /* clear 3rd layer */
+  --line:        #222933;         /* slightly bluer, less flat grey */
+  --line-soft:   #181f28;
+  --text:        #eef1f6;
+  --soft:        #b0b8c6;
+  --muted:       #6e788a;         /* slightly lighter, more readable */
+  --accent:      #8fe14a;
+  --accent-dim:  rgba(143, 225, 74, .12);
+  --accent-soft: rgba(143, 225, 74, .30);
+  --accent-glow: rgba(143, 225, 74, .22);
+  --amber:       #f0a83c;
+  --axis-x:      #e2564f;
+  --axis-y:      #8fe14a;
+  --axis-z:      #4f8ef0;
+  --shadow:      0 20px 60px rgba(0, 0, 0, .55), 0 4px 16px rgba(0, 0, 0, .30);
+  --mono:        'JetBrains Mono', monospace;
+  --display:     'Chakra Petch', sans-serif;
+  --body:        'Inter', system-ui, sans-serif;
+}
+
+[data-theme="cozy"] {
+  /* ── Cozy Warm Theme — terracotta + amber + cream ──── */
+  --bg:          #f5ede0;         /* warm golden cream */
+  --panel:       #fdf7f0;         /* soft off-white, not harsh pure white */
+  --panel2:      #efe4d4;         /* warm sand — distinct second layer */
+  --line:        #ddd0be;         /* warm beige border */
+  --line-soft:   #e8ddd0;
+  --text:        #2e261a;         /* warm dark brown — no purple-grey clash */
+  --soft:        #6b5e50;         /* warm mid-tone */
+  --muted:       #a0917f;         /* warm grey */
+  --accent:      #c05a2a;         /* terracotta/rust — punchy and warm */
+  --accent-dim:  rgba(192, 90, 42, .10);
+  --accent-soft: rgba(192, 90, 42, .25);
+  --accent-glow: rgba(192, 90, 42, .16);
+  --amber:       #c8860e;         /* true amber/gold — clearly distinct from accent */
+  --axis-x:      #c05a2a;         /* terracotta */
+  --axis-y:      #4a8c60;         /* sage green */
+  --axis-z:      #4a6e9c;         /* dusty blue */
+  --shadow:      0 12px 40px rgba(80, 50, 20, .14), 0 3px 10px rgba(80, 50, 20, .08);
+  --mono:        'JetBrains Mono', monospace;
+  --display:     'Chakra Petch', sans-serif;
+  --body:        'Inter', system-ui, sans-serif;
+}
+

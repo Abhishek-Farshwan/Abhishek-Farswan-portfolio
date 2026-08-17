@@ -1,0 +1,201 @@
+/* ============================================================
+   game/css/game.css
+   Core game layout — canvas, wrapper, screen system
+   ============================================================ */
+
+/* Body override for game page */
+.game-body {
+  overflow: hidden;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Topbar tweaks for game page */
+.game-topbar {
+  flex-shrink: 0;
+  position: relative;          /* not sticky — game sits below it */
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.game-title {
+  font: 13px var(--mono);
+  color: var(--accent);
+  letter-spacing: .08em;
+}
+
+.game-version {
+  font: 11px var(--mono);
+  color: var(--muted);
+}
+
+/* ── Game wrapper & canvas ─────────────────────────── */
+.game-wrapper {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  image-rendering: pixelated;   /* good for pixel-art style */
+  z-index: 1;
+}
+
+/* ── Screen system ──────────────────────────────────── */
+/*  Only .active screen is visible; transitions via JS  */
+.game-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+  background: var(--bg);
+}
+
+.game-screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Gameplay screen has transparent bg (canvas shows through) */
+#screenGame {
+  background: transparent;
+}
+
+/* ── Boot / Loading screen ──────────────────────────── */
+.boot-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  text-align: center;
+}
+
+.boot-glitch {
+  font: 700 64px var(--display);
+  color: var(--accent);
+  letter-spacing: .08em;
+  position: relative;
+}
+
+/* Simple glitch effect */
+.boot-glitch::before,
+.boot-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: var(--accent);
+}
+.boot-glitch::before {
+  animation: glitch-a 2.4s infinite linear;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  transform: translate(-3px, 0);
+  opacity: .7;
+  color: #4af;
+}
+.boot-glitch::after {
+  animation: glitch-b 2.4s infinite linear;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  transform: translate(3px, 0);
+  opacity: .7;
+  color: #f4a;
+}
+
+@keyframes glitch-a {
+  0%, 94%, 100% { transform: translate(0); opacity: 0; }
+  95%           { transform: translate(-4px, 1px); opacity: .7; }
+  97%           { transform: translate(4px, -1px); opacity: .7; }
+}
+@keyframes glitch-b {
+  0%, 94%, 100% { transform: translate(0); opacity: 0; }
+  96%           { transform: translate(4px, 1px); opacity: .7; }
+  98%           { transform: translate(-4px, -1px); opacity: .7; }
+}
+
+.boot-sub {
+  font: 12px var(--mono);
+  color: var(--muted);
+  margin-top: 10px;
+  letter-spacing: .12em;
+}
+
+.boot-progress-wrap {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(460px, 80%);
+  height: 3px;
+  background: var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.boot-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width .2s linear;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.boot-log {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(460px, 80%);
+  font: 12px var(--mono);
+  color: var(--muted);
+}
+
+.boot-line {
+  animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Toast ──────────────────────────────────────────── */
+.game-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font: 13px var(--mono);
+  padding: 10px 20px;
+  border-radius: 6px;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  white-space: nowrap;
+}
+
+.game-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Utility ─────────────────────────────────────────── */
+.hidden { display: none !important; }
