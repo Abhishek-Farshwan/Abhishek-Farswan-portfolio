@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="css/hud.css" />
   <link rel="stylesheet" href="css/cards.css" />
   <link rel="stylesheet" href="css/modals.css" />
+  <link rel="stylesheet" href="css/mobile.css" />
 </head>
 
 <body>
@@ -98,7 +99,7 @@
           <div class="game-modal-body">
             <p>🎮&nbsp; you scrolled the whole scene — nice. a small playable build lives here once it's ready.</p>
             <div class="game-modal-actions">
-              <a class="btn primary" href="repair_puzzle.html">enter secret_level ↗</a>
+              <a class="btn primary" href="game/secret_level.html">enter secret_level ↗</a>
               <button class="btn" id="gameModalHome">return home</button>
             </div>
           </div>
@@ -305,11 +306,9 @@
       </div>
       <div class="about">
         <div class="card about-panel">
-          <div
-            style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+          <div class="about-panel-header">
             <div class="tag" style="margin:0">operator.log</div>
-            <div class="chip" style="color:var(--accent);border-color:#2a3a1e;background:var(--accent-dim)">class:
-              systems_designer</div>
+            <div class="chip" style="color:var(--accent);border-color:#2a3a1e;background:var(--accent-dim)">class: systems_designer</div>
           </div>
           <p>I like building the part between "cool idea" and "actually works." That usually means code, systems design,
             3D work, and a suspicious number of test scenes.</p>
@@ -353,6 +352,8 @@
     </section>
 
     <footer><span>© 2026 Abhishek Farshwan</span><span>built like a game menu, shipped like a portfolio</span></footer>
+    
+    <button class="mobile-play-btn" id="mobilePlayBtn" title="Play secret level on mobile" style="display:none">[ PLAY ]</button>
   </main>
 
   <script src="js/main.js"></script>
