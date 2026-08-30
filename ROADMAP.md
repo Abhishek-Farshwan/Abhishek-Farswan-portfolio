@@ -9,6 +9,18 @@
 **Core Loop:** Investigate → Build/Fix → Play → Discover.
 The website isn't just a container for work; it's a demonstration of skills (Visual Design, 3D, UI, World-building) through an interactive experience.
 
+## 🎯 Visual Intent: Purposeful, Attractive, Performance-Aware
+This project should never feel like a generic AI-generated interface, but it also should not become sterile or excessively minimal. The design should feel premium, responsive, and crafted — with enough visual richness to be attractive without wasting performance or layering effects for effect alone.
+
+- **No generic AI aesthetic.** Avoid random blob-like gradients, recycled glassmorphism, and decorative effects that feel machine-generated.
+- **Polish without overkill.** The interface should look premium, sharp, and intentional, with a stronger sense of visual quality than a bare minimal layout.
+- **Responsive design is part of the aesthetic.** The layout should behave elegantly across mobile, tablet, and desktop while keeping content hierarchy clear.
+- **Performance is a design constraint.** Avoid stacking multiple heavy blur, gradient, and transparency layers that slow the page.
+- **Typography and space create the personality.** Strong type, clear structure, and smart contrast are more valuable than excessive effects.
+- **Every visual decision has a purpose.** Buttons, panels, cards, and surfaces should serve the story and clarity of the experience, not add noise.
+
+This means the site should feel like a considered artifact from a specific studio: refined, attractive, responsive, and efficient.
+
 ---
 
 ## 🖥️ Section 1: Main Portfolio (The Terminal)
@@ -90,6 +102,9 @@ The site supports multiple visual identities to match different moods or content
 - **CSS Organization:** Modular, separate mobile styles prevent unused rules on desktop
 - **Theme Persistence:** LocalStorage-based theme preference
 - **Smooth Animations:** Respects `prefers-reduced-motion` preference
+- **Minimal Layering:** Avoid stacking multiple heavy blur/filter/gradient layers across large sections
+- **Responsive-first styling:** Layout decisions prioritize function and performance while preserving visual polish
+- **Efficient visual treatment:** Small number of high-value effects, not dozens of decorative overlays
 
 ---
 
@@ -115,7 +130,11 @@ The site supports multiple visual identities to match different moods or content
 
 ---
 
-## ✅ Recent Updates (v1.1)
+## ✅ Recent Updates (v1.2)
+- [x] Reframed design intent around polished, attractive, performance-aware aesthetics
+- [x] Avoided the generic AI-style look without drifting into sterile minimalism
+- [x] Kept sci-fi identity while emphasizing responsive, premium presentation
+- [x] Added explicit performance guardrails against over-layered rendering
 - [x] Moved secret level to `/game/secret_level.html`
 - [x] Removed AI-generated game code (game/index.html, game/js, game/css)
 - [x] Added comprehensive mobile responsiveness (css/mobile.css)
@@ -136,5 +155,5 @@ The site supports multiple visual identities to match different moods or content
 
 ---
 
-*Last Updated: 2026-08-30 (v1.1)*
-*Status: Core portfolio ready, game folder ready for Phase 1 implementation*
+*Last Updated: 2026-08-30 (v1.2)*
+*Status: Core portfolio ready, design intent refined for premium polish, responsiveness, and performance discipline*

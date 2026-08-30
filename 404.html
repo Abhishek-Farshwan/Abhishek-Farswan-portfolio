@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#080a0d" />
+  <meta name="description" content="404 — page not found." />
+  <title>404 — Abhishek Farswan</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/404.css" />
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="topbar" aria-label="404 page navigation">
+      <div class="brand">/abhishek/portfolio</div>
+      <div class="topbar-meta">
+        <span class="status-indicator"></span>
+        <span>route_error</span>
+      </div>
+    </header>
+
+    <main class="error-layout">
+      <section class="error-panel" aria-labelledby="error-title">
+        <div class="eyebrow">system / status</div>
+
+        <div class="error-head">
+          <span class="code-tag">// error</span>
+          <h1 id="error-title" class="error-number" aria-label="404">404</h1>
+        </div>
+
+        <p class="lead">this page is missing from the current build.</p>
+
+        <div class="route-card">
+          <span class="route-label">requested</span>
+          <span class="route-value">/missing_route</span>
+        </div>
+
+        <div class="actions">
+          <a class="btn primary" href="index.html">return home</a>
+          <a class="btn" href="index.html#contact">contact</a>
+        </div>
+      </section>
+
+      <aside class="report-panel" aria-label="404 diagnostics">
+        <div class="panel-head">
+          <div class="window-dots" aria-hidden="true">
+            <span class="dot red"></span>
+            <span class="dot amber"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="panel-label">route.audit</span>
+        </div>
+
+        <div class="report-body">
+          <div class="audit-row">
+            <span class="audit-key">status</span>
+            <span class="audit-value">not_found</span>
+          </div>
+          <div class="audit-row">
+            <span class="audit-key">last_known</span>
+            <span class="audit-value">main_scene</span>
+          </div>
+          <div class="audit-row">
+            <span class="audit-key">signal</span>
+            <span class="audit-value">unstable</span>
+          </div>
+          <div class="audit-row">
+            <span class="audit-key">action</span>
+            <span class="audit-value">redirect home</span>
+          </div>
+        </div>
+
+        <div class="note-box">
+          The route is unavailable, but the rest of the portfolio is still online.
+        </div>
+      </aside>
+    </main>
+  </div>
+</body>
+
+</html>
