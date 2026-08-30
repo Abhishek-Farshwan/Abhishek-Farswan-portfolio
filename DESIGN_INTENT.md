@@ -29,6 +29,12 @@ This portfolio should feel authored rather than generated. It should avoid the g
 - Thoughtful borders, subtle contrast, strong type, and consistent spacing create the character.
 - Every element should feel chosen, not generated.
 
+### 6. Theme consistency across pages
+- Every new page should be built in reference to the existing main design system, especially [css/variables.css](css/variables.css), [css/main.css](css/main.css) etc
+- Reuse the same spacing logic, border radius, color relationships, and panel treatments rather than inventing a different visual system for each page.
+- Error and utility pages may differ in purpose, but they should still belong to the same design language.
+- If a page diverges from the main direction, it should be a deliberate exception, not a different style language.
+
 ## What to avoid
 - Heavy multi-layer blurred backgrounds
 - Dense animated particle systems

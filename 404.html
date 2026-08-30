@@ -3,87 +3,213 @@
 
 <head>
   <meta charset="utf-8" />
+  <script>
+    /* Resolve relative asset paths correctly when this page is served for a
+       deep, non-existent route (e.g. GitHub Pages serves 404.html at /a/b/c).
+       Runs during head parsing so the tags below inherit the base. */
+    (function () {
+      try {
+        if (!/^https?:$/.test(location.protocol)) return;
+        var segs = location.pathname.split('/').filter(Boolean);
+        var base = '/';
+        if (/\.github\.io$/i.test(location.hostname) && segs.length > 1) {
+          base = '/' + segs[0] + '/';
+        }
+        var el = document.createElement('base');
+        el.href = base;
+        document.head.appendChild(el);
+      } catch (e) { /* keep default relative resolution */ }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#080a0d" />
-  <meta name="description" content="404 — page not found." />
-  <title>404 — Abhishek Farswan</title>
+  <link rel="icon" type="image/png" href="user.png" />
+  <meta name="description" content="404 — this route isn't part of the current build." />
+  <meta name="robots" content="noindex" />
+  <title>404 — route not found / abhishek_farswan.exe</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/topbar.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+  <link rel="stylesheet" href="css/mobile.css" />
   <link rel="stylesheet" href="css/404.css" />
+  <script>
+    /* Restore saved theme so the error page matches the rest of the site */
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { /* localStorage unavailable */ }
+    })();
+  </script>
 </head>
 
 <body>
-  <div class="page-shell">
-    <header class="topbar" aria-label="404 page navigation">
+  <nav class="topbar" aria-label="primary">
+    <div class="tabs">
       <div class="brand">/abhishek/portfolio</div>
-      <div class="topbar-meta">
-        <span class="status-indicator"></span>
-        <span>route_error</span>
+      <a class="tab" href="index.html"><span class="tab-status">⌂</span><span class="tab-name">home</span></a>
+      <span class="tab active" aria-current="page"><span class="tab-status">✖</span><span
+          class="tab-name">404</span></span>
+      <a class="tab" href="resume.html"><span class="tab-status">▤</span><span class="tab-name">resume</span></a>
+      <a class="tab" href="index.html#contact"><span class="tab-status">✉</span><span
+          class="tab-name">contact</span></a>
+    </div>
+    <div class="topbar-actions">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+        <span class="theme-icon-dark">🌙</span>
+        <span class="theme-icon-cozy" style="display:none">☁️</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="container err-page">
+    <div class="path">~/portfolio <b>/</b> <span>404</span> <b>/</b> <span id="pathRoute">unresolved_route</span></div>
+
+    <section class="err-hero" aria-labelledby="errCode">
+      <div class="viewport-grid" aria-hidden="true"></div>
+
+      <div class="err-hero-grid">
+        <div class="err-copy">
+          <div class="eyebrow">signal lost · route unresolved</div>
+
+          <h1 class="err-code" id="errCode" data-text="404" aria-label="Error 404">404</h1>
+
+          <p class="err-lead">This route isn't part of the current build. Nothing broke on your end —
+            the rest of the scene is still loaded and running.</p>
+
+          <div class="err-actions">
+            <a class="btn primary" href="index.html">return to main_scene ↘</a>
+            <a class="btn" href="index.html#contact">report broken link</a>
+          </div>
+        </div>
+
+        <aside class="card err-terminal" aria-label="Route audit">
+          <div class="card-tabstrip"><span class="tabdot live"></span>route.audit</div>
+          <div class="term-body">
+            <div class="term-line">
+              <span class="term-prompt">$</span> <span class="term-cmd">resolve</span>
+              <span class="term-path" id="termRoute">/unresolved_route</span>
+            </div>
+            <div class="term-line term-out">
+              <span class="term-badge fail">404</span> no matching route in manifest
+            </div>
+            <div class="term-line">
+              <span class="term-prompt">$</span> <span class="term-cmd">check</span>
+              <span class="term-path">build_integrity</span>
+            </div>
+            <div class="term-line term-out">
+              <span class="term-badge ok">OK</span> 4 routes reachable · 0 errors
+            </div>
+            <div class="term-line">
+              <span class="term-prompt">$</span> <span class="term-cmd">suggest</span>
+              <span class="term-path">nearest_scene</span>
+            </div>
+            <div class="term-line term-out">
+              <span class="term-badge hint">→</span> /main_scene<span class="term-caret" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div class="term-foot">
+            <span>exit code <strong>404</strong></span>
+            <span>recoverable</span>
+          </div>
+        </aside>
       </div>
-    </header>
 
-    <main class="error-layout">
-      <section class="error-panel" aria-labelledby="error-title">
-        <div class="eyebrow">system / status</div>
-
-        <div class="error-head">
-          <span class="code-tag">// error</span>
-          <h1 id="error-title" class="error-number" aria-label="404">404</h1>
+      <dl class="err-stats">
+        <div class="err-stat">
+          <dt>status</dt>
+          <dd class="is-fail">not_found</dd>
         </div>
-
-        <p class="lead">this page is missing from the current build.</p>
-
-        <div class="route-card">
-          <span class="route-label">requested</span>
-          <span class="route-value">/missing_route</span>
+        <div class="err-stat">
+          <dt>requested</dt>
+          <dd id="statRoute">/unresolved_route</dd>
         </div>
-
-        <div class="actions">
-          <a class="btn primary" href="index.html">return home</a>
-          <a class="btn" href="index.html#contact">contact</a>
+        <div class="err-stat">
+          <dt>last_known</dt>
+          <dd>main_scene</dd>
         </div>
-      </section>
-
-      <aside class="report-panel" aria-label="404 diagnostics">
-        <div class="panel-head">
-          <div class="window-dots" aria-hidden="true">
-            <span class="dot red"></span>
-            <span class="dot amber"></span>
-            <span class="dot green"></span>
-          </div>
-          <span class="panel-label">route.audit</span>
+        <div class="err-stat">
+          <dt>site</dt>
+          <dd class="is-ok">online</dd>
         </div>
+      </dl>
+    </section>
 
-        <div class="report-body">
-          <div class="audit-row">
-            <span class="audit-key">status</span>
-            <span class="audit-value">not_found</span>
-          </div>
-          <div class="audit-row">
-            <span class="audit-key">last_known</span>
-            <span class="audit-value">main_scene</span>
-          </div>
-          <div class="audit-row">
-            <span class="audit-key">signal</span>
-            <span class="audit-value">unstable</span>
-          </div>
-          <div class="audit-row">
-            <span class="audit-key">action</span>
-            <span class="audit-value">redirect home</span>
-          </div>
-        </div>
+    <section class="err-routes" aria-labelledby="routesTitle">
+      <div class="section-head">
+        <h2 class="section-title" id="routesTitle">Routes that do exist</h2>
+        <span class="section-kicker">4 / 4 reachable</span>
+      </div>
 
-        <div class="note-box">
-          The route is unavailable, but the rest of the portfolio is still online.
-        </div>
-      </aside>
-    </main>
-  </div>
+      <div class="route-grid">
+        <a class="route-card" href="index.html">
+          <span class="route-index">01</span>
+          <span class="route-body">
+            <strong>main_scene</strong>
+            <span>Hero, 3D art, and systems work — the full build.</span>
+          </span>
+          <span class="route-go" aria-hidden="true">↘</span>
+        </a>
+
+        <a class="route-card" href="resume.html">
+          <span class="route-index">02</span>
+          <span class="route-body">
+            <strong>resume</strong>
+            <span>Experience log, tools, and skills.</span>
+          </span>
+          <span class="route-go" aria-hidden="true">↘</span>
+        </a>
+
+        <a class="route-card" href="index.html#contact">
+          <span class="route-index">03</span>
+          <span class="route-body">
+            <strong>comms</strong>
+            <span>Email, ArtStation, and socials.</span>
+          </span>
+          <span class="route-go" aria-hidden="true">↘</span>
+        </a>
+
+        <a class="route-card" href="game/secret_level.html">
+          <span class="route-index">04</span>
+          <span class="route-body">
+            <strong>secret_level</strong>
+            <span>Hidden build — still in progress.</span>
+          </span>
+          <span class="route-go" aria-hidden="true">↘</span>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <span>© 2026 Abhishek Farshwan</span>
+      <span>errors handled like a game menu, shipped like a portfolio</span>
+    </footer>
+  </main>
+
+  <script>
+    /* Surface the route the visitor actually tried to reach */
+    (function () {
+      var raw = (location.pathname || '/') + (location.search || '');
+      var route = raw.replace(/\/404(\.html)?$/i, '/') || '/';
+      if (route.length > 46) route = route.slice(0, 43) + '…';
+
+      var term = document.getElementById('termRoute');
+      var stat = document.getElementById('statRoute');
+      var crumb = document.getElementById('pathRoute');
+
+      if (term) term.textContent = route;
+      if (stat) stat.textContent = route;
+      if (crumb) crumb.textContent = route.split('/').filter(Boolean).pop() || 'unresolved_route';
+    })();
+  </script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>
