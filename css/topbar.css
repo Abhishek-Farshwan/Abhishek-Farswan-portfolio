@@ -102,3 +102,20 @@
   background: var(--line-soft);
   border-color: var(--soft);
 }
+
+/* Contact button: highlighted for visibility */
+.tab.contact-btn {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 0 12px var(--accent-glow);
+  transition: box-shadow 0.3s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.tab.contact-btn:hover {
+  background: var(--accent);
+  color: var(--panel);
+  box-shadow: 0 0 16px var(--accent-glow);
+  filter: brightness(1.1);
+}

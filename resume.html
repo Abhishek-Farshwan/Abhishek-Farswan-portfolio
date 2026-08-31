@@ -25,7 +25,18 @@
 </head>
 <body>
   <nav class="topbar resume-topbar">
-    <a class="back" href="index.html"><b>‹</b> /abhishek/portfolio</a>
+    <div class="tabs">
+      <div class="brand">/abhishek/portfolio</div>
+      <a class="tab" href="index.html"><span class="tab-status">⌂</span><span class="tab-name">home</span></a>
+      <span class="tab active" aria-current="page"><span class="tab-status">▤</span><span class="tab-name">resume</span></span>
+      <a class="tab contact-btn" href="index.html#contact"><span class="tab-status">✉</span><span class="tab-name">contact</span></a>
+    </div>
+    <div class="topbar-actions">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+        <span class="theme-icon-dark">🌙</span>
+        <span class="theme-icon-cozy" style="display:none">☁️</span>
+      </button>
+    </div>
   </nav>
 
   <main class="container resume-container" id="resumeSheet">
@@ -133,5 +144,6 @@
       </div>
     </div>
   </main>
+  <script src="js/main.js"></script>
 </body>
 </html>

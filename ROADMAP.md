@@ -130,6 +130,33 @@ The site supports multiple visual identities to match different moods or content
 
 ---
 
+## ✅ Recent Updates (v1.5)
+- [x] Redesigned status card to output-focused, professional tone
+  - Changed label: "session.status" → "portfolio.index | ongoing"
+  - Reframed fields to emphasize what you build, not how you work:
+    - role → craft (game dev + 3D art + systems design)
+    - stack → shipped (20+ assets · game systems · interactive experiences)
+    - current_mode → current (evolving the craft)
+    - coffee → mandatory
+  - Better communicates experience and deliverables at a glance
+
+## ✅ Recent Updates (v1.4)
+- [x] Fixed tab status icons — JavaScript was overwriting semantic icons
+- [x] Added icon mapping system for all sections:
+  - home: ⌂ (house) | art: 🎨 (palette) | systems: ⚙ (gear) | about: ℹ (info) | contact: ✉ (envelope)
+  - Active section shows icon, unlocked sections show ✓, locked show 🔒
+- [x] Consistent topbar across all pages (index, resume, 404)
+- [x] Updated resume.html topbar with full navigation tabs and icons
+- [x] Added theme toggle to resume page with main.js integration
+- [x] Highlighted contact button (contact-btn class) on all pages
+- [x] Better semantic navigation experience with proper iconography
+
+## ✅ Recent Updates (v1.3)
+- [x] Added prominent contact button to topbar navigation
+  - Highlighted with accent color, glow effect, and bold styling
+  - Never gets lost among other navigation tabs
+  - Encourages visitors to connect
+
 ## ✅ Recent Updates (v1.2)
 - [x] Reframed design intent around polished, attractive, performance-aware aesthetics
 - [x] Avoided the generic AI-style look without drifting into sterile minimalism

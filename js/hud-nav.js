@@ -7,6 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
     about: 'about',
     contact: 'contact'
   };
+  
+  // Semantic icons for each section (topbar consistency)
+  const sectionIcons = {
+    home: '⌂',      // house
+    art: '🎨',      // art palette
+    systems: '⚙',   // gear
+    about: 'ℹ',     // info
+    contact: '✉'    // envelope
+  };
+  
   const unlockedSections = new Set(['home']);
 
   const tabs = [...document.querySelectorAll('.tab')];
@@ -55,7 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.style.display = '';
         tab.classList.remove('locked');
         if (nameEl) nameEl.textContent = sectionLabels[secId];
-        if (statusEl) statusEl.textContent = isActive ? '▸' : '✓';
+        // Active: show section icon, Unlocked: show checkmark
+        if (statusEl) statusEl.textContent = isActive ? sectionIcons[secId] : '✓';
       } else if (index === nextLockedIdx) {
         tab.style.display = '';
         tab.classList.add('locked');
@@ -83,7 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
         node.style.display = '';
         node.classList.remove('locked');
         if (labelEl) labelEl.textContent = sectionLabels[secId];
-        if (iconEl) iconEl.textContent = isActive ? '▸' : '✓';
+        // Active: show section icon, Unlocked: show checkmark
+        if (iconEl) iconEl.textContent = isActive ? sectionIcons[secId] : '✓';
       } else if (index === nextLockedIdx) {
         node.style.display = '';
         node.classList.add('locked');
