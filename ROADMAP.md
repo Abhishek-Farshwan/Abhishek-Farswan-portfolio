@@ -146,6 +146,59 @@ The site supports multiple visual identities to match different moods or content
 
 ---
 
+## 🔗 Quick File Reference
+
+| File | Purpose | Edit When |
+|------|---------|-----------|
+| `index.html` | Main portfolio page | Adding sections, updating content |
+| `css/variables.css` | Color theme, fonts | Changing visual style |
+| `css/mobile.css` | Responsive layouts | Adjusting mobile breakpoints |
+| `js/main.js` | Core interactivity | Changing modal behavior, theme logic |
+| `game/secret_level.html` | Game placeholder | Implement Phase 1 game here |
+| `game/README.md` | Game guidelines | Reference during implementation |
+| `ROADMAP.md` | This roadmap | Update as you add features |
+
+---
+
+## 📱 Testing Mobile
+
+**Desktop View (1024px+):**
+- HUD sidebar visible on right
+- Play button shows in sidebar
+- Multi-column layouts
+
+**Tablet View (768px):**
+- HUD hidden, play button at bottom right
+- Condensed navigation tabs
+- 2-column grid for art becomes 1-column
+
+**Mobile View (<768px):**
+- Play button at bottom right (green button)
+- Tabs show only icons
+- All grids single-column
+- Typography scales responsively
+
+---
+
+## 🔧 Troubleshooting
+
+**Embeds not loading?**
+- Check browser console for errors
+- Ensure Sketchfab URLs are correct
+- Lazy loading works by scrolling into view
+
+**Mobile play button not showing?**
+- Hard refresh (Ctrl+Shift+R / Cmd+Shift+R)
+- Check viewport width ≤768px
+- Browser DevTools → Responsive Design Mode
+
+**Theme not saving?**
+- Check localStorage is enabled
+- Browser DevTools → Application → Local Storage
+- Should see key "theme" with value "dark" or "cozy"
+
+---
+
 ## 🔄 Code Quality
 - Clean, semantic HTML with proper accessibility attributes
 - CSS variables for maintainable theming
