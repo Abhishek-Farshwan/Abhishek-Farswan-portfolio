@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.style.display = '';
         tab.classList.remove('locked');
         if (nameEl) nameEl.textContent = sectionLabels[secId];
-        // Active: show section icon, Unlocked: show checkmark
-        if (statusEl) statusEl.textContent = isActive ? sectionIcons[secId] : '✓';
+        // Keep each unlocked section's icon visible even when it is not active.
+        if (statusEl) statusEl.textContent = sectionIcons[secId];
       } else if (index === nextLockedIdx) {
         tab.style.display = '';
         tab.classList.add('locked');
@@ -94,8 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
         node.style.display = '';
         node.classList.remove('locked');
         if (labelEl) labelEl.textContent = sectionLabels[secId];
-        // Active: show section icon, Unlocked: show checkmark
-        if (iconEl) iconEl.textContent = isActive ? sectionIcons[secId] : '✓';
+        // Keep each unlocked node icon visible even when it is not active.
+        if (iconEl) iconEl.textContent = sectionIcons[secId];
       } else if (index === nextLockedIdx) {
         node.style.display = '';
         node.classList.add('locked');
