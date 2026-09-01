@@ -24,9 +24,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#080a0d" />
   <link rel="icon" type="image/png" href="user.png" />
-  <meta name="description" content="404 — this route isn't part of the current build." />
+  <meta name="description" content="404 — this coordinate isn't loaded into the world yet." />
   <meta name="robots" content="noindex" />
-  <title>404 — route not found / abhishek_farswan.exe</title>
+  <title>404 — out of bounds / abhishek_farswan.exe</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,7 +55,7 @@
     <div class="tabs">
       <div class="brand">/abhishek/portfolio</div>
       <a class="tab" href="index.html"><span class="tab-status">⌂</span><span class="tab-name">home</span></a>
-      <span class="tab active" aria-current="page"><span class="tab-status">✖</span><span
+      <span class="tab active oob-active-tab" aria-current="page"><span class="tab-status">✖</span><span
           class="tab-name">404</span></span>
       <a class="tab" href="resume.html"><span class="tab-status">▤</span><span class="tab-name">resume</span></a>
       <a class="tab contact-btn" href="index.html#contact"><span class="tab-status">✉</span><span
@@ -69,144 +69,91 @@
     </div>
   </nav>
 
-  <main class="container err-page">
-    <div class="path">~/portfolio <b>/</b> <span>404</span> <b>/</b> <span id="pathRoute">unresolved_route</span></div>
-
-    <section class="err-hero" aria-labelledby="errCode">
+  <main class="container oob-page">
+    <header class="hero oob-hero">
       <div class="viewport-grid" aria-hidden="true"></div>
 
-      <div class="err-hero-grid">
-        <div class="err-copy">
-          <div class="eyebrow">signal lost · route unresolved</div>
+      <div class="path">~/portfolio <b>/</b> world <b>/</b> <span id="pathRoute">unmapped_coordinate</span></div>
 
-          <h1 class="err-code" id="errCode" data-text="404" aria-label="Error 404">404</h1>
-
-          <p class="err-lead">This route isn't part of the current build. Nothing broke on your end —
-            the rest of the scene is still loaded and running.</p>
-
-          <div class="err-actions">
-            <a class="btn primary" href="index.html">return to main_scene ↘</a>
-            <a class="btn" href="index.html#contact">report broken link</a>
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow oob-alert">error 404 · unmapped coordinate</div>
+          <h1>You wandered past<br><span>the edge of the map.</span></h1>
+          <p>This route isn't loaded into the world — no scene, no checkpoint, nothing to
+            render out here. The boundary wall caught you before you fell any further.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="index.html">↺ teleport to spawn</a>
+            <a class="btn" href="index.html#contact">flag this coordinate</a>
           </div>
         </div>
 
-        <aside class="card err-terminal" aria-label="Route audit">
-          <div class="card-tabstrip"><span class="tabdot live"></span>route.audit</div>
-          <div class="term-body">
-            <div class="term-line">
-              <span class="term-prompt">$</span> <span class="term-cmd">resolve</span>
-              <span class="term-path" id="termRoute">/unresolved_route</span>
+        <aside class="status-card oob-map-card reveal">
+          <div class="status-head"><span><i class="dot"></i>world_map.dat</span><span>4 loaded</span></div>
+
+          <div class="oob-canvas">
+            <div class="viewport-grid" aria-hidden="true"></div>
+
+            <a class="oob-pin" style="--x:18%; --y:28%" href="index.html">
+              <span class="oob-pin-dot"></span>
+              <span class="oob-pin-label">main_scene</span>
+            </a>
+
+            <a class="oob-pin" style="--x:50%; --y:18%" href="resume.html">
+              <span class="oob-pin-dot"></span>
+              <span class="oob-pin-label">resume</span>
+            </a>
+
+            <a class="oob-pin" style="--x:28%; --y:70%" href="index.html#contact">
+              <span class="oob-pin-dot"></span>
+              <span class="oob-pin-label">comms</span>
+            </a>
+
+            <a class="oob-pin locked" style="--x:58%; --y:48%" href="game/secret_level.html">
+              <span class="oob-pin-dot"></span>
+              <span class="oob-pin-label">🔒 secret_level</span>
+            </a>
+
+            <div class="oob-wall" aria-hidden="true"></div>
+
+            <div class="oob-you" style="--x:88%; --y:55%">
+              <span class="oob-you-dot"></span>
+              <span class="oob-you-label">you are here<strong id="statRoute">/unmapped</strong></span>
             </div>
-            <div class="term-line term-out">
-              <span class="term-badge fail">404</span> no matching route in manifest
-            </div>
-            <div class="term-line">
-              <span class="term-prompt">$</span> <span class="term-cmd">check</span>
-              <span class="term-path">build_integrity</span>
-            </div>
-            <div class="term-line term-out">
-              <span class="term-badge ok">OK</span> 4 routes reachable · 0 errors
-            </div>
-            <div class="term-line">
-              <span class="term-prompt">$</span> <span class="term-cmd">suggest</span>
-              <span class="term-path">nearest_scene</span>
-            </div>
-            <div class="term-line term-out">
-              <span class="term-badge hint">→</span> /main_scene<span class="term-caret" aria-hidden="true"></span>
-            </div>
-          </div>
-          <div class="term-foot">
-            <span>exit code <strong>404</strong></span>
-            <span>recoverable</span>
           </div>
         </aside>
       </div>
+    </header>
 
-      <dl class="err-stats">
-        <div class="err-stat">
-          <dt>status</dt>
-          <dd class="is-fail">not_found</dd>
-        </div>
-        <div class="err-stat">
-          <dt>requested</dt>
-          <dd id="statRoute">/unresolved_route</dd>
-        </div>
-        <div class="err-stat">
-          <dt>last_known</dt>
-          <dd>main_scene</dd>
-        </div>
-        <div class="err-stat">
-          <dt>site</dt>
-          <dd class="is-ok">online</dd>
-        </div>
-      </dl>
-    </section>
-
-    <section class="err-routes" aria-labelledby="routesTitle">
-      <div class="section-head">
-        <h2 class="section-title" id="routesTitle">Routes that do exist</h2>
-        <span class="section-kicker">4 / 4 reachable</span>
-      </div>
-
-      <div class="route-grid">
-        <a class="route-card" href="index.html">
-          <span class="route-index">01</span>
-          <span class="route-body">
-            <strong>main_scene</strong>
-            <span>Hero, 3D art, and systems work — the full build.</span>
-          </span>
-          <span class="route-go" aria-hidden="true">↘</span>
-        </a>
-
-        <a class="route-card" href="resume.html">
-          <span class="route-index">02</span>
-          <span class="route-body">
-            <strong>resume</strong>
-            <span>Experience log, tools, and skills.</span>
-          </span>
-          <span class="route-go" aria-hidden="true">↘</span>
-        </a>
-
-        <a class="route-card" href="index.html#contact">
-          <span class="route-index">03</span>
-          <span class="route-body">
-            <strong>comms</strong>
-            <span>Email, ArtStation, and socials.</span>
-          </span>
-          <span class="route-go" aria-hidden="true">↘</span>
-        </a>
-
-        <a class="route-card" href="game/secret_level.html">
-          <span class="route-index">04</span>
-          <span class="route-body">
-            <strong>secret_level</strong>
-            <span>Hidden build — still in progress.</span>
-          </span>
-          <span class="route-go" aria-hidden="true">↘</span>
-        </a>
-      </div>
-    </section>
-
-    <footer>
-      <span>© 2026 Abhishek Farshwan</span>
-      <span>errors handled like a game menu, shipped like a portfolio</span>
-    </footer>
+    <footer><span>© 2026 Abhishek Farshwan</span><span>even the void has a return path</span></footer>
   </main>
 
   <script>
-    /* Surface the route the visitor actually tried to reach */
+    /* Surface the route the visitor actually tried to reach.
+       On file:// previews, location.pathname is the local disk path —
+       never show that; fall back to just the filename. */
     (function () {
-      var raw = (location.pathname || '/') + (location.search || '');
-      var route = raw.replace(/\/404(\.html)?$/i, '/') || '/';
-      if (route.length > 46) route = route.slice(0, 43) + '…';
+      var isFile = location.protocol === 'file:';
+      var full, short;
 
-      var term = document.getElementById('termRoute');
+      if (isFile) {
+        var parts = location.pathname.split('/').filter(Boolean);
+        var name = parts[parts.length - 1] || 'index.html';
+        full = '/' + name + ' (local preview)';
+        short = '/' + name;
+      } else {
+        var raw = (location.pathname || '/') + (location.search || '');
+        full = raw.replace(/\/404(\.html)?$/i, '/') || '/';
+        short = full;
+      }
+
+      if (full.length > 40) full = full.slice(0, 37) + '…';
+      if (short.length > 18) short = short.slice(0, 15) + '…';
+
       var stat = document.getElementById('statRoute');
       var crumb = document.getElementById('pathRoute');
 
-      if (term) term.textContent = route;
-      if (stat) stat.textContent = route;
-      if (crumb) crumb.textContent = route.split('/').filter(Boolean).pop() || 'unresolved_route';
+      if (stat) stat.textContent = short;
+      if (crumb) crumb.textContent = full.split('/').filter(Boolean).pop() || 'unmapped_coordinate';
     })();
   </script>
   <script src="js/main.js"></script>
