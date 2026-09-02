@@ -9,6 +9,9 @@
 **Core Loop:** Investigate → Build/Fix → Play → Discover.
 The website isn't just a container for work; it's a demonstration of skills (Visual Design, 3D, UI, World-building) through an interactive experience.
 
+## ✏️ Naming Note
+"Abhishek Farswan" and "Abhishek Farshwan" are the same person and are used interchangeably across this project (site copy, repo name, socials, contact links) — largely because domain/handle availability differs across platforms. This is intentional, not a typo. Don't "fix" one spelling into the other without checking both are still correct for their specific context (e.g. a GitHub handle vs. an email address vs. display copy).
+
 ## 🎯 Visual Intent: Purposeful, Attractive, Performance-Aware
 This project should never feel like a generic AI-generated interface, but it also should not become sterile or excessively minimal. The design should feel premium, responsive, and crafted — with enough visual richness to be attractive without wasting performance or layering effects for effect alone.
 
@@ -34,11 +37,14 @@ This means the site should feel like a considered artifact from a specific studi
     - [x] Main landing layout (`index.html`).
     - [x] Mobile responsive design (`css/mobile.css`).
     - [x] Lazy loading for Sketchfab embeds (`js/lazy-load.js`).
-    - [x] Theme persistence (Dark/Cozy modes).
+    - [x] Theme persistence (Dark/Cozy modes), applied pre-paint on every page to avoid a flash of the wrong theme.
+    - [x] Reworked 404 page as an in-world "out of bounds" map (`404.html`, `css/404.css`) — see v1.6 below.
+    - [x] Locked nav tabs/HUD nodes carry an `aria-label` while locked, so screen readers get "locked" context instead of raw `????` text.
 - **Future Goals:**
     - [ ] Enhancing the "system boot" feel.
     - [ ] Adding more "system panels" and "data objects" for project showcases.
     - [ ] Performance monitoring and analytics integration.
+    - [ ] Add `og:image` / `twitter:image` for link previews (tracked as a TODO in `index.html`).
 
 ---
 
@@ -50,7 +56,7 @@ This means the site should feel like a considered artifact from a specific studi
     - Location: `/game/secret_level.html` (moved from root for organization)
     - Current: Placeholder landing showing "build not deployed yet"
 - **Future Implementation Phases:**
-    - **Phase 1: Recovery Mode** — Visual puzzle interface to repair game systems
+    - **Phase 1: Recovery Mode** — Visual puzzle interface to repair game systems. Base styles for this already exist in `css/puzzle.css`, unlinked from any page until Phase 1 starts.
     - **Phase 2: Playable Build** — Small interactive game demo
     - **Phase 3: Mystery Rewards** — Unlockable assets and rewards
 - **Current State:**
@@ -58,7 +64,7 @@ This means the site should feel like a considered artifact from a specific studi
     - [x] Created `/game/` folder structure with guidelines
     - [x] Placeholder page ready for implementation
 - **Future Goals:**
-    - [ ] Complete the "Game Recovery" interface.
+    - [ ] Complete the "Game Recovery" interface (wire up `css/puzzle.css`).
     - [ ] Implement a playable game build.
     - [ ] Integrate the Mystery Card reward system.
 
@@ -71,6 +77,7 @@ This means the site should feel like a considered artifact from a specific studi
 - **Current State:**
     - [x] Interactive/Styled resume page (`resume.html`, `css/resume.css`).
     - [x] Visual consistency with the main theme.
+    - [x] Shared site footer, matching `index.html` and `404.html`.
 - **Future Goals:**
     - [ ] Add "Download Decrypted PDF" option.
     - [ ] Interactive skill bars/nodes that fit the sci-fi aesthetic.
@@ -82,7 +89,7 @@ The site supports multiple visual identities to match different moods or content
 
 - **Default (Dark Sci-Fi):** The original "Developer Terminal" look. Dark background, green accents, high contrast.
 - **Cozy Pastel:** A softer, warm identity. Off-white backgrounds, terracotta/amber accents, and soft typography. Designed for a more relaxed, approachable browsing experience.
-- **Implementation:** Themes are controlled via the `data-theme` attribute on the `<html>` tag, utilizing the variables in `css/variables.css`.
+- **Implementation:** Themes are controlled via the `data-theme` attribute on the `<html>` tag, utilizing the variables in `css/variables.css`. Every page restores the saved theme in an inline `<head>` script, before first paint, to avoid a flash of the wrong theme on load.
 
 ---
 
@@ -111,9 +118,9 @@ The site supports multiple visual identities to match different moods or content
 ## 🛠️ Tech Stack & Conventions
 - **Frontend:** HTML5, CSS3 (Modern Flex/Grid), Vanilla JavaScript.
 - **Styling:** CSS Variables for easy theme switching.
-- **Accessibility:** WCAG compliance, focus states, semantic HTML.
+- **Accessibility:** WCAG compliance, focus states, semantic HTML, `aria-label`s on non-text/locked nav states.
 - **Structure:** 
-    - `/css`: Modular styles (variables, main, topbar, hud, cards, modals, mobile).
+    - `/css`: Modular styles (variables, main, topbar, hud, cards, modals, mobile, resume, 404, puzzle).
     - `/js`: Logic-specific files (main, hud-nav, lazy-load).
     - `/game`: Game implementation folder (currently placeholder).
     - `/assets`: External resources (Sketchfab embeds, resume PDFs).
@@ -129,6 +136,17 @@ The site supports multiple visual identities to match different moods or content
 6. **GAME PLACEHOLDER** (Ready for Phase 1 implementation)
 
 ---
+
+## ✅ Recent Updates (v1.6)
+- [x] Full 404 redesign — "out of bounds" concept: the requested route is framed as a coordinate outside the loaded world, shown on a minimap in the hero's status-card slot alongside the site's real reachable pages
+- [x] Minimap reuses existing site components (`.hero`, `.hero-grid`, `.status-card`, `.eyebrow`, `.card`, `pulse` keyframe) instead of introducing a new visual language, per the theme-consistency principle in `DESIGN_INTENT.md`
+- [x] Amber used as the page's alert color throughout (badge, active tab, boundary stripe, "you are here" marker) — kept separate from green, which already means "reachable" on the map itself
+- [x] Fixed `location.pathname` leaking a local disk path when the site is previewed over `file://` instead of a real server
+- [x] Fixed pre-paint theme flash on `index.html` (every other page already restored the saved theme before first paint; the homepage was the one gap)
+- [x] Added shared footer to `resume.html`, matching `index.html` / `404.html`
+- [x] Deduplicated `.topbar` / `.tabs` rule blocks in `css/topbar.css` (previously defined twice, non-adjacently, in the same file)
+- [x] Locked nav tabs and HUD nodes now carry `aria-label="Locked — scroll to unlock"` while locked, and have it removed automatically once unlocked
+- [x] `secret_level` pin on the 404 map keeps its `aria-label` explaining it's a placeholder, since the link is real but the destination isn't ready
 
 ## ✅ Recent Updates (v1.5)
 - [x] Redesigned status card to output-focused, professional tone
@@ -178,10 +196,22 @@ The site supports multiple visual identities to match different moods or content
 | File | Purpose | Edit When |
 |------|---------|-----------|
 | `index.html` | Main portfolio page | Adding sections, updating content |
-| `css/variables.css` | Color theme, fonts | Changing visual style |
-| `css/mobile.css` | Responsive layouts | Adjusting mobile breakpoints |
-| `js/main.js` | Core interactivity | Changing modal behavior, theme logic |
+| `resume.html` | Resume / technical specs page | Updating experience, skills, education |
+| `404.html` | Out-of-bounds / not-found page | Adding new real routes to the site map |
 | `game/secret_level.html` | Game placeholder | Implement Phase 1 game here |
+| `css/variables.css` | Color theme, fonts | Changing visual style |
+| `css/main.css` | Shared layout primitives (hero, buttons, sections) | Changing structure used across pages |
+| `css/topbar.css` | Nav bar, tabs, theme toggle | Changing navigation behavior/look |
+| `css/cards.css` | Card, status-card, and grid components | Changing shared panel/card styling |
+| `css/hud.css` | Homepage HUD sidebar | Changing the scroll-unlock HUD |
+| `css/modals.css` | Game-launch modal | Changing the "secret level" popup |
+| `css/mobile.css` | Responsive layouts | Adjusting mobile breakpoints |
+| `css/resume.css` | Resume-page-specific layout | Adjusting resume formatting |
+| `css/404.css` | 404-page-specific layout (out-of-bounds map) | Adjusting the map, pins, or alert styling |
+| `css/puzzle.css` | Game Phase 1 styles (not yet linked anywhere) | Starting Phase 1 implementation |
+| `js/main.js` | Core interactivity | Changing modal behavior, theme logic |
+| `js/hud-nav.js` | Scroll-based section unlock logic | Changing unlock sequence or a11y labels |
+| `js/lazy-load.js` | Sketchfab iframe lazy loading | Changing embed loading behavior |
 | `game/README.md` | Game guidelines | Reference during implementation |
 | `ROADMAP.md` | This roadmap | Update as you add features |
 
@@ -224,6 +254,9 @@ The site supports multiple visual identities to match different moods or content
 - Browser DevTools → Application → Local Storage
 - Should see key "theme" with value "dark" or "cozy"
 
+**404 page showing a weird local file path in "requested"?**
+- That happens only when previewing via `file://` instead of a real server — `404.html` detects this and shows a shortened filename instead. Preview over `http://localhost` (or GitHub Pages) to see the real production behavior.
+
 ---
 
 ## 🔄 Code Quality
@@ -232,8 +265,9 @@ The site supports multiple visual identities to match different moods or content
 - Vanilla JavaScript (no dependencies) for fast loading
 - Mobile-first responsive design
 - Performance optimized (lazy loading, efficient selectors)
+- No duplicate/orphaned CSS rule blocks for the same selector within a file
 
 ---
 
-*Last Updated: 2026-08-30 (v1.2)*
-*Status: Core portfolio ready, design intent refined for premium polish, responsiveness, and performance discipline*
+*Last Updated: 2026-09-02 (v1.6)*
+*Status: Core portfolio ready, 404 page reworked around the site's own "explorable world" concept, accessibility and theme-consistency pass completed*

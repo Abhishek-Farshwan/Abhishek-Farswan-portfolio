@@ -30,6 +30,17 @@
   <link rel="stylesheet" href="css/cards.css" />
   <link rel="stylesheet" href="css/modals.css" />
   <link rel="stylesheet" href="css/mobile.css" />
+  <script>
+    /* Restore saved theme before first paint so the homepage doesn't
+       flash dark theme for visitors who've picked Cozy. Every other
+       page in the site already does this — this was the one gap. */
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { /* localStorage unavailable */ }
+    })();
+  </script>
 </head>
 
 <body>
@@ -38,11 +49,13 @@
       <div class="brand">/abhishek/portfolio</div>
       <a class="tab active" href="#home" data-sec="home"><span class="tab-status">⌂</span><span
           class="tab-name">home</span></a>
-      <a class="tab locked" href="#art" data-sec="art"><span class="tab-status">🔒</span><span
-          class="tab-name">????</span></a>
-      <a class="tab locked" href="#systems" data-sec="systems" style="display:none"><span
+      <a class="tab locked" href="#art" data-sec="art" aria-label="Locked — scroll to unlock"><span
           class="tab-status">🔒</span><span class="tab-name">????</span></a>
-      <a class="tab locked" href="#about" data-sec="about" style="display:none"><span class="tab-status">🔒</span><span
+      <a class="tab locked" href="#systems" data-sec="systems" style="display:none"
+        aria-label="Locked — scroll to unlock"><span class="tab-status">🔒</span><span
+          class="tab-name">????</span></a>
+      <a class="tab locked" href="#about" data-sec="about" style="display:none"
+        aria-label="Locked — scroll to unlock"><span class="tab-status">🔒</span><span
           class="tab-name">????</span></a>
       <a class="tab contact-btn" href="#contact" data-sec="contact"><span class="tab-status">✉</span><span
           class="tab-name">contact</span></a>
@@ -69,13 +82,16 @@
           <div class="hud-nodes" id="hudNodes">
             <div class="hud-node active" data-sec="home"><span class="node-icon">▸</span><span
                 class="node-label">home</span></div>
-            <div class="hud-node locked" data-sec="art"><span class="node-icon">🔒</span><span
+            <div class="hud-node locked" data-sec="art" aria-label="Locked — scroll to unlock"><span
+                class="node-icon">🔒</span><span class="node-label">????</span></div>
+            <div class="hud-node locked" data-sec="systems" style="display:none"
+              aria-label="Locked — scroll to unlock"><span class="node-icon">🔒</span><span
                 class="node-label">????</span></div>
-            <div class="hud-node locked" data-sec="systems" style="display:none"><span class="node-icon">🔒</span><span
+            <div class="hud-node locked" data-sec="about" style="display:none"
+              aria-label="Locked — scroll to unlock"><span class="node-icon">🔒</span><span
                 class="node-label">????</span></div>
-            <div class="hud-node locked" data-sec="about" style="display:none"><span class="node-icon">🔒</span><span
-                class="node-label">????</span></div>
-            <div class="hud-node locked" data-sec="contact" style="display:none"><span class="node-icon">🔒</span><span
+            <div class="hud-node locked" data-sec="contact" style="display:none"
+              aria-label="Locked — scroll to unlock"><span class="node-icon">🔒</span><span
                 class="node-label">????</span></div>
           </div>
 

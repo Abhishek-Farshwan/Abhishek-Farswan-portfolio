@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     about: 'ℹ',     // info
     contact: '✉'    // envelope
   };
+
+  const LOCKED_LABEL = 'Locked — scroll to unlock';
   
   const unlockedSections = new Set(['home']);
 
@@ -64,12 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (secId === 'contact' || isUnlocked) {
         tab.style.display = '';
         tab.classList.remove('locked');
+        tab.removeAttribute('aria-label');
         if (nameEl) nameEl.textContent = sectionLabels[secId];
-        // Keep each unlocked section's icon visible even when it is not active.
-        if (statusEl) statusEl.textContent = sectionIcons[secId];
+        // Active: show section icon, Unlocked: show checkmark
+        if (statusEl) statusEl.textContent = isActive ? sectionIcons[secId] : '✓';
       } else if (index === nextLockedIdx) {
         tab.style.display = '';
         tab.classList.add('locked');
+        tab.setAttribute('aria-label', LOCKED_LABEL);
         if (nameEl) nameEl.textContent = '????';
         if (statusEl) statusEl.textContent = '🔒';
       } else {
@@ -93,12 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isUnlocked) {
         node.style.display = '';
         node.classList.remove('locked');
+        node.removeAttribute('aria-label');
         if (labelEl) labelEl.textContent = sectionLabels[secId];
-        // Keep each unlocked node icon visible even when it is not active.
-        if (iconEl) iconEl.textContent = sectionIcons[secId];
+        // Active: show section icon, Unlocked: show checkmark
+        if (iconEl) iconEl.textContent = isActive ? sectionIcons[secId] : '✓';
       } else if (index === nextLockedIdx) {
         node.style.display = '';
         node.classList.add('locked');
+        node.setAttribute('aria-label', LOCKED_LABEL);
         if (labelEl) labelEl.textContent = '????';
         if (iconEl) iconEl.textContent = '🔒';
       } else {
