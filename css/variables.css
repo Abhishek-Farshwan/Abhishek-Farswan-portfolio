@@ -8,11 +8,16 @@
   --text:        #eef1f6;
   --soft:        #b0b8c6;
   --muted:       #6e788a;         /* slightly lighter, more readable */
+  --dim:         #8a95a6;         /* muted text for secondary info */
+  --dim2:        #4a5564;         /* dimmer state for low-priority elements */
   --accent:      #8fe14a;
   --accent-dim:  rgba(143, 225, 74, .12);
   --accent-soft: rgba(143, 225, 74, .30);
   --accent-glow: rgba(143, 225, 74, .22);
   --amber:       #f0a83c;
+  --ok:          #8fe14a;         /* success/good state (green) */
+  --warn:        #ffcc4d;         /* warning state (yellow/amber) */
+  --err:         #ff4d5e;         /* error/critical state (red) */
   --axis-x:      #e2564f;
   --axis-y:      #8fe14a;
   --axis-z:      #4f8ef0;
@@ -32,11 +37,16 @@
   --text:        #2e261a;         /* warm dark brown — no purple-grey clash */
   --soft:        #6b5e50;         /* warm mid-tone */
   --muted:       #a0917f;         /* warm grey */
+  --dim:         #9a8a78;         /* muted text for secondary info */
+  --dim2:        #c4b5a3;         /* dimmer state for low-priority elements */
   --accent:      #c05a2a;         /* terracotta/rust — punchy and warm */
   --accent-dim:  rgba(192, 90, 42, .10);
   --accent-soft: rgba(192, 90, 42, .25);
   --accent-glow: rgba(192, 90, 42, .16);
   --amber:       #c8860e;         /* true amber/gold — clearly distinct from accent */
+  --ok:          #4a8c60;         /* success/good state (sage green) */
+  --warn:        #c8860e;         /* warning state (amber/gold) */
+  --err:         #b84a3a;         /* error/critical state (warm red) */
   --axis-x:      #c05a2a;         /* terracotta */
   --axis-y:      #4a8c60;         /* sage green */
   --axis-z:      #4a6e9c;         /* dusty blue */

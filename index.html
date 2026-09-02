@@ -44,7 +44,7 @@
 </head>
 
 <body>
-  <nav class="topbar">
+  <nav class="topbar" aria-label="primary">
     <div class="tabs">
       <div class="brand">/abhishek/portfolio</div>
       <a class="tab active" href="#home" data-sec="home"><span class="tab-status">⌂</span><span
@@ -61,7 +61,7 @@
           class="tab-name">contact</span></a>
     </div>
     <div class="topbar-actions">
-      <button id="themeToggle" class="theme-toggle" title="Toggle Theme">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
         <span class="theme-icon-dark">🌙</span>
         <span class="theme-icon-cozy" style="display:none">☁️</span>
       </button>
@@ -109,8 +109,8 @@
       </div>
 
       <div class="game-modal-overlay" id="gameModalOverlay">
-        <div class="game-modal">
-          <div class="game-modal-head"><span>secret_level.exe</span><button id="gameModalClose"
+        <div class="game-modal" role="dialog" aria-modal="true" aria-labelledby="gameModalTitle">
+          <div class="game-modal-head"><span id="gameModalTitle">secret_level.exe</span><button id="gameModalClose"
               aria-label="Close">✕</button></div>
           <div class="game-modal-body">
             <p>🎮&nbsp; you scrolled the whole scene — nice. a small playable build lives here once it's ready.</p>
@@ -358,7 +358,7 @@
         </div>
         <div class="contact-links">
           <a href="resume.html" style="border-color:var(--accent);color:var(--accent)">resume ↗</a>
-          <a href="mailto:Abhishekfarswan117@gmail.com">email ↗</a>
+          <a href="mailto:abhishekfarshwan@gmail.com">email ↗</a>
           <a href="https://github.com/Abhishek-Farshwan" target="_blank" rel="noopener">github ↗</a>
           <a href="https://in.linkedin.com/in/abhishek-farswan" target="_blank" rel="noopener">linkedin ↗</a>
           <a href="https://www.artstation.com/abhishek_farswan" target="_blank" rel="noopener">artstation ↗</a>

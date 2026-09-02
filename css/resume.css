@@ -191,6 +191,6 @@
 
 @media print {
   .topbar.resume-topbar { display: none; }
-  body { background: #0a0b0e; }
+  body { background: #fff; }
   .container.resume-container { width: 100%; }
 }

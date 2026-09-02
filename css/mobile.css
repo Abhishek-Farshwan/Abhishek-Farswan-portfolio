@@ -301,10 +301,8 @@
 
   .mobile-play-btn {
     display: block !important;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 25;
+    position: static;
+    margin: 40px auto 0;
     padding: 14px 18px;
     background: var(--accent);
     border: 1px solid var(--accent);
@@ -314,7 +312,7 @@
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(143, 225, 74, 0.3);
+    box-shadow: 0 4px 12px var(--accent-glow);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
@@ -323,7 +321,7 @@
   }
 
   .mobile-play-btn:hover {
-    box-shadow: 0 6px 18px rgba(143, 225, 74, 0.4);
+    box-shadow: 0 6px 18px var(--accent-glow);
   }
 }
 
@@ -338,9 +336,13 @@
 
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .reveal,
+  .game-modal,
+  .hud-progress-fill,
+  .card:hover,
+  .btn,
+  .tab {
+    animation: none !important;
+    transition: none !important;
   }
 }

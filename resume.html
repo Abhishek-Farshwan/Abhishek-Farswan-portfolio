@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0a0b0e" />
-  <link rel="icon" type="image/png" href="resume.png" />
+  <link rel="icon" type="image/png" href="user.png" />
   <meta name="description" content="Résumé — Abhishek Farswan, 3D Artist." />
   <title>abhishek_farswan.exe — resume</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,8 +18,10 @@
   <script>
     /* Restore saved theme so resume page stays consistent */
     (function() {
-      var t = localStorage.getItem('theme');
-      if (t) document.documentElement.setAttribute('data-theme', t);
+      try {
+        var t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { /* localStorage unavailable */ }
     })();
   </script>
 </head>
@@ -77,18 +79,6 @@
           </div>
         </div>
         <div class="xp-item">
-          <div class="xp-date">2021 – 2024<span class="loc">Remote</span></div>
-          <div class="xp-role">
-            <h3>Freelance 3D Artist</h3>
-            <div class="company">Self-Employed</div>
-            <ul>
-              <li>Delivered 100+ game-ready 3D assets and freelance projects across multiple art styles, focusing on optimized real-time workflows.</li>
-              <li>Developed low-poly and high-poly models using Blender.</li>
-              <li>Performed UV unwrapping, texture baking, and material creation using Blender and Substance Painter.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="xp-item">
           <div class="xp-date">2024 – 2025<span class="loc">Chamoli</span></div>
           <div class="xp-role">
             <h3>Computer Tutor</h3>
@@ -98,6 +88,18 @@
               <li>Delivered training on Adobe Photoshop, Canva, HTML, Python, and AI fundamentals.</li>
               <li>Designed practical learning exercises for students with different experience levels.</li>
               <li>Improved student engagement through hands-on project-based learning.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="xp-item">
+          <div class="xp-date">2021 – 2024<span class="loc">Remote</span></div>
+          <div class="xp-role">
+            <h3>Freelance 3D Artist</h3>
+            <div class="company">Self-Employed</div>
+            <ul>
+              <li>Delivered 100+ game-ready 3D assets and freelance projects across multiple art styles, focusing on optimized real-time workflows.</li>
+              <li>Developed low-poly and high-poly models using Blender.</li>
+              <li>Performed UV unwrapping, texture baking, and material creation using Blender and Substance Painter.</li>
             </ul>
           </div>
         </div>

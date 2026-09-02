@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Mobile/Desktop Play Button Visibility Handler
   function updatePlayButtonVisibility() {
-    const isMobile = window.innerWidth <= 768;
+    const isMobile = window.innerWidth <= 480;
     if (mobilePlayBtn) mobilePlayBtn.style.display = isMobile ? 'block' : 'none';
     if (hudPlayBtn) hudPlayBtn.style.display = isMobile ? 'none' : 'block';
   }
