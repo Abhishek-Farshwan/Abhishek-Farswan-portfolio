@@ -73,7 +73,7 @@
     <header class="hero oob-hero">
       <div class="viewport-grid" aria-hidden="true"></div>
 
-      <div class="path">~/portfolio <b>/</b> world <b>/</b> <span id="pathRoute">unmapped_coordinate</span></div>
+      <div class="path">~/portfolio <b>/</b> world <b>/</b> <span id="pathRoute" data-pending>unmapped_coordinate</span></div>
 
       <div class="hero-grid">
         <div>
@@ -90,6 +90,12 @@
         <aside class="status-card oob-map-card reveal">
           <div class="status-head"><span><i class="dot"></i>world_map.dat</span><span>4 loaded</span></div>
 
+          <!--
+            Coordinate space is % of .oob-canvas (0–100 on both axes).
+            The boundary wall sits at right:22% (see 404.css) — anything
+            placed past that line reads as "outside the loaded map."
+            Keep pins left of ~60% so labels don't crowd the wall.
+          -->
           <div class="oob-canvas">
             <div class="viewport-grid" aria-hidden="true"></div>
 
@@ -108,7 +114,8 @@
               <span class="oob-pin-label">comms</span>
             </a>
 
-            <a class="oob-pin locked" style="--x:58%; --y:48%" href="game/secret_level.html">
+            <a class="oob-pin locked" style="--x:58%; --y:48%" href="game/secret_level.html"
+              aria-label="secret_level — placeholder build, not yet playable">
               <span class="oob-pin-dot"></span>
               <span class="oob-pin-label">🔒 secret_level</span>
             </a>
@@ -117,7 +124,7 @@
 
             <div class="oob-you" style="--x:88%; --y:55%">
               <span class="oob-you-dot"></span>
-              <span class="oob-you-label">you are here<strong id="statRoute">/unmapped</strong></span>
+              <span class="oob-you-label">you are here<strong id="statRoute" data-pending>/unmapped</strong></span>
             </div>
           </div>
         </aside>
@@ -152,8 +159,14 @@
       var stat = document.getElementById('statRoute');
       var crumb = document.getElementById('pathRoute');
 
-      if (stat) stat.textContent = short;
-      if (crumb) crumb.textContent = full.split('/').filter(Boolean).pop() || 'unmapped_coordinate';
+      if (stat) {
+        stat.textContent = short;
+        stat.removeAttribute('data-pending');
+      }
+      if (crumb) {
+        crumb.textContent = full.split('/').filter(Boolean).pop() || 'unmapped_coordinate';
+        crumb.removeAttribute('data-pending');
+      }
     })();
   </script>
   <script src="js/main.js"></script>
