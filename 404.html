@@ -40,13 +40,8 @@
   <link rel="stylesheet" href="css/mobile.css" />
   <link rel="stylesheet" href="css/404.css" />
   <script>
-    /* Restore saved theme so the error page matches the rest of the site */
-    (function () {
-      try {
-        var t = localStorage.getItem('theme');
-        if (t) document.documentElement.setAttribute('data-theme', t);
-      } catch (e) { /* localStorage unavailable */ }
-    })();
+    /* Restore saved theme before first paint */
+    (function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
   </script>
 </head>
 

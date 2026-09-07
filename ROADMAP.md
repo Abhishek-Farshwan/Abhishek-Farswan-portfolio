@@ -137,6 +137,31 @@ The site supports multiple visual identities to match different moods or content
 
 ---
 
+## ✅ Recent Updates (v1.7)
+- [x] **Phase 1 Modularization complete** — eliminated markup duplication
+  - Created `/components/` folder with shared resources (footer.html, theme-restore.js, topbar-simple.html)
+  - Centralized theme restoration script across all pages
+  - Single source of truth for footer content
+- [x] **Unified topbar styling** — 404.html and resume.html now use identical topbar dimensions
+  - Fixed padding/spacing inconsistencies
+  - Added mobile.css to resume.html (was missing)
+  - Both pages now share same topbar width (1160px) and height
+- [x] **Bug fixes & accessibility**
+  - Standardized email to abhishekfarshwan@gmail.com across all pages
+  - Fixed resume print styles (white background instead of black)
+  - Added ARIA dialog semantics to game modal
+  - Added missing aria-label to index.html nav and theme toggle
+  - Fixed resume work experience to reverse-chronological order
+  - Fixed resume favicon to use user.png
+  - Added try/catch to all theme restoration scripts
+  - Added color-mix() fallback for older browsers in modals.css
+  - Improved reduced-motion preferences (targeted instead of catch-all)
+- [x] **CSS cleanup**
+  - Deleted unused files (lazy-load.js, puzzle.css)
+  - Added missing CSS variables (--ok, --warn, --err, --dim, --dim2) for future puzzle.css use
+  - Removed mobile play button hardcoded colors, now uses CSS variables
+  - Fixed mobile play button positioning (end of page instead of fixed screen position)
+
 ## ✅ Recent Updates (v1.6)
 - [x] Full 404 redesign — "out of bounds" concept: the requested route is framed as a coordinate outside the loaded world, shown on a minimap in the hero's status-card slot alongside the site's real reachable pages
 - [x] Minimap reuses existing site components (`.hero`, `.hero-grid`, `.status-card`, `.eyebrow`, `.card`, `pulse` keyframe) instead of introducing a new visual language, per the theme-consistency principle in `DESIGN_INTENT.md`
@@ -195,6 +220,9 @@ The site supports multiple visual identities to match different moods or content
 
 | File | Purpose | Edit When |
 |------|---------|-----------|
+| `components/footer.html` | Shared footer markup | Updating copyright or tagline |
+| `components/theme-restore.js` | Shared theme restoration script | Changing theme logic |
+| `components/topbar-simple.html` | Reference topbar template | Reference only (not loaded) |
 | `index.html` | Main portfolio page | Adding sections, updating content |
 | `resume.html` | Resume / technical specs page | Updating experience, skills, education |
 | `404.html` | Out-of-bounds / not-found page | Adding new real routes to the site map |
@@ -269,5 +297,5 @@ The site supports multiple visual identities to match different moods or content
 
 ---
 
-*Last Updated: 2026-09-02 (v1.6)*
-*Status: Core portfolio ready, 404 page reworked around the site's own "explorable world" concept, accessibility and theme-consistency pass completed*
+*Last Updated: 2026-09-07 (v1.7)*
+*Status: Core portfolio ready, modularization complete, topbars unified, accessibility improved*

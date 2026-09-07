@@ -31,15 +31,8 @@
   <link rel="stylesheet" href="css/modals.css" />
   <link rel="stylesheet" href="css/mobile.css" />
   <script>
-    /* Restore saved theme before first paint so the homepage doesn't
-       flash dark theme for visitors who've picked Cozy. Every other
-       page in the site already does this — this was the one gap. */
-    (function () {
-      try {
-        var t = localStorage.getItem('theme');
-        if (t) document.documentElement.setAttribute('data-theme', t);
-      } catch (e) { /* localStorage unavailable */ }
-    })();
+    /* Restore saved theme before first paint */
+    (function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
   </script>
 </head>
 
@@ -367,10 +360,10 @@
       </div>
     </section>
 
-    <footer><span>© 2026 Abhishek Farshwan</span><span>built like a game menu, shipped like a portfolio</span></footer>
-    
     <button class="mobile-play-btn" id="mobilePlayBtn" title="Play secret level on mobile" style="display:none">[ PLAY ]</button>
   </main>
+
+  <footer><span>© 2026 Abhishek Farshwan</span><span>built like a game menu, shipped like a portfolio</span></footer>
 
   <script src="js/main.js"></script>
   <script src="js/hud-nav.js"></script>

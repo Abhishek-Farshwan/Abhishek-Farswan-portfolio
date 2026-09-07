@@ -14,19 +14,15 @@
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/topbar.css" />
   <link rel="stylesheet" href="css/cards.css" />
+  <link rel="stylesheet" href="css/mobile.css" />
   <link rel="stylesheet" href="css/resume.css" />
   <script>
-    /* Restore saved theme so resume page stays consistent */
-    (function() {
-      try {
-        var t = localStorage.getItem('theme');
-        if (t) document.documentElement.setAttribute('data-theme', t);
-      } catch (e) { /* localStorage unavailable */ }
-    })();
+    /* Restore saved theme before first paint */
+    (function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
   </script>
 </head>
 <body>
-  <nav class="topbar resume-topbar">
+  <nav class="topbar" aria-label="primary">
     <div class="tabs">
       <div class="brand">/abhishek/portfolio</div>
       <a class="tab" href="index.html"><span class="tab-status">⌂</span><span class="tab-name">home</span></a>
