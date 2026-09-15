@@ -1,0 +1,331 @@
+/* ============================================================
+   components.css — reusable pieces used by more than one panel.
+   Panel-specific composition lives in panels.css.
+   ============================================================ */
+
+/* ===== CARD / DIALOGUE BOX ===== */
+
+.card {
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--s-5);
+}
+
+.card--paper { background: var(--paper); }
+.card--sky   { background: var(--sky); color: var(--white); border-color: var(--ink); }
+.card--tight { padding: var(--s-3); }
+
+/* a banner strip that labels a card, like a menu header */
+.card-banner {
+  display: inline-block;
+  margin: calc(var(--s-5) * -1) 0 var(--s-4) calc(var(--s-5) * -1);
+  padding: 9px 14px;
+  background: var(--red-dark);
+  color: var(--white);
+  border: var(--border);
+  border-left: 0;
+  border-top: 0;
+  border-radius: 0 0 var(--radius-sm) 0;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-sm);
+  line-height: 1.7;
+  letter-spacing: .05em;
+}
+
+.card--tight .card-banner {
+  margin: calc(var(--s-3) * -1) 0 var(--s-3) calc(var(--s-3) * -1);
+}
+
+/* ===== CHIPS ===== */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: var(--border-thin);
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: var(--cream);
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.chip--gold { background: var(--gold); }
+.chip--sky  { background: var(--sky-dark); color: var(--white); }
+.chip--plain {
+  font-family: var(--sans);
+  font-size: var(--fs-body-sm);
+  font-weight: 700;
+  border-radius: var(--radius-xs);
+  padding: 6px 10px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ===== BUTTONS ===== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--gold);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  padding: 12px 16px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-sm);
+  line-height: 1.7;
+  transition: transform var(--snap), box-shadow var(--snap), background var(--snap);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow);
+}
+
+.btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.btn--ghost { background: var(--cream); }
+.btn--sky   { background: var(--sky-dark); color: var(--white); }
+.btn--sm    { padding: 9px 11px; font-size: var(--fs-chrome-xs); }
+
+.btn[disabled] {
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+/* ===== STAT GRID ===== */
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-2);
+}
+
+.stat {
+  background: var(--cream);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  padding: 9px 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.stat strong {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.6;
+  color: var(--sky-dark);
+}
+
+.stat span { font-size: 11px; font-weight: 800; }
+
+/* ===== BULLET GRID (loadout style) ===== */
+
+.bullet-grid { display: grid; gap: var(--s-2); }
+
+.bullet {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 10px;
+  background: var(--paper);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  padding: 10px 12px;
+  font-size: var(--fs-body-sm);
+  font-weight: 700;
+}
+
+.bullet b {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  color: var(--sky-dark);
+  line-height: 1.6;
+}
+
+/* ===== TIMELINE (career log) ===== */
+
+.timeline {
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+}
+
+.entry {
+  position: relative;
+  padding-left: var(--s-5);
+  border-left: 4px dashed rgba(28, 37, 65, .3);
+}
+
+.entry::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  background: var(--gold);
+  border: var(--border-thin);
+  border-radius: 3px;
+}
+
+.entry:first-child::before { background: var(--leaf); }
+
+.entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.entry-role {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-sm);
+  line-height: 1.7;
+}
+
+.entry-org {
+  font-size: var(--fs-body-sm);
+  font-weight: 800;
+  color: var(--sky-dark);
+}
+
+.entry-when {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.entry ul {
+  margin: var(--s-2) 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 5px;
+  font-size: var(--fs-body-sm);
+  line-height: 1.55;
+}
+
+.entry li::marker { color: var(--red); }
+
+/* ===== FORM CONTROLS ===== */
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field > span {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.7;
+  letter-spacing: .04em;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  background: var(--cream);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  padding: 10px 11px;
+  font-size: var(--fs-body-sm);
+  font-weight: 600;
+}
+
+.textarea {
+  min-height: 118px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: 3px solid var(--gold);
+  outline-offset: 1px;
+}
+
+.select {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  cursor: pointer;
+  padding: 9px 10px;
+}
+
+.field-error {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--red-dark);
+  min-height: 14px;
+}
+
+.input[aria-invalid="true"],
+.textarea[aria-invalid="true"] { border-color: var(--red); background: #fdeeee; }
+
+/* ===== TOAST ===== */
+
+.toast-zone {
+  position: fixed;
+  z-index: 120;
+  bottom: calc(var(--prompt-h) + 14px);
+  right: 18px;
+  display: grid;
+  gap: var(--s-2);
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--ink);
+  color: var(--white);
+  border: var(--border-thin);
+  border-color: var(--gold);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  padding: 11px 14px;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.7;
+  max-width: 300px;
+  animation: toast-in var(--slide) both;
+}
+
+.toast.is-out { animation: toast-out var(--slide) ease forwards; }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes toast-out {
+  to { opacity: 0; transform: translateY(8px); }
+}

@@ -1,0 +1,223 @@
+/* ============================================================
+   layout.css — the persistent console shell.
+   Left: roster (identity + menu). Right: detail panel that swaps.
+   ============================================================ */
+
+.app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: var(--roster-w) minmax(0, 1fr);
+}
+
+/* ===== ROSTER (left panel) ===== */
+
+.roster {
+  background: var(--sky);
+  color: var(--white);
+  border-right: var(--border);
+  padding: var(--s-4) var(--s-4) var(--s-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  position: relative;
+  z-index: 5;
+  box-shadow: var(--shadow-soft);
+  overflow-y: auto;
+  max-height: 100vh;
+  max-height: 100dvh;
+}
+
+.roster-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-sm);
+  letter-spacing: .08em;
+  line-height: 1.7;
+  opacity: .92;
+}
+
+.roster-status {
+  border: var(--border-thin);
+  border-color: var(--white);
+  background: var(--sky-dark);
+  border-radius: var(--radius-xs);
+  padding: 5px 6px;
+  font-size: var(--fs-chrome-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.roster-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--leaf);
+  border-radius: 50%;
+}
+
+.roster-footer {
+  margin-top: auto;
+  padding-top: var(--s-3);
+  display: grid;
+  gap: var(--s-2);
+}
+
+.roster-hint {
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
+  opacity: .9;
+}
+
+/* ===== DETAIL PANEL (right side) ===== */
+
+.detail {
+  min-width: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-bottom: var(--prompt-h);
+  outline: none;
+}
+
+/* Reading mode — set via keyboard (Enter) in router.js. The keyboard cursor
+   has left the roster and now scrolls this panel directly; Backspace/Esc
+   hands focus back to the roster. */
+.detail.detail-focused {
+  box-shadow: inset 0 0 0 3px var(--gold);
+}
+
+.detail-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--s-5) clamp(var(--s-4), 3vw, var(--s-6)) var(--s-6);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-bottom: var(--s-4);
+}
+
+.crumb {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-sm);
+  line-height: 1.7;
+  background: var(--red-dark);
+  color: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  padding: 9px 12px;
+  letter-spacing: .04em;
+}
+
+.page-chip {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.7;
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  padding: 7px 9px;
+  background: var(--paper);
+  color: var(--sky-dark);
+}
+
+/* ===== PANELS ===== */
+
+.panel { display: none; }
+.panel.active { display: block; animation: panel-in var(--slide) both; }
+
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.panel-stack { display: grid; gap: var(--s-4); }
+
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+}
+
+.section-kicker {
+  margin-top: var(--s-2);
+  font-size: var(--fs-body-sm);
+  color: var(--muted);
+  max-width: 56ch;
+}
+
+.footer-line {
+  margin-top: var(--s-6);
+  padding-top: var(--s-4);
+  border-top: var(--border-thin);
+  border-top-style: dashed;
+  text-align: center;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.8;
+  color: var(--muted);
+  letter-spacing: .05em;
+}
+
+/* ===== BUTTON PROMPT BAR (console footer) ===== */
+
+.prompt-bar {
+  position: fixed;
+  left: var(--roster-w);
+  right: 0;
+  bottom: 0;
+  height: var(--prompt-h);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: 0 var(--s-4);
+  background: var(--sky-dark);
+  color: var(--white);
+  border-top: var(--border);
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1;
+  letter-spacing: .04em;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.prompt-bar::-webkit-scrollbar { display: none; }
+
+.prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  opacity: .9;
+}
+
+.key-cap {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  padding: 5px 6px;
+  background: var(--cream);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 0 2px 0 var(--ink);
+  font-size: var(--fs-chrome-xs);
+}
+
+.prompt-spacer { margin-left: auto; }

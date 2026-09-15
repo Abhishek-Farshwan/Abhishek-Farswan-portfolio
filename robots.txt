@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /game/secret_level/
+
+Sitemap: https://abhishek-farshwan.github.io/Abhishek-Farswan-portfolio/sitemap.xml
+
+# Note: this repo is served as a GitHub Pages PROJECT site
+# (username.github.io/repo-name), and crawlers only ever check
+# robots.txt at the origin root (github.io/robots.txt) — a file
+# this repo does not control. The Disallow rule above is kept for
+# documentation but is not guaranteed to be honored on this host.
+# The actual exclusion is the <meta name="robots" content="noindex">
+# tag already on /game/secret_level/index.html and /404.html, which
+# works regardless of subpath.

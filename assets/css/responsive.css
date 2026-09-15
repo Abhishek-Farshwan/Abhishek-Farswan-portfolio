@@ -1,0 +1,144 @@
+/* ============================================================
+   responsive.css — desktop, tablet and mobile are all first-class.
+   Load this last so the overrides win without !important.
+   ============================================================ */
+
+/* ===== NARROW LAPTOP: shrink the roster, keep the mechanic ===== */
+
+@media (max-width: 1080px) {
+  :root { --roster-w: 208px; }
+
+  .hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+}
+
+/* ===== TABLET: stack hero and split columns ===== */
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+
+  .hero-side {
+    border-left: 0;
+    border-top: var(--border);
+  }
+
+  .about-grid,
+  .contact-grid { grid-template-columns: minmax(0, 1fr); }
+
+  .art-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+}
+
+/* ===== MOBILE: roster becomes a header card + bottom tab bar ===== */
+
+@media (max-width: 760px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  body { overflow: auto; }
+
+  .roster {
+    max-height: none;
+    overflow: visible;
+    border-right: 0;
+    border-bottom: var(--border);
+    box-shadow: none;
+    padding: var(--s-3) var(--s-3) var(--s-4);
+    gap: var(--s-3);
+  }
+
+  /* the menu list is replaced by the tab bar down here */
+  .roster .menu,
+  .roster-hint { display: none; }
+
+  .roster-footer {
+    margin-top: 0;
+    padding-top: 0;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+
+  .sound-toggle { width: auto; padding: 8px 14px; }
+
+  .profile-card {
+    display: grid;
+    grid-template-columns: 62px minmax(0, 1fr);
+    align-items: center;
+    gap: var(--s-3);
+    text-align: left;
+  }
+
+  .profile-note {
+    grid-column: 1 / -1;
+    border-top: 2px dashed rgba(28, 37, 65, .35);
+    text-align: left;
+  }
+
+  .detail {
+    height: auto;
+    overflow: visible;
+    padding-bottom: 92px;
+  }
+
+  .detail-inner { padding: var(--s-4) var(--s-3) var(--s-5); }
+
+  .tabbar { display: flex; }
+
+  .prompt-bar { display: none; }
+
+  .toast-zone {
+    bottom: 86px;
+    right: 12px;
+    left: 12px;
+    justify-items: center;
+  }
+
+  .card:not(.card--tight) { padding: var(--s-4); }
+
+  .card:not(.card--tight) .card-banner {
+    margin: calc(var(--s-4) * -1) 0 var(--s-3) calc(var(--s-4) * -1);
+  }
+
+  .pipeline-step { grid-template-columns: 54px minmax(0, 1fr); }
+  .step-number { font-size: 14px; }
+  .step-copy { padding: var(--s-3); }
+
+  .art-grid { grid-template-columns: minmax(0, 1fr); }
+
+  .art-controls { width: 100%; }
+  .art-control { flex: 1 1 140px; }
+  .art-control .input { min-width: 0; }
+
+  .topbar { margin-bottom: var(--s-3); }
+
+  .modal { padding: 0; }
+
+  .modal-box {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border-radius: 0;
+    border-width: 0;
+  }
+
+  .modal-foot { max-height: 40vh; }
+
+  .entry-when { margin-left: 0; width: 100%; }
+}
+
+/* ===== SMALL PHONES ===== */
+
+@media (max-width: 420px) {
+  /* 6px pixel-font labels were unreadable — drop the text, keep the glyph
+     and an accessible name instead of shrinking type past legibility. */
+  .tabbar-btn span:not(.tab-glyph) { display: none; }
+  .tabbar-btn .tab-glyph { font-size: 17px; }
+  .contact-links a { grid-template-columns: 24px minmax(0, 1fr) auto; gap: var(--s-2); }
+  .stat-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ===== SHORT LANDSCAPE PHONES ===== */
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .roster { padding: var(--s-2) var(--s-3); }
+}

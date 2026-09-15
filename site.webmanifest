@@ -1,0 +1,14 @@
+{
+  "name": "Abhishek Farshwan — 3D Game Artist",
+  "short_name": "Farshwan 3D",
+  "description": "Stylized, optimized, game-ready 3D assets for real-time engines.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8f4e8",
+  "theme_color": "#3b6ea5",
+  "icons": [
+    { "src": "./user.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./user.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

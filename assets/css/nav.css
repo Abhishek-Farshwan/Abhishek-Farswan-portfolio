@@ -1,0 +1,218 @@
+/* ============================================================
+   nav.css — everything that moves the cursor:
+   profile card, menu list, mobile tab bar, sound toggle.
+   ============================================================ */
+
+/* ===== PROFILE CARD ===== */
+
+.profile-card {
+  background: var(--cream);
+  color: var(--ink);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--s-3);
+  text-align: center;
+}
+
+.profile-name {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome);
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.profile-role {
+  margin-top: 6px;
+  font-size: var(--fs-body-sm);
+  font-weight: 800;
+  color: var(--sky-dark);
+}
+
+.profile-note {
+  margin: var(--s-2) 0 0;
+  padding-top: 9px;
+  border-top: 2px dashed rgba(28, 37, 65, .35);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+/* ===== MENU LIST ===== */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.menu-btn {
+  position: relative;
+  width: 100%;
+  display: block;
+  padding: 11px 10px 10px 28px;
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--sky-dark);
+  color: var(--white);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-sm);
+  letter-spacing: .03em;
+  line-height: 1.7;
+  transition: transform var(--snap), box-shadow var(--snap),
+              background var(--snap), color var(--snap);
+}
+
+/* the selection cursor */
+.menu-btn::before {
+  content: "\25BA";
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  color: transparent;
+  transition: transform var(--snap);
+}
+
+/* Mouse hover only (no keyboard focus yet, e.g. touchpad hover before a
+   click) — a hollow gold ring, not a fill. Arrow-key movement opens the
+   panel immediately (see aria-selected below), so this hover ring mostly
+   matters for the mouse. */
+.menu-btn:hover,
+.menu-btn:focus-visible {
+  background: var(--sky-deep);
+  color: var(--white);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow), inset 0 0 0 2px var(--gold);
+}
+
+.menu-btn:hover::before,
+.menu-btn:focus-visible::before { color: var(--gold); }
+
+/* This is the panel that's actually open right now — solid gold fill.
+   Arrow keys move this as you browse; Enter drops into the detail pane
+   to read/scroll it (see .detail-focused in layout.css). */
+.menu-btn[aria-selected="true"],
+.menu-btn[aria-current="page"] {
+  background: var(--gold);
+  color: var(--ink);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow);
+}
+
+.menu-btn[aria-selected="true"]::before,
+.menu-btn[aria-current="page"]::before { color: var(--ink); }
+
+.menu-btn[aria-selected="true"]::before { animation: cursor-nudge 900ms ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-btn[aria-selected="true"]::before { animation: none; }
+}
+
+@keyframes cursor-nudge {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(2px); }
+}
+
+.menu-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.menu-divider {
+  height: 2px;
+  margin: 2px 0;
+  background: rgba(255, 253, 247, .3);
+}
+
+/* the resume entry reads as "leaves the menu" */
+.menu-btn.is-external {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.menu-btn.is-external::after {
+  content: "\2197";
+  position: absolute;
+  right: 9px;
+  top: 10px;
+}
+
+/* ===== SOUND TOGGLE ===== */
+
+.sound-toggle {
+  width: 100%;
+  min-height: 44px;
+  border: var(--border-thin);
+  border-color: var(--white);
+  border-radius: var(--radius-xs);
+  background: var(--sky-dark);
+  color: var(--white);
+  padding: 8px;
+  cursor: pointer;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: background var(--snap), color var(--snap);
+}
+
+.sound-toggle:hover { background: var(--sky-deep); }
+
+.sound-toggle[aria-pressed="true"] {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/* ===== MOBILE TAB BAR ===== */
+
+.tabbar {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  background: var(--sky);
+  border-top: var(--border);
+  padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+  gap: 4px;
+}
+
+.tabbar-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--white);
+  padding: 10px 2px 8px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 4px;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.tabbar-btn .tab-glyph {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.tabbar-btn[aria-selected="true"] {
+  background: var(--gold);
+  color: var(--ink);
+  border: var(--border-thin);
+  padding: 8px 0 6px;
+}
