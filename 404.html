@@ -34,13 +34,15 @@
         <span class="lost-signal" id="lost-signal">SIGNAL: LOST</span>
       </div>
 
-      <div class="lost-copy">
-        <h1>UNMAPPED COORDINATE</h1>
-        <p class="prose">You walked off the edge of the map. There is no level data at this address — the link is probably old, or the coordinates picked up a typo somewhere.</p>
-      </div>
+      <div class="lost-hero">
+        <div class="lost-copy">
+          <span class="lost-number" aria-hidden="true">404</span>
+          <h1>UNMAPPED<br />COORDINATE</h1>
+          <p class="prose">You walked off the edge of the map. This address has no level data.</p>
+        </div>
 
-      <div class="lost-map">
-        <svg class="map" viewBox="0 0 360 210" role="img" aria-labelledby="map-title">
+        <div class="lost-map">
+          <svg class="map" viewBox="0 0 360 210" role="img" aria-labelledby="map-title">
           <title id="map-title">A menu map. The five known sectors sit inside the mapped border; a marker blinks in empty space outside it.</title>
 
           <rect class="map-bg" x="0" y="0" width="360" height="210" />
@@ -73,34 +75,20 @@
           <circle class="map-ping" cx="300" cy="150" r="14" />
           <path class="map-x" d="M292 142 L308 158 M308 142 L292 158" />
           <text class="map-you" x="300" y="184">YOU</text>
-        </svg>
+          </svg>
+        </div>
       </div>
 
       <dl class="readout">
-        <div class="readout-cell">
-          <dt>SECTOR</dt>
-          <dd id="lost-sector">—</dd>
-        </div>
-        <div class="readout-cell">
-          <dt>COORDINATES</dt>
-          <dd id="lost-coords">—</dd>
-        </div>
         <div class="readout-cell readout-cell--wide">
           <dt>ADDRESS</dt>
           <dd id="lost-path">—</dd>
         </div>
       </dl>
 
-      <div class="warp">
-        <p class="countdown" id="countdown" aria-hidden="true">AUTO-WARP TO MENU IN 10</p>
-        <div class="warp-track" id="warp-track" aria-hidden="true"><span class="warp-fill" id="warp-fill"></span></div>
-        <p class="visually-hidden" role="status" id="lost-status">This page returns to the main menu in ten seconds. Press any key, or choose Stay here, to cancel that.</p>
-      </div>
-
       <div class="btn-row">
         <a class="btn" href="./index.html">◀ WARP TO MENU</a>
-        <a class="btn btn--ghost" href="./index.html#art">OPEN THE 3D INVENTORY</a>
-        <button class="btn btn--ghost" type="button" id="stay-btn">STAY HERE</button>
+        <a class="btn btn--ghost" href="./index.html#art">VIEW PORTFOLIO</a>
       </div>
 
       <p class="form-note">Think a real door is broken? <a href="mailto:abhishekfarshwan@gmail.com">Tell me about it.</a></p>

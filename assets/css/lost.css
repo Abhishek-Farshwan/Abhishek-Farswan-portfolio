@@ -6,10 +6,14 @@
    ============================================================ */
 
 .lost-box {
-  width: min(680px, 100%);
+  width: min(1040px, 100%);
   display: grid;
-  gap: var(--s-4);
+  gap: var(--s-5);
   text-align: left;
+  padding: clamp(var(--s-4), 4vw, var(--s-7));
+  background:
+    linear-gradient(135deg, rgba(59, 110, 165, .08), transparent 42%),
+    var(--white);
 }
 
 /* ===== HEADER STRIP ===== */
@@ -57,6 +61,13 @@
 .lost-signal.is-holding { background: var(--sky-dark); }
 .lost-signal.is-holding::before { animation: none; background: var(--leaf); }
 
+.lost-hero {
+  display: grid;
+  grid-template-columns: minmax(220px, .78fr) minmax(0, 1.45fr);
+  align-items: center;
+  gap: clamp(var(--s-5), 5vw, var(--s-7));
+}
+
 @keyframes signal-blink {
   0%, 49%  { opacity: 1; }
   50%, 99% { opacity: .15; }
@@ -64,8 +75,16 @@
 
 /* ===== COPY ===== */
 
-.lost-copy { display: grid; gap: var(--s-3); }
-.lost-copy h1 { color: var(--red-dark); font-size: clamp(18px, 4.4vw, 30px); }
+.lost-copy { display: grid; gap: var(--s-3); align-content: center; }
+.lost-number {
+  color: var(--sky);
+  font-family: var(--pixel);
+  font-size: clamp(52px, 9vw, 108px);
+  line-height: .9;
+  letter-spacing: .02em;
+  text-shadow: 5px 5px 0 rgba(28, 37, 65, .14);
+}
+.lost-copy h1 { color: var(--red-dark); font-size: clamp(18px, 3vw, 30px); }
 .lost-copy .prose { max-width: 58ch; }
 
 /* ===== THE MAP ===== */
@@ -76,6 +95,7 @@
   box-shadow: var(--shadow-sm);
   overflow: hidden;
   background: var(--paper);
+  transform: rotate(1deg);
 }
 
 .map { display: block; width: 100%; height: auto; }
@@ -164,7 +184,7 @@
 .readout {
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-2);
 }
 
@@ -196,36 +216,15 @@
   overflow-wrap: anywhere;
 }
 
-/* ===== WARP METER ===== */
+.btn-row .btn:first-child { min-width: 190px; }
 
-.warp { display: grid; gap: var(--s-2); }
-
-.warp .countdown { justify-self: start; }
-
-.warp-track {
-  height: 15px;
-  border: var(--border-thin);
-  border-radius: var(--radius-xs);
-  background: var(--cream);
-  overflow: hidden;
-}
-
-.warp-fill {
-  display: block;
-  height: 100%;
-  background: repeating-linear-gradient(
-    135deg,
-    var(--gold) 0 9px,
-    var(--gold-dark) 9px 18px
-  );
-  transform-origin: left center;
-  transform: scaleX(1);
-  transition: transform 1s linear;
-}
-
-.warp-track.is-stopped .warp-fill {
-  background: var(--paper);
-  transition: none;
+@media (max-width: 760px) {
+  .lost-box { padding: var(--s-4); }
+  .lost-hero { grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
+  .lost-copy { gap: var(--s-2); }
+  .lost-number { font-size: clamp(58px, 20vw, 88px); }
+  .lost-map { transform: none; }
+  .btn-row .btn { flex: 1 1 180px; }
 }
 
 /* ===== SMALL SCREENS ===== */
@@ -238,5 +237,4 @@
 @media (prefers-reduced-motion: reduce) {
   .map-ping { animation: none; opacity: .5; }
   .lost-signal::before { animation: none; }
-  .warp-fill { transition: none; }
 }
