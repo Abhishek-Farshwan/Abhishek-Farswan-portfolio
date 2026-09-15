@@ -23,7 +23,7 @@ and URLs that stay true no matter what the site looks like.
 - **Email:** abhishekfarshwan@gmail.com
 - **Location:** Uttarakhand, India (resume lists Gopeshwar; work history spans
   Dehradun and Chamoli)
-- **Favicon source file:** `user.png` (referenced from site root in every page)
+- **Favicon source file:** `user.svg` (referenced from site root in every page)
 
 ## Social / external links
 

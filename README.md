@@ -17,9 +17,8 @@ python3 -m http.server 8000
 
 ## Before you publish
 
-1. **Drop `user.png` at the site root.** It is the favicon and the icon
-   referenced in `site.webmanifest` and the JSON-LD block. Once it exists,
-   those references pick it up automatically; no HTML changes are needed.
+1. **Keep `user.svg` at the site root.** It is the favicon and the icon
+   referenced in `site.webmanifest` and the JSON-LD block.
 2. Domain is already wired in: canonical links, Open Graph/Twitter tags,
    `sitemap.xml`, and `robots.txt` all point at
    `https://abhishek-farshwan.github.io/Abhishek-Farswan-portfolio`. If the
@@ -27,10 +26,8 @@ python3 -m http.server 8000
    `grep -rl "abhishek-farshwan.github.io" *.html *.xml *.txt`.
 3. Check the résumé page prints the way you want: open `resume.html`, hit
    `P` (or the PRINT / SAVE PDF button), and choose "Save as PDF".
-4. **Known gap:** the favicon/manifest icons all reference the single
-   `user.png` at every size (16×16 through 512×512) rather than a real
-   multi-resolution icon set. Functional, not ideal — worth generating
-   proper sized variants once you have a final icon image.
+4. The favicon uses a scalable SVG mark, so it stays crisp at browser and
+   install-icon sizes.
 5. This repo is a GitHub Pages **project** site (served under a subpath).
    Search crawlers only check `robots.txt` at the origin root, which this
    repo doesn't control. The `noindex` meta tag on the secret level and 404
