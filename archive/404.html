@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <script>
+    /* Resolve relative asset paths correctly when this page is served for a
+       deep, non-existent route (e.g. GitHub Pages serves 404.html at /a/b/c).
+       Runs during head parsing so the tags below inherit the base. */
+    (function () {
+      try {
+        if (!/^https?:$/.test(location.protocol)) return;
+        var segs = location.pathname.split('/').filter(Boolean);
+        var base = '/';
+        if (/\.github\.io$/i.test(location.hostname) && segs.length > 1) {
+          base = '/' + segs[0] + '/';
+        }
+        var el = document.createElement('base');
+        el.href = base;
+        document.head.appendChild(el);
+      } catch (e) { /* keep default relative resolution */ }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#080a0d" />
+  <link rel="icon" type="image/png" href="user.png" />
+  <meta name="description" content="404 — this coordinate isn't loaded into the world yet." />
+  <meta name="robots" content="noindex" />
+  <title>404 — out of bounds / abhishek_farswan.exe</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/topbar.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+  <link rel="stylesheet" href="css/mobile.css" />
+  <link rel="stylesheet" href="css/404.css" />
+  <script>
+    /* Restore saved theme before first paint */
+    (function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+  </script>
+</head>
+
+<body>
+  <nav class="topbar" aria-label="primary">
+    <div class="tabs">
+      <div class="brand">/abhishek/portfolio</div>
+      <a class="tab" href="index.html"><span class="tab-status">⌂</span><span class="tab-name">home</span></a>
+      <span class="tab active oob-active-tab" aria-current="page"><span class="tab-status">✖</span><span
+          class="tab-name">404</span></span>
+      <a class="tab" href="resume.html"><span class="tab-status">▤</span><span class="tab-name">resume</span></a>
+      <a class="tab contact-btn" href="index.html#contact"><span class="tab-status">✉</span><span
+          class="tab-name">contact</span></a>
+    </div>
+    <div class="topbar-actions">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+        <span class="theme-icon-dark">🌙</span>
+        <span class="theme-icon-cozy" style="display:none">☁️</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="container oob-page">
+    <header class="hero oob-hero">
+      <div class="viewport-grid" aria-hidden="true"></div>
+
+      <div class="path">~/portfolio <b>/</b> world <b>/</b> <span id="pathRoute" data-pending>unmapped_coordinate</span></div>
+
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow oob-alert">error 404 · unmapped coordinate</div>
+          <h1>You wandered past<br><span>the edge of the map.</span></h1>
+          <p>This route isn't loaded into the world — no scene, no checkpoint, nothing to
+            render out here. The boundary wall caught you before you fell any further.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="index.html">↺ teleport to spawn</a>
+            <a class="btn" href="index.html#contact">flag this coordinate</a>
+          </div>
+        </div>
+
+        <aside class="status-card oob-map-card reveal">
+          <div class="status-head"><span><i class="dot"></i>world_map.dat</span><span>4 loaded</span></div>
+
+          <!--
+            Coordinate space is % of .oob-canvas (0–100 on both axes).
+            The boundary wall sits at right:22% (see 404.css) — anything
+            placed past that line reads as "outside the loaded map."
+            Keep pins left of ~60% so labels don't crowd the wall.
+          -->
+          <div class="oob-canvas">
+            <div class="viewport-grid" aria-hidden="true"></div>
+
+            <a class="oob-pin" style="--x:18%; --y:28%" href="index.html">
+              <span class="oob-pin-dot"></span>
+              <span class="oob-pin-label">main_scene</span>
+            </a>
+
+            <a class="oob-pin" style="--x:50%; --y:18%" href="resume.html">
+              <span class="oob-pin-dot"></span>
+              <span class="oob-pin-label">resume</span>
+            </a>
+
+            <a class="oob-pin" style="--x:28%; --y:70%" href="index.html#contact">
+              <span class="oob-pin-dot"></span>
+              <span class="oob-pin-label">comms</span>
+            </a>
+
+            <a class="oob-pin locked" style="--x:58%; --y:48%" href="game/secret_level.html"
+              aria-label="secret_level — placeholder build, not yet playable">
+              <span class="oob-pin-dot"></span>
+              <span class="oob-pin-label">🔒 secret_level</span>
+            </a>
+
+            <div class="oob-wall" aria-hidden="true"></div>
+
+            <div class="oob-you" style="--x:88%; --y:55%">
+              <span class="oob-you-dot"></span>
+              <span class="oob-you-label">you are here<strong id="statRoute" data-pending>/unmapped</strong></span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <footer><span>© 2026 Abhishek Farshwan</span><span>even the void has a return path</span></footer>
+  </main>
+
+  <script>
+    /* Surface the route the visitor actually tried to reach.
+       On file:// previews, location.pathname is the local disk path —
+       never show that; fall back to just the filename. */
+    (function () {
+      var isFile = location.protocol === 'file:';
+      var full, short;
+
+      if (isFile) {
+        var parts = location.pathname.split('/').filter(Boolean);
+        var name = parts[parts.length - 1] || 'index.html';
+        full = '/' + name + ' (local preview)';
+        short = '/' + name;
+      } else {
+        var raw = (location.pathname || '/') + (location.search || '');
+        full = raw.replace(/\/404(\.html)?$/i, '/') || '/';
+        short = full;
+      }
+
+      if (full.length > 40) full = full.slice(0, 37) + '…';
+      if (short.length > 18) short = short.slice(0, 15) + '…';
+
+      var stat = document.getElementById('statRoute');
+      var crumb = document.getElementById('pathRoute');
+
+      if (stat) {
+        stat.textContent = short;
+        stat.removeAttribute('data-pending');
+      }
+      if (crumb) {
+        crumb.textContent = full.split('/').filter(Boolean).pop() || 'unmapped_coordinate';
+        crumb.removeAttribute('data-pending');
+      }
+    })();
+  </script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
