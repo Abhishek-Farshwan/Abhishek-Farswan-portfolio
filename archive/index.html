@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0b0e" />
+  <link rel="icon" type="image/png" href="user.png" />
+  <meta name="description" content="Abhishek Farshwan — game dev, 3D artist, systems designer." />
+  <title>abhishek_farshwan.exe — portfolio</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="abhishek_farshwan.exe — game dev / 3D art / systems design">
+  <meta property="og:description"
+    content="Portfolio of Abhishek Farshwan — interactive systems, 3D art, and gameplay logic.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="abhishek_farshwan.exe — game dev / 3D art / systems design">
+  <meta name="twitter:description"
+    content="Portfolio of Abhishek Farshwan — interactive systems, 3D art, and gameplay logic.">
+  <!-- TODO: add og:image / twitter:image once a hosted preview banner exists -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/topbar.css" />
+  <link rel="stylesheet" href="css/hud.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+  <link rel="stylesheet" href="css/modals.css" />
+  <link rel="stylesheet" href="css/mobile.css" />
+  <script>
+    /* Restore saved theme before first paint */
+    (function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+  </script>
+</head>
+
+<body>
+  <nav class="topbar" aria-label="primary">
+    <div class="tabs">
+      <div class="brand">/abhishek/portfolio</div>
+      <a class="tab active" href="#home" data-sec="home"><span class="tab-status">⌂</span><span
+          class="tab-name">home</span></a>
+      <a class="tab locked" href="#art" data-sec="art" aria-label="Locked — scroll to unlock"><span
+          class="tab-status">🔒</span><span class="tab-name">????</span></a>
+      <a class="tab locked" href="#systems" data-sec="systems" style="display:none"
+        aria-label="Locked — scroll to unlock"><span class="tab-status">🔒</span><span
+          class="tab-name">????</span></a>
+      <a class="tab locked" href="#about" data-sec="about" style="display:none"
+        aria-label="Locked — scroll to unlock"><span class="tab-status">🔒</span><span
+          class="tab-name">????</span></a>
+      <a class="tab contact-btn" href="#contact" data-sec="contact"><span class="tab-status">✉</span><span
+          class="tab-name">contact</span></a>
+    </div>
+    <div class="topbar-actions">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+        <span class="theme-icon-dark">🌙</span>
+        <span class="theme-icon-cozy" style="display:none">☁️</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="hero" id="home">
+      <div class="viewport-grid" aria-hidden="true"></div>
+      <div class="viewport-hud" id="viewportHud">
+        <div class="hud-header">
+          <span class="hud-title">SYS.HUD</span>
+          <span class="hud-status-badge" id="hudStatusBadge">LVL 2</span>
+        </div>
+        <div class="hud-divider"></div>
+
+        <div class="hud-collapsible" id="hudCollapsible">
+          <div class="hud-nodes" id="hudNodes">
+            <div class="hud-node active" data-sec="home"><span class="node-icon">▸</span><span
+                class="node-label">home</span></div>
+            <div class="hud-node locked" data-sec="art" aria-label="Locked — scroll to unlock"><span
+                class="node-icon">🔒</span><span class="node-label">????</span></div>
+            <div class="hud-node locked" data-sec="systems" style="display:none"
+              aria-label="Locked — scroll to unlock"><span class="node-icon">🔒</span><span
+                class="node-label">????</span></div>
+            <div class="hud-node locked" data-sec="about" style="display:none"
+              aria-label="Locked — scroll to unlock"><span class="node-icon">🔒</span><span
+                class="node-label">????</span></div>
+            <div class="hud-node locked" data-sec="contact" style="display:none"
+              aria-label="Locked — scroll to unlock"><span class="node-icon">🔒</span><span
+                class="node-label">????</span></div>
+          </div>
+
+          <div class="hud-divider"></div>
+          <div class="hud-progress-track" id="hudProgressTrack">
+            <div class="hud-progress-fill" id="hudProgressFill"></div>
+          </div>
+          <div class="hud-pct-text" id="hudPctText">EXP: 0%</div>
+        </div>
+
+        <div class="hud-play-wrapper" id="hudPlayWrapper">
+          <div class="hud-unlock-badge">🎮 100% UNLOCKED</div>
+          <button class="hud-play" id="hudPlayBtn">[ PLAY ]</button>
+        </div>
+      </div>
+
+      <div class="game-modal-overlay" id="gameModalOverlay">
+        <div class="game-modal" role="dialog" aria-modal="true" aria-labelledby="gameModalTitle">
+          <div class="game-modal-head"><span id="gameModalTitle">secret_level.exe</span><button id="gameModalClose"
+              aria-label="Close">✕</button></div>
+          <div class="game-modal-body">
+            <p>🎮&nbsp; you scrolled the whole scene — nice. a small playable build lives here once it's ready.</p>
+            <div class="game-modal-actions">
+              <a class="btn primary" href="game/secret_level.html">enter secret_level ↗</a>
+              <button class="btn" id="gameModalHome">return home</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="path">~/portfolio <b>/</b> <span>main_scene</span> <b>/</b> <span>player_01</span></div>
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">available for interesting problems</div>
+          <h1>Game dev.<br><span>3D art.</span><br>Systems brain.</h1>
+          <p>I build interactive worlds, weird little systems, and visuals that feel like they belong in a game you
+            accidentally lose 80 hours to.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#art">view projects ↘</a>
+            <a class="btn" href="#contact">open comms</a>
+          </div>
+        </div>
+        <aside class="status-card reveal">
+          <div class="status-head"><span><i class="dot"></i>portfolio.index</span><span>ongoing</span></div>
+          <div class="status-body">
+            <div class="status-row"><span>craft</span><strong>game dev + 3D art + systems design</strong></div>
+            <div class="status-row"><span>shipped</span><strong>100+ assets · game systems</strong></div>
+            <div class="status-row"><span>current</span><strong>evolving the craft</strong></div>
+            <div class="status-row"><span>coffee</span><strong>mandatory</strong></div>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <section id="art" class="reveal">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">01 / visual_work</div>
+          <h2 class="section-title">art_3d</h2>
+        </div>
+        <a class="secret-assets" href="https://sketchfab.com/AbhishekFarswan" target="_blank" rel="noopener noreferrer"
+          aria-label="Open free assets on Sketchfab">
+          <span class="asset-path">/assets — take something :)</span>
+          <span class="asset-link">SKETCHFAB ↗</span>
+        </a>
+      </div>
+      <div class="grid art-grid">
+        <article class="card art">
+          <div class="card-tabstrip"><span class="tabdot live"></span>stylized_cattail_plant.glb — live</div>
+          <div class="thumb embed">
+            <iframe title="Stylized Cattail Plant" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking"
+              xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
+              src="https://sketchfab.com/models/2a1563b0a4ef40d79b52c3112d2d9437/embed?ui_theme=dark&ui_infos=0&ui_watermark=0&ui_watermark_link=0">
+            </iframe>
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="tag">foliage / stylized</div>
+              <h3>Stylized Cattail Plant</h3>
+              <p>Stylized 3D vegetation asset designed for game environments and organic level composition. Drag to
+                orbit.</p>
+            </div>
+            <div class="meta">
+              <span>blender · foliage · lowpoly</span>
+              <a href="https://sketchfab.com/3d-models/stylized-cattail-plant-2a1563b0a4ef40d79b52c3112d2d9437"
+                target="_blank" rel="noopener">view on sketchfab ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card art">
+          <div class="card-tabstrip"><span class="tabdot live"></span>base_mesh_chibi.glb — live</div>
+          <div class="thumb embed">
+            <iframe title="Base Mesh Chibi" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking"
+              xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
+              src="https://sketchfab.com/models/699ee2e05bce46749ef93e3330cfb7d4/embed?ui_theme=dark&ui_infos=0&ui_watermark=0&ui_watermark_link=0">
+            </iframe>
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="tag">character / basemesh</div>
+              <h3>Base Mesh Chibi</h3>
+              <p>Lightweight basemesh for small-scale characters — the foundation for an upcoming playable character.
+                Drag to orbit.</p>
+            </div>
+            <div class="meta">
+              <span>1.4k tris · CC BY 4.0</span>
+              <a href="https://sketchfab.com/3d-models/base-mesh-chibi-699ee2e05bce46749ef93e3330cfb7d4" target="_blank"
+                rel="noopener">view on sketchfab ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card art">
+          <div class="card-tabstrip"><span class="tabdot live"></span>stylized_throne.glb — live</div>
+          <div class="thumb embed">
+            <iframe title="Stylized Throne" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking"
+              xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
+              src="https://sketchfab.com/models/1fe25295ecc84383a65a109dcb42f60d/embed?ui_theme=dark&ui_infos=0&ui_watermark=0&ui_watermark_link=0">
+            </iframe>
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="tag">props / hard surface</div>
+              <h3>Stylized Throne</h3>
+              <p>Low-poly stylized throne model featuring game-ready topology and hand-crafted proportions. Drag to
+                orbit.</p>
+            </div>
+            <div class="meta">
+              <span>blender · props · lowpoly</span>
+              <a href="https://sketchfab.com/3d-models/stylized-throne-lowpoly-1fe25295ecc84383a65a109dcb42f60d"
+                target="_blank" rel="noopener">view on sketchfab ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card art">
+          <div class="card-tabstrip"><span class="tabdot live"></span>cozy_props_set.glb — live</div>
+          <div class="thumb embed">
+            <iframe title="Stylized Cozy Props" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking"
+              xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
+              src="https://sketchfab.com/models/951d2ca02d2b468391e738d065cebc87/embed?ui_theme=dark&ui_infos=0&ui_watermark=0&ui_watermark_link=0">
+            </iframe>
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="tag">worldbuilding / props</div>
+              <h3>Stylized Cozy Props</h3>
+              <p>Atmospheric prop collection exploring cozy environment aesthetics, composition, and readable prop
+                design. Drag to orbit.</p>
+            </div>
+            <div class="meta">
+              <span>blender · environment · props</span>
+              <a href="https://sketchfab.com/3d-models/stylized-cozy-props-1-951d2ca02d2b468391e738d065cebc87"
+                target="_blank" rel="noopener">view on sketchfab ↗</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="systems" class="reveal">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">02 / gameplay_logic</div>
+          <h2 class="section-title">systems_design</h2>
+        </div>
+        <div class="section-kicker">the fun brain stuff</div>
+      </div>
+      <div class="systems">
+        <article class="card system-card">
+          <div class="card-inner">
+            <div>
+              <div class="icon">[ AI ]</div>
+              <h3>Character AI</h3>
+              <p>State-driven NPC logic with clear transitions, readable behaviors and room for more complex decision
+                layers later.</p>
+            </div>
+            <div class="chips"><span class="chip">FSM</span><span class="chip">decision logic</span><span
+                class="chip">navigation</span></div>
+          </div>
+        </article>
+        <article class="card system-card">
+          <div class="card-inner">
+            <div>
+              <div class="icon">[ SYS ]</div>
+              <h3>Gameplay Systems</h3>
+              <p>Reusable components for interactions, abilities, inventory-like data and rules that should survive the
+                next design change.</p>
+            </div>
+            <div class="chips"><span class="chip">modular scripts</span><span class="chip">components</span><span
+                class="chip">data-driven</span></div>
+          </div>
+        </article>
+        <article class="card system-card">
+          <div class="card-inner">
+            <div>
+              <div class="icon">[ FX ]</div>
+              <h3>Combat & Feedback</h3>
+              <p>Mechanics where input, timing and feedback all snap together — making basic actions feel intentional
+                instead of floaty.</p>
+            </div>
+            <div class="chips"><span class="chip">state</span><span class="chip">hit feedback</span><span
+                class="chip">timing</span></div>
+          </div>
+        </article>
+        <article class="card system-card">
+          <div class="card-inner">
+            <div>
+              <div class="icon">[ LAB ]</div>
+              <h3>Prototype Lab</h3>
+              <p>Small experimental builds used to answer one question at a time before committing to a larger
+                implementation.</p>
+            </div>
+            <div class="chips"><span class="chip">rapid prototyping</span><span class="chip">iteration</span><span
+                class="chip">playtesting</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="reveal">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">03 / player_profile</div>
+          <h2 class="section-title">about_me</h2>
+        </div>
+      </div>
+      <div class="about">
+        <div class="card about-panel">
+          <div class="about-panel-header">
+            <div class="tag" style="margin:0">operator.log</div>
+            <div class="chip" style="color:var(--accent);border-color:#2a3a1e;background:var(--accent-dim)">class: systems_designer</div>
+          </div>
+          <p>I like building the part between "cool idea" and "actually works." That usually means code, systems design,
+            3D work, and a suspicious number of test scenes.</p>
+          <div class="facts">
+            <div class="fact"><span>focus</span><strong>interactive systems</strong></div>
+            <div class="fact"><span>medium</span><strong>games + realtime 3D</strong></div>
+            <div class="fact"><span>weapon</span><strong>clean architecture</strong></div>
+            <div class="fact"><span>weakness</span><strong>adding one more feature</strong></div>
+          </div>
+        </div>
+        <div class="card about-panel">
+          <div class="tag">toolchain.txt</div>
+          <p style="font-family:var(--mono);font-size:14px;color:#a3aab6;white-space:pre-line">01 Godot // gameplay +
+            prototypes
+            02 Blender // modeling + lookdev
+            03 C# / GDScript // systems + tools
+            04 Git // versioning + experiments
+            05 Photoshop // quick texture / paintover work</p>
+          <p style="font-size:15px;color:var(--muted)">A small collection of things I've built, broken, rebuilt, and
+            enjoyed along the way.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact reveal">
+      <div class="contact-box">
+        <div class="contact-box-inner">
+          <div class="tag">open_channel</div>
+          <h2>let's make something playable.</h2>
+          <p>Find me around the web, browse my 3D assets, or send me a message.</p>
+        </div>
+        <div class="contact-links">
+          <a href="resume.html" style="border-color:var(--accent);color:var(--accent)">resume ↗</a>
+          <a href="mailto:abhishekfarshwan@gmail.com">email ↗</a>
+          <a href="https://github.com/Abhishek-Farshwan" target="_blank" rel="noopener">github ↗</a>
+          <a href="https://in.linkedin.com/in/abhishek-farswan" target="_blank" rel="noopener">linkedin ↗</a>
+          <a href="https://www.artstation.com/abhishek_farswan" target="_blank" rel="noopener">artstation ↗</a>
+          <a href="https://sketchfab.com/AbhishekFarswan" target="_blank" rel="noopener">sketchfab ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <button class="mobile-play-btn" id="mobilePlayBtn" title="Play secret level on mobile" style="display:none">[ PLAY ]</button>
+  </main>
+
+  <footer><span>© 2026 Abhishek Farshwan</span><span>built like a game menu, shipped like a portfolio</span></footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/hud-nav.js"></script>
+</body>
+
+</html>
