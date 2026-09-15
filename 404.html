@@ -5,8 +5,8 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self' mailto:;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#3b6ea5" />
-  <title>Page not found — Abhishek Farshwan</title>
-  <meta name="description" content="That page does not exist. Head back to the main menu." />
+  <title>Unmapped coordinate — Abhishek Farshwan</title>
+  <meta name="description" content="There is no level data at this address. Head back to the main menu." />
   <meta name="robots" content="noindex" />
 
   <link rel="icon" href="./user.png" type="image/png" />
@@ -15,37 +15,105 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="./assets/css/tokens.css?v=20260915" />
-  <link rel="stylesheet" href="./assets/css/base.css?v=20260915" />
-  <link rel="stylesheet" href="./assets/css/layout.css?v=20260915" />
-  <link rel="stylesheet" href="./assets/css/nav.css?v=20260915" />
-  <link rel="stylesheet" href="./assets/css/components.css?v=20260915" />
-  <link rel="stylesheet" href="./assets/css/panels.css?v=20260915" />
-  <link rel="stylesheet" href="./assets/css/responsive.css?v=20260915" />
+  <link rel="stylesheet" href="./assets/css/tokens.css?v=20260916" />
+  <link rel="stylesheet" href="./assets/css/base.css?v=20260916" />
+  <link rel="stylesheet" href="./assets/css/layout.css?v=20260916" />
+  <link rel="stylesheet" href="./assets/css/nav.css?v=20260916" />
+  <link rel="stylesheet" href="./assets/css/components.css?v=20260916" />
+  <link rel="stylesheet" href="./assets/css/panels.css?v=20260916" />
+  <link rel="stylesheet" href="./assets/css/lost.css?v=20260916" />
+  <link rel="stylesheet" href="./assets/css/responsive.css?v=20260916" />
 </head>
 
 <body class="is-page" data-page="none" data-root="">
   <main class="standalone">
-    <section class="card standalone-box">
-      <p class="big-glyph" aria-hidden="true">404</p>
-      <h1>PAGE NOT FOUND</h1>
-      <p class="prose" style="text-align: center;">There is no level here. The link may be old, or the address may have a typo in it.</p>
-      <p class="countdown" id="countdown">RETURNING TO MENU IN 10</p>
-      <div class="btn-row" style="justify-content: center;">
-        <a class="btn" href="./index.html">RETURN TO MENU</a>
-        <a class="btn btn--ghost" href="./index.html#art">GO TO THE 3D WORK</a>
+    <section class="card lost-box">
+
+      <div class="lost-head">
+        <span class="lost-tag">WORLD MAP // SECTOR ???</span>
+        <span class="lost-signal" id="lost-signal">SIGNAL: LOST</span>
       </div>
-      <p class="form-note">Think something is broken? <a href="mailto:abhishekfarshwan@gmail.com">Tell me about it.</a></p>
+
+      <div class="lost-copy">
+        <h1>UNMAPPED COORDINATE</h1>
+        <p class="prose">You walked off the edge of the map. There is no level data at this address — the link is probably old, or the coordinates picked up a typo somewhere.</p>
+      </div>
+
+      <div class="lost-map">
+        <svg class="map" viewBox="0 0 360 210" role="img" aria-labelledby="map-title">
+          <title id="map-title">A menu map. The five known sectors sit inside the mapped border; a marker blinks in empty space outside it.</title>
+
+          <rect class="map-bg" x="0" y="0" width="360" height="210" />
+
+          <path class="map-grid" d="M24 0V210M48 0V210M72 0V210M96 0V210M120 0V210M144 0V210M168 0V210M192 0V210M216 0V210M240 0V210M264 0V210M288 0V210M312 0V210M336 0V210M0 24H360M0 48H360M0 72H360M0 96H360M0 120H360M0 144H360M0 168H360M0 192H360" />
+
+          <rect class="map-border" x="18" y="16" width="228" height="178" rx="10" />
+          <text class="map-note" x="28" y="38">MAPPED</text>
+
+          <rect class="map-tile" x="38" y="56" width="62" height="44" rx="5" />
+          <text class="map-label" x="69" y="82">HOME</text>
+
+          <rect class="map-tile" x="110" y="56" width="62" height="44" rx="5" />
+          <text class="map-label" x="141" y="82">ART</text>
+
+          <rect class="map-tile" x="182" y="56" width="54" height="44" rx="5" />
+          <text class="map-label" x="209" y="82">PIPE</text>
+
+          <rect class="map-tile" x="38" y="116" width="62" height="44" rx="5" />
+          <text class="map-label" x="69" y="142">ABOUT</text>
+
+          <rect class="map-tile" x="110" y="116" width="62" height="44" rx="5" />
+          <text class="map-label" x="141" y="142">MAIL</text>
+
+          <rect class="map-tile map-tile--empty" x="182" y="116" width="54" height="44" rx="5" />
+          <text class="map-label map-label--dim" x="209" y="142">???</text>
+
+          <path class="map-trail" d="M240 150 C 264 166, 274 158, 292 152" />
+
+          <circle class="map-ping" cx="300" cy="150" r="14" />
+          <path class="map-x" d="M292 142 L308 158 M308 142 L292 158" />
+          <text class="map-you" x="300" y="184">YOU</text>
+        </svg>
+      </div>
+
+      <dl class="readout">
+        <div class="readout-cell">
+          <dt>SECTOR</dt>
+          <dd id="lost-sector">—</dd>
+        </div>
+        <div class="readout-cell">
+          <dt>COORDINATES</dt>
+          <dd id="lost-coords">—</dd>
+        </div>
+        <div class="readout-cell readout-cell--wide">
+          <dt>ADDRESS</dt>
+          <dd id="lost-path">—</dd>
+        </div>
+      </dl>
+
+      <div class="warp">
+        <p class="countdown" id="countdown" aria-hidden="true">AUTO-WARP TO MENU IN 10</p>
+        <div class="warp-track" id="warp-track" aria-hidden="true"><span class="warp-fill" id="warp-fill"></span></div>
+        <p class="visually-hidden" role="status" id="lost-status">This page returns to the main menu in ten seconds. Press any key, or choose Stay here, to cancel that.</p>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn" href="./index.html">◀ WARP TO MENU</a>
+        <a class="btn btn--ghost" href="./index.html#art">OPEN THE 3D INVENTORY</a>
+        <button class="btn btn--ghost" type="button" id="stay-btn">STAY HERE</button>
+      </div>
+
+      <p class="form-note">Think a real door is broken? <a href="mailto:abhishekfarshwan@gmail.com">Tell me about it.</a></p>
     </section>
   </main>
 
-  <script src="./assets/js/data.js?v=20260915"></script>
-  <script src="./assets/js/util.js?v=20260915"></script>
-  <script src="./assets/js/sfx.js?v=20260915"></script>
-  <script src="./assets/js/chrome.js?v=20260915"></script>
-  <script src="./assets/js/router.js?v=20260915"></script>
-  <script src="./assets/js/contact.js?v=20260915"></script>
-  <script src="./assets/js/main.js?v=20260915"></script>
-  <script src="./assets/js/notfound.js?v=20260915"></script>
+  <script src="./assets/js/data.js?v=20260916"></script>
+  <script src="./assets/js/util.js?v=20260916"></script>
+  <script src="./assets/js/sfx.js?v=20260916"></script>
+  <script src="./assets/js/chrome.js?v=20260916"></script>
+  <script src="./assets/js/router.js?v=20260916"></script>
+  <script src="./assets/js/contact.js?v=20260916"></script>
+  <script src="./assets/js/main.js?v=20260916"></script>
+  <script src="./assets/js/notfound.js?v=20260916"></script>
 </body>
 </html>

@@ -1,0 +1,242 @@
+/* ============================================================
+   lost.css — the off-map scene used by 404.html.
+   One page owns this file, so nothing here leaks into the menu.
+   Same Bright Ledger parts as everywhere else: ink borders,
+   graph paper, sky tiles, gold as the only "live" accent.
+   ============================================================ */
+
+.lost-box {
+  width: min(680px, 100%);
+  display: grid;
+  gap: var(--s-4);
+  text-align: left;
+}
+
+/* ===== HEADER STRIP ===== */
+
+.lost-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.7;
+}
+
+.lost-tag {
+  background: var(--sky-dark);
+  color: var(--white);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  padding: 7px 9px;
+  letter-spacing: .05em;
+}
+
+.lost-signal {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--red-dark);
+  color: var(--white);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  padding: 7px 9px;
+}
+
+.lost-signal::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: signal-blink 1.3s steps(1, end) infinite;
+}
+
+.lost-signal.is-holding { background: var(--sky-dark); }
+.lost-signal.is-holding::before { animation: none; background: var(--leaf); }
+
+@keyframes signal-blink {
+  0%, 49%  { opacity: 1; }
+  50%, 99% { opacity: .15; }
+}
+
+/* ===== COPY ===== */
+
+.lost-copy { display: grid; gap: var(--s-3); }
+.lost-copy h1 { color: var(--red-dark); font-size: clamp(18px, 4.4vw, 30px); }
+.lost-copy .prose { max-width: 58ch; }
+
+/* ===== THE MAP ===== */
+
+.lost-map {
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.map { display: block; width: 100%; height: auto; }
+
+.map-bg { fill: var(--paper); }
+
+.map-grid {
+  fill: none;
+  stroke: var(--ink);
+  stroke-opacity: .13;
+  stroke-width: 1;
+}
+
+.map-border {
+  fill: rgba(59, 110, 165, .14);
+  stroke: var(--ink);
+  stroke-width: 3;
+  stroke-dasharray: 9 7;
+}
+
+.map-tile {
+  fill: var(--sky);
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+
+.map-tile--empty {
+  fill: var(--paper);
+  stroke-dasharray: 6 5;
+}
+
+.map-label {
+  font-family: var(--pixel);
+  font-size: 7px;
+  fill: var(--white);
+  text-anchor: middle;
+}
+
+.map-label--dim { fill: var(--muted); }
+
+.map-note {
+  font-family: var(--pixel);
+  font-size: 8px;
+  fill: var(--sky-dark);
+  letter-spacing: .06em;
+}
+
+.map-trail {
+  fill: none;
+  stroke: var(--red-dark);
+  stroke-width: 3;
+  stroke-dasharray: 5 7;
+  stroke-linecap: round;
+}
+
+.map-x {
+  stroke: var(--red-dark);
+  stroke-width: 5;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.map-ping {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ping 2.6s ease-out infinite;
+}
+
+.map-you {
+  font-family: var(--pixel);
+  font-size: 9px;
+  fill: var(--red-dark);
+  text-anchor: middle;
+}
+
+@keyframes ping {
+  0%        { transform: scale(.45); opacity: 1; }
+  70%, 100% { transform: scale(1.55); opacity: 0; }
+}
+
+/* ===== COORDINATE READOUT ===== */
+
+.readout {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: var(--s-2);
+}
+
+.readout-cell {
+  display: grid;
+  gap: 5px;
+  background: var(--paper);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  padding: 9px 11px;
+  min-width: 0;
+}
+
+.readout-cell--wide { grid-column: 1 / -1; }
+
+.readout dt {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.6;
+  color: var(--sky-dark);
+  letter-spacing: .05em;
+}
+
+.readout dd {
+  margin: 0;
+  font-size: var(--fs-body-sm);
+  font-weight: 800;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+/* ===== WARP METER ===== */
+
+.warp { display: grid; gap: var(--s-2); }
+
+.warp .countdown { justify-self: start; }
+
+.warp-track {
+  height: 15px;
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  background: var(--cream);
+  overflow: hidden;
+}
+
+.warp-fill {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--gold) 0 9px,
+    var(--gold-dark) 9px 18px
+  );
+  transform-origin: left center;
+  transform: scaleX(1);
+  transition: transform 1s linear;
+}
+
+.warp-track.is-stopped .warp-fill {
+  background: var(--paper);
+  transition: none;
+}
+
+/* ===== SMALL SCREENS ===== */
+
+@media (max-width: 480px) {
+  .lost-head { font-size: 8px; }
+  .readout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-ping { animation: none; opacity: .5; }
+  .lost-signal::before { animation: none; }
+  .warp-fill { transition: none; }
+}
