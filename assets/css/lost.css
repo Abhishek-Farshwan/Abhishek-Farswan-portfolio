@@ -92,20 +92,20 @@
 .lost-map {
   position: relative;
   width: min(560px, 100%);
-  aspect-ratio: 10 / 7;
+  min-height: 320px;
   margin: 0 auto;
   border: var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  background: var(--cream);
+  background: var(--paper);
   transform: rotate(1deg);
 }
 
 .lost-map::after {
   content: "";
   position: absolute;
-  inset: 7px;
+  inset: 8px;
   border: 2px solid var(--gold);
   border-radius: calc(var(--radius) - 6px);
   pointer-events: none;
@@ -229,6 +229,31 @@
 
 @keyframes map-fade {
   to { opacity: 1; }
+}
+
+@media (max-width: 760px) {
+  .lost-box {
+    gap: var(--s-4);
+  }
+
+  .lost-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-4);
+  }
+
+  .lost-copy {
+    gap: var(--s-2);
+  }
+
+  .lost-map {
+    min-height: 280px;
+    transform: none;
+  }
+
+  .map-pin .tag,
+  .map-you .tag {
+    font-size: 7px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

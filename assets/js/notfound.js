@@ -1,9 +1,8 @@
 /* ============================================================
    notfound.js — the off-map scene on 404.html.
 
-  Turn the address the visitor actually asked for into a readable
-  address readout, and add a tiny countdown so the page feels like
-  a live lost-signal scene instead of a flat error stub.
+  Keep the page functional and readable without relying on brittle
+  layout hacks. This only handles the address readout and countdown.
    ============================================================ */
 
 (function () {
@@ -14,8 +13,6 @@
     if (node) node.textContent = text;
   }
 
-  /* ---------- readout ---------- */
-
   function attemptedPath() {
     var raw;
     try {
@@ -23,17 +20,15 @@
     } catch (error) {
       raw = window.location.pathname || '';
     }
+
     raw = raw.replace(/\/404\.html$/, '/');
     if (!raw || raw === '/') raw = '/(address not recorded)';
     return raw.length > 58 ? raw.slice(0, 55) + '\u2026' : raw;
   }
 
-  function paintReadout() {
-    var path = attemptedPath();
-    set('lost-path', path);
+  function initReadout() {
+    set('lost-path', attemptedPath());
   }
-
-  /* ---------- countdown ---------- */
 
   function initCountdown() {
     var node = document.getElementById('countdown');
@@ -69,10 +64,11 @@
         node.textContent = 'WOULD RETURN TO MENU NOW';
         return;
       }
+
       node.textContent = 'RETURNING TO MENU IN ' + left;
     }, 1000);
   }
 
-  paintReadout();
+  initReadout();
   initCountdown();
 })();
