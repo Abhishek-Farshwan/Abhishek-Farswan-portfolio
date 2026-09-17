@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404 Map Variants - Abhishek Farshwan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    :root { --sky:#3b6ea5; --sky-dark:#274a72; --cream:#f8f4e8; --paper:#efe7d2; --white:#fffdf7; --ink:#1c2541; --muted:#5e677d; --red:#d64545; --red-dark:#a93434; --gold:#ffcf4d; --gold-dark:#e0ac22; --pixel:"Press Start 2P",monospace; --sans:"Nunito Sans",sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; padding:clamp(14px,4vw,42px); color:var(--ink); font-family:var(--sans); background:linear-gradient(rgba(28,37,65,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(28,37,65,.035) 1px,transparent 1px),var(--cream); background-size:28px 28px; }
+    .variants { width:min(1120px,100%); margin:0 auto; display:grid; gap:var(--s-5,22px); }
+    .intro, .variant { background:var(--white); border:4px solid var(--ink); border-radius:12px; box-shadow:5px 5px 0 var(--ink); }
+    .intro { display:grid; gap:12px; padding:clamp(16px,3vw,30px); background:linear-gradient(135deg,rgba(59,110,165,.08),transparent 42%),var(--white); }
+    .intro-head { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    h1, h2, h3, .eyebrow, .status, .control { font-family:var(--pixel); text-transform:uppercase; }
+    h1 { margin:0; color:var(--red-dark); font-size:clamp(18px,3vw,28px); line-height:1.5; }
+    .tag { padding:7px 9px; border:2px solid var(--ink); border-radius:6px; background:var(--sky-dark); color:var(--white); font:9px/1.6 var(--pixel); }
+    .intro p { margin:0; max-width:72ch; line-height:1.6; }
+    .variant-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
+    .variant { display:grid; gap:12px; padding:16px; }
+    .variant-head { display:flex; justify-content:space-between; align-items:start; gap:10px; }
+    h2 { margin:0; color:var(--red-dark); font-size:11px; line-height:1.7; }
+    .variant-number { color:var(--sky-dark); font:10px var(--pixel); }
+    .variant p { margin:0; min-height:42px; line-height:1.55; }
+    .map-frame { overflow:hidden; border:4px solid var(--ink); border-radius:9px; background:var(--paper); box-shadow:3px 3px 0 var(--ink); }
+    svg { display:block; width:100%; height:auto; pointer-events:none; }
+    .map-bg { fill:var(--paper); } .map-grid { fill:none; stroke:var(--ink); stroke-opacity:.13; stroke-width:1; }
+    .mapping-border { fill:rgba(59,110,165,.14); stroke:var(--ink); stroke-width:3; stroke-dasharray:9 7; }
+    .mapping-tile { fill:var(--sky); stroke:var(--ink); stroke-width:3; transition:fill 120ms ease,transform 120ms ease; }
+    .mapping-tile--empty { fill:var(--paper); stroke-dasharray:6 5; }
+    .mapping-label { fill:var(--white); font:7px var(--pixel); text-anchor:middle; } .mapping-label--dim { fill:var(--muted); }
+    .mapping-note { fill:var(--sky-dark); font:8px var(--pixel); letter-spacing:.06em; }
+    .mapping-line { fill:none; stroke:var(--sky-dark); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+    .mapping-node { fill:var(--gold); stroke:var(--ink); stroke-width:3; }
+    .mapping-panel { fill:var(--sky); stroke:var(--ink); stroke-width:3; }
+    .map-trail { fill:none; stroke:var(--red-dark); stroke-width:3; stroke-dasharray:5 7; stroke-linecap:round; }
+    .map-x { fill:none; stroke:var(--red-dark); stroke-width:5; stroke-linecap:round; }
+    .map-ping { fill:none; stroke:var(--red); stroke-width:3; } .map-you { fill:var(--red-dark); font:9px var(--pixel); text-anchor:middle; }
+    .mapping-border, .mapping-tile--empty, .mapping-line, .mapping-node, .mapping-panel { transition:all 180ms ease; }
+    .variant-controls { position:relative; z-index:1; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .control { border:2px solid var(--ink); border-radius:6px; padding:8px 9px; background:var(--gold); color:var(--ink); cursor:pointer; font-size:8px; line-height:1.5; box-shadow:3px 3px 0 var(--ink); }
+    .control:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+    .status { margin:0 0 0 auto; color:var(--sky-dark); font-size:8px; line-height:1.6; }
+
+    /* 01: the mapped region behaves like a selectable route board. */
+    .v1 .mapping-border { stroke-dasharray:4 5; }
+
+    /* 02: the mapped region is a revealable scan window. */
+    .v2 .mapping-border { fill:rgba(59,110,165,.05); stroke:var(--sky-dark); }
+    .v2 .mapping-node { fill:var(--paper); }
+    .v2.is-scanning .mapping-border { fill:rgba(255,207,77,.28); stroke:var(--gold-dark); stroke-dasharray:2 4; }
+    .v2.is-scanning .mapping-node { fill:var(--gold); stroke:var(--ink); }
+
+    /* 03: the mapped region opens like a physical fold-out chart. */
+    .v3 .map-frame { background:var(--paper); }
+    .v3 .mapping-border { fill:rgba(59,110,165,.09); stroke:var(--sky-dark); stroke-dasharray:none; }
+    .v3 .mapping-panel { fill:var(--sky); }
+    .v3.is-open .mapping-border { fill:rgba(255,207,77,.22); stroke:var(--red-dark); stroke-dasharray:2 6; }
+    .v3.is-open .mapping-panel { fill:var(--gold); stroke:var(--red-dark); }
+
+    /* 04: the mapped region stays familiar while the signal sweeps it. */
+    .v4 .mapping-border { fill:rgba(59,110,165,.18); stroke:var(--sky-dark); }
+    .v4.is-sweeping .mapping-border { stroke:var(--gold-dark); stroke-dasharray:2 8; }
+    .v4.is-sweeping .mapping-node { fill:var(--gold); }
+    .v4.is-sweeping .mapping-line { stroke:var(--gold); stroke-width:5; }
+    @keyframes ping { 0% { transform:scale(.45); opacity:1; } 70%,100% { transform:scale(1.55); opacity:0; } }
+    @media (prefers-reduced-motion:reduce) { .map-ping { animation:none !important; opacity:.5; } }
+    @media (max-width:700px) { .variant-grid { grid-template-columns:1fr; } .variant p { min-height:0; } .status { width:100%; margin:0; } }
+  </style>
+</head>
+<body>
+  <main class="variants">
+    <header class="intro">
+      <div class="intro-head"><h1>WORLD MAP // 404 VARIANTS</h1><span class="tag">THEME LOCKED // 404</span></div>
+      <p>Same Bright Ledger 404 shell, four different ways to make the mapped region communicate what went wrong.</p>
+    </header>
+    <section class="variant-grid" aria-label="Map behavior variants">
+      <article class="variant v1" data-variant="route">
+        <div class="variant-head"><h2>01 / ROUTE BOARD</h2><span class="variant-number">A</span></div>
+        <p>Known sectors become selectable route stops. Pick a tile to redirect the lost marker.</p>
+        <div class="map-frame"><svg viewBox="0 0 360 210" role="img" aria-label="Selectable route board map"><use href="#map-shell" /><use href="#mapping-route" /></svg></div>
+        <div class="variant-controls"><button class="control" type="button" data-action="route">SELECT HOME</button><p class="status" aria-live="polite">ROUTE: HOME</p></div>
+      </article>
+      <article class="variant v2" data-variant="scan">
+        <div class="variant-head"><h2>02 / SCAN WINDOW</h2><span class="variant-number">B</span></div>
+        <p>The mapped border becomes a scanner. Reveal the unknown tile when the signal locks on.</p>
+        <div class="map-frame"><svg viewBox="0 0 360 210" role="img" aria-label="Scan window map"><use href="#map-shell" /><use href="#mapping-scan" /></svg></div>
+        <div class="variant-controls"><button class="control" type="button" data-action="scan">SCAN REGION</button><p class="status" aria-live="polite">SCAN: STANDBY</p></div>
+      </article>
+      <article class="variant v3" data-variant="fold">
+        <div class="variant-head"><h2>03 / FOLD-OUT CHART</h2><span class="variant-number">C</span></div>
+        <p>The mapped region feels physical: open the chart to expose the missing coordinate.</p>
+        <div class="map-frame"><svg viewBox="0 0 360 210" role="img" aria-label="Fold-out chart map"><use href="#map-shell" /><use href="#mapping-fold" /></svg></div>
+        <div class="variant-controls"><button class="control" type="button" data-action="fold">OPEN CHART</button><p class="status" aria-live="polite">CHART: FOLDED</p></div>
+      </article>
+      <article class="variant v4" data-variant="sweep">
+        <div class="variant-head"><h2>04 / SIGNAL SWEEP</h2><span class="variant-number">D</span></div>
+        <p>The familiar 404 map stays intact while a live sweep searches the mapped boundary.</p>
+        <div class="map-frame"><svg viewBox="0 0 360 210" role="img" aria-label="Signal sweep map"><use href="#map-shell" /><use href="#mapping-sweep" /></svg></div>
+        <div class="variant-controls"><button class="control" type="button" data-action="sweep">START SWEEP</button><p class="status" aria-live="polite">SIGNAL: LOST</p></div>
+      </article>
+    </section>
+  </main>
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute">
+    <symbol id="map-shell" viewBox="0 0 360 210">
+      <rect class="map-bg" width="360" height="210" />
+      <path class="map-grid" d="M24 0V210M48 0V210M72 0V210M96 0V210M120 0V210M144 0V210M168 0V210M192 0V210M216 0V210M240 0V210M264 0V210M288 0V210M312 0V210M336 0V210M0 24H360M0 48H360M0 72H360M0 96H360M0 120H360M0 144H360M0 168H360M0 192H360" />
+      <path class="map-trail" d="M240 150 C264 166 274 158 292 152" />
+      <circle class="map-ping" cx="300" cy="150" r="14" />
+      <path class="map-x" d="M292 142L308 158M308 142L292 158" />
+      <text class="map-you" x="300" y="184">YOU</text>
+    </symbol>
+    <symbol id="mapping-route" viewBox="0 0 360 210">
+      <rect class="mapping-border" x="18" y="16" width="228" height="178" rx="10" /><text class="mapping-note" x="28" y="38">MAPPED</text>
+      <rect class="mapping-tile" data-sector="HOME" x="38" y="56" width="62" height="44" rx="5" /><text class="mapping-label" x="69" y="82">HOME</text><rect class="mapping-tile" data-sector="ART" x="110" y="56" width="62" height="44" rx="5" /><text class="mapping-label" x="141" y="82">ART</text><rect class="mapping-tile" data-sector="PIPE" x="182" y="56" width="54" height="44" rx="5" /><text class="mapping-label" x="209" y="82">PIPE</text>
+      <rect class="mapping-tile" data-sector="ABOUT" x="38" y="116" width="62" height="44" rx="5" /><text class="mapping-label" x="69" y="142">ABOUT</text><rect class="mapping-tile" data-sector="MAIL" x="110" y="116" width="62" height="44" rx="5" /><text class="mapping-label" x="141" y="142">MAIL</text><rect class="mapping-tile mapping-tile--empty" x="182" y="116" width="54" height="44" rx="5" /><text class="mapping-label mapping-label--dim" x="209" y="142">???</text>
+    </symbol>
+    <symbol id="mapping-scan" viewBox="0 0 360 210">
+      <rect class="mapping-border" x="18" y="16" width="228" height="178" rx="10" /><text class="mapping-note" x="28" y="38">SCAN FIELD</text>
+      <path class="mapping-line" d="M69 82L141 82L209 82M69 82L69 142L141 142L209 142M141 82L141 142" />
+      <circle class="mapping-node" cx="69" cy="82" r="18" /><circle class="mapping-node" cx="141" cy="82" r="18" /><circle class="mapping-node" cx="209" cy="82" r="18" /><circle class="mapping-node" cx="69" cy="142" r="18" /><circle class="mapping-node" cx="141" cy="142" r="18" /><circle class="mapping-node" cx="209" cy="142" r="18" />
+      <text class="mapping-label" x="69" y="85">H</text><text class="mapping-label" x="141" y="85">A</text><text class="mapping-label" x="209" y="85">P</text><text class="mapping-label" x="69" y="145">B</text><text class="mapping-label" x="141" y="145">M</text><text class="mapping-label mapping-label--dim" x="209" y="145">?</text>
+    </symbol>
+    <symbol id="mapping-fold" viewBox="0 0 360 210">
+      <rect class="mapping-border" x="18" y="16" width="228" height="178" rx="10" /><text class="mapping-note" x="28" y="38">CHART FOLDED</text>
+      <path class="mapping-panel" d="M40 58L94 48L94 164L40 174Z" /><path class="mapping-panel" d="M94 48L148 58L148 174L94 164Z" /><path class="mapping-panel" d="M148 58L202 48L202 164L148 174Z" />
+      <path class="mapping-line" d="M94 58V154M148 58V154" /><text class="mapping-label" x="67" y="112">HOME</text><text class="mapping-label" x="121" y="112">ART</text><text class="mapping-label" x="175" y="112">???</text>
+    </symbol>
+    <symbol id="mapping-sweep" viewBox="0 0 360 210">
+      <rect class="mapping-border" x="18" y="16" width="228" height="178" rx="10" /><text class="mapping-note" x="28" y="38">SIGNAL GRID</text>
+      <path class="mapping-line" d="M48 70H216M48 108H216M48 146H216M76 52V164M132 52V164M188 52V164" />
+      <circle class="mapping-node" cx="76" cy="70" r="8" /><circle class="mapping-node" cx="132" cy="108" r="8" /><circle class="mapping-node" cx="188" cy="146" r="8" /><circle class="mapping-node" cx="188" cy="70" r="8" />
+      <text class="mapping-label" x="76" y="92">HOME</text><text class="mapping-label" x="132" y="130">ART</text><text class="mapping-label" x="188" y="168">PIPE</text>
+    </symbol>
+  </svg>
+  <script>
+    document.querySelectorAll('[data-variant]').forEach(function (card) {
+      var action = card.querySelector('[data-action]');
+      var status = card.querySelector('.status');
+      var map = card.querySelector('svg');
+      var routeStops = ['HOME', 'ART', 'PIPE', 'ABOUT', 'MAIL'];
+      var routeIndex = 0;
+      action.addEventListener('click', function () {
+        if (card.dataset.variant === 'route') {
+          routeIndex = (routeIndex + 1) % routeStops.length;
+          status.textContent = 'ROUTE: ' + routeStops[routeIndex];
+          action.textContent = 'NEXT STOP';
+        }
+        if (card.dataset.variant === 'scan') {
+          card.classList.toggle('is-scanning');
+          var active = card.classList.contains('is-scanning');
+          status.textContent = active ? 'SCAN: REGION FOUND' : 'SCAN: STANDBY';
+          action.textContent = active ? 'HIDE REGION' : 'SCAN REGION';
+        }
+        if (card.dataset.variant === 'fold') {
+          card.classList.toggle('is-open');
+          var open = card.classList.contains('is-open');
+          status.textContent = open ? 'CHART: OPEN' : 'CHART: FOLDED';
+          action.textContent = open ? 'FOLD CHART' : 'OPEN CHART';
+        }
+        if (card.dataset.variant === 'sweep') {
+          card.classList.toggle('is-sweeping');
+          var sweeping = card.classList.contains('is-sweeping');
+          status.textContent = sweeping ? 'SIGNAL: SWEEPING' : 'SIGNAL: LOST';
+          action.textContent = sweeping ? 'STOP SWEEP' : 'START SWEEP';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

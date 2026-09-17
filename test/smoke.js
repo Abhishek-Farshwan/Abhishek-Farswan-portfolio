@@ -243,6 +243,7 @@ function tick(ms = 0) {
   check('no script errors', notFound.errors.length === 0, notFound.errors[0]);
   check('countdown present', !!nDoc.getElementById('countdown'));
   check('return link present', !!nDoc.querySelector('a[href="./index.html"]'));
+  check('map frame and landmark pins present', !!nDoc.querySelector('.map-frame') && nDoc.querySelectorAll('.map-pin').length >= 5);
 
   /* ---------------- secret level ---------------- */
   console.log('\n=== game/secret_level/index.html ===');

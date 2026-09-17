@@ -60,8 +60,8 @@ window.CHROME = (function () {
         menuMarkup(page) +
 
         '<div class="roster-footer">' +
-          '<button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false">' +
-            '<span aria-hidden="true">\u266A</span><span class="sound-label">SOUND OFF</span>' +
+          '<button class="sound-toggle" id="sound-toggle" type="button" aria-label="Toggle menu sound" aria-pressed="false">' +
+            '<span class="sound-glyph" aria-hidden="true">\uD83D\uDD0A</span><span class="sound-label">SOUND OFF</span>' +
           '</button>' +
           '<p class="roster-hint">Up/down browse.<br>Right reads, Left exits.</p>' +
         '</div>' +

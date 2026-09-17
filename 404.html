@@ -41,41 +41,57 @@
           <p class="prose">You walked off the edge of the map. This address has no level data.</p>
         </div>
 
-        <div class="lost-map">
-          <svg class="map" viewBox="0 0 360 210" role="img" aria-labelledby="map-title">
-          <title id="map-title">A menu map. The five known sectors sit inside the mapped border; a marker blinks in empty space outside it.</title>
+        <div class="lost-map" role="group" aria-label="A site map showing the valid sections and the lost marker outside the mapped region.">
+          <svg class="map-svg" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+            <defs>
+              <pattern id="hatch" width="10" height="10" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                <line x1="0" y1="0" x2="0" y2="10" stroke="#1c2541" stroke-opacity="0.12" stroke-width="1"></line>
+              </pattern>
+              <radialGradient id="landShade" cx="38%" cy="32%" r="75%">
+                <stop offset="0%" stop-color="#fffdf7"></stop>
+                <stop offset="100%" stop-color="#e7dcc2"></stop>
+              </radialGradient>
+            </defs>
 
-          <rect class="map-bg" x="0" y="0" width="360" height="210" />
+            <rect x="0" y="0" width="600" height="420" fill="#f8f4e8"></rect>
+            <rect x="0" y="0" width="600" height="420" fill="url(#hatch)"></rect>
 
-          <path class="map-grid" d="M24 0V210M48 0V210M72 0V210M96 0V210M120 0V210M144 0V210M168 0V210M192 0V210M216 0V210M240 0V210M264 0V210M288 0V210M312 0V210M336 0V210M0 24H360M0 48H360M0 72H360M0 96H360M0 120H360M0 144H360M0 168H360M0 192H360" />
+            <path class="map-coast" pathLength="1"
+                  d="M 130,257 C 106,208 128,152 194,136 C 223,104 301,84 366,109
+                     C 424,120 469,151 479,193 C 509,219 498,269 457,293
+                     C 427,323 361,333 299,321 C 240,333 178,321 149,299
+                     C 121,287 125,271 130,257 Z"
+                  fill="url(#landShade)" stroke="#1c2541" stroke-width="4"></path>
 
-          <rect class="map-border" x="18" y="16" width="228" height="178" rx="10" />
-          <text class="map-note" x="28" y="38">MAPPED</text>
+            <polyline class="map-route" pathLength="1"
+                      points="172,248 232,182 322,142 402,182 442,250"
+                      fill="none" stroke="#274a72" stroke-width="2.5" stroke-dasharray="0.002 0.018" stroke-linecap="round"></polyline>
 
-          <rect class="map-tile" x="38" y="56" width="62" height="44" rx="5" />
-          <text class="map-label" x="69" y="82">HOME</text>
-
-          <rect class="map-tile" x="110" y="56" width="62" height="44" rx="5" />
-          <text class="map-label" x="141" y="82">ART</text>
-
-          <rect class="map-tile" x="182" y="56" width="54" height="44" rx="5" />
-          <text class="map-label" x="209" y="82">PIPE</text>
-
-          <rect class="map-tile" x="38" y="116" width="62" height="44" rx="5" />
-          <text class="map-label" x="69" y="142">ABOUT</text>
-
-          <rect class="map-tile" x="110" y="116" width="62" height="44" rx="5" />
-          <text class="map-label" x="141" y="142">MAIL</text>
-
-          <rect class="map-tile map-tile--empty" x="182" y="116" width="54" height="44" rx="5" />
-          <text class="map-label map-label--dim" x="209" y="142">???</text>
-
-          <path class="map-trail" d="M240 150 C 264 166, 274 158, 292 152" />
-
-          <circle class="map-ping" cx="300" cy="150" r="14" />
-          <path class="map-x" d="M292 142 L308 158 M308 142 L292 158" />
-          <text class="map-you" x="300" y="184">YOU</text>
+            <line class="map-lead" x1="520" y1="340" x2="460" y2="293" stroke="#a93434" stroke-width="2" stroke-dasharray="5 6"></line>
           </svg>
+
+          <span class="map-compass" aria-hidden="true">&#10021; N</span>
+
+          <a class="map-pin" style="left:28.7%; top:59%;" href="./index.html">
+            <span class="badge" aria-hidden="true">&#9032;</span><span class="tag">HOME</span>
+          </a>
+          <a class="map-pin" style="left:38.7%; top:43.3%;" href="./index.html#art">
+            <span class="badge" aria-hidden="true">&#9670;</span><span class="tag">ART</span>
+          </a>
+          <a class="map-pin" style="left:53.7%; top:33.8%;" href="./index.html#pipeline">
+            <span class="badge" aria-hidden="true">&#9881;</span><span class="tag">PIPELINE</span>
+          </a>
+          <a class="map-pin" style="left:67%; top:43.3%;" href="./index.html#about">
+            <span class="badge" aria-hidden="true">&#9751;</span><span class="tag">ABOUT</span>
+          </a>
+          <a class="map-pin" style="left:73.7%; top:59.5%;" href="./index.html#contact">
+            <span class="badge" aria-hidden="true">&#9993;</span><span class="tag">CONTACT</span>
+          </a>
+
+          <div class="map-you" style="left:86.7%; top:81%;" aria-label="Current location is off the map">
+            <span class="glyph" aria-hidden="true">&#10005;</span>
+            <span class="tag">YOU ARE HERE</span>
+          </div>
         </div>
       </div>
 
@@ -85,6 +101,8 @@
           <dd id="lost-path">—</dd>
         </div>
       </dl>
+
+      <p class="countdown" id="countdown">RETURNING TO MENU IN 10</p>
 
       <div class="btn-row">
         <a class="btn" href="./index.html">◀ WARP TO MENU</a>

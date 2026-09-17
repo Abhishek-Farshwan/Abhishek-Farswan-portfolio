@@ -90,93 +90,149 @@
 /* ===== THE MAP ===== */
 
 .lost-map {
+  position: relative;
+  width: min(560px, 100%);
+  aspect-ratio: 10 / 7;
+  margin: 0 auto;
   border: var(--border);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   overflow: hidden;
-  background: var(--paper);
+  background: var(--cream);
   transform: rotate(1deg);
 }
 
-.map { display: block; width: 100%; height: auto; }
-
-.map-bg { fill: var(--paper); }
-
-.map-grid {
-  fill: none;
-  stroke: var(--ink);
-  stroke-opacity: .13;
-  stroke-width: 1;
+.lost-map::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 2px solid var(--gold);
+  border-radius: calc(var(--radius) - 6px);
+  pointer-events: none;
+  z-index: 4;
 }
 
-.map-border {
-  fill: rgba(59, 110, 165, .14);
-  stroke: var(--ink);
-  stroke-width: 3;
-  stroke-dasharray: 9 7;
+.map-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-.map-tile {
-  fill: var(--sky);
-  stroke: var(--ink);
-  stroke-width: 3;
-}
-
-.map-tile--empty {
-  fill: var(--paper);
-  stroke-dasharray: 6 5;
-}
-
-.map-label {
+.map-compass {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 3;
   font-family: var(--pixel);
-  font-size: 7px;
-  fill: var(--white);
-  text-anchor: middle;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--sky-dark);
+  background: rgba(248, 244, 232, .85);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  padding: 5px 7px;
 }
 
-.map-label--dim { fill: var(--muted); }
+.map-pin {
+  position: absolute;
+  z-index: 3;
+  transform: translate(-50%, -100%);
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--ink);
+}
 
-.map-note {
+.map-pin .badge {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  background: var(--gold);
+  border: var(--border-thin);
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--snap), background var(--snap);
+  font-family: var(--pixel);
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.map-pin:hover .badge,
+.map-pin:focus-visible .badge {
+  transform: scale(1.15);
+  background: var(--gold-dark);
+}
+
+.map-pin .tag {
   font-family: var(--pixel);
   font-size: 8px;
-  fill: var(--sky-dark);
-  letter-spacing: .06em;
-}
-
-.map-trail {
-  fill: none;
-  stroke: var(--red-dark);
-  stroke-width: 3;
-  stroke-dasharray: 5 7;
-  stroke-linecap: round;
-}
-
-.map-x {
-  stroke: var(--red-dark);
-  stroke-width: 5;
-  stroke-linecap: round;
-  fill: none;
-}
-
-.map-ping {
-  fill: none;
-  stroke: var(--red);
-  stroke-width: 3;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: ping 2.6s ease-out infinite;
+  line-height: 1.4;
+  background: var(--white);
+  border: var(--border-thin);
+  border-radius: 3px;
+  padding: 2px 5px;
+  white-space: nowrap;
 }
 
 .map-you {
-  font-family: var(--pixel);
-  font-size: 9px;
-  fill: var(--red-dark);
-  text-anchor: middle;
+  position: absolute;
+  z-index: 3;
+  transform: translate(-50%, -70%);
+  display: grid;
+  justify-items: center;
+  gap: 2px;
 }
 
-@keyframes ping {
-  0%        { transform: scale(.45); opacity: 1; }
-  70%, 100% { transform: scale(1.55); opacity: 0; }
+.map-you .glyph {
+  font-family: var(--pixel);
+  font-size: 16px;
+  color: var(--red-dark);
+}
+
+.map-you .tag {
+  font-family: var(--pixel);
+  font-size: 8px;
+  line-height: 1.4;
+  background: var(--white);
+  color: var(--red-dark);
+  border: 2px solid var(--red-dark);
+  border-radius: 3px;
+  padding: 2px 5px;
+  white-space: nowrap;
+}
+
+.map-coast, .map-route {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: map-draw 1000ms ease-out forwards;
+}
+
+.map-route {
+  animation-delay: 750ms;
+  animation-duration: 700ms;
+  opacity: 0;
+}
+
+.map-lead {
+  opacity: 0;
+  animation: map-fade 500ms ease-out 1300ms forwards;
+}
+
+@keyframes map-draw {
+  0%   { stroke-dashoffset: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes map-fade {
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-coast, .map-route, .map-lead { animation: none; stroke-dashoffset: 0; opacity: 1; }
 }
 
 /* ===== COORDINATE READOUT ===== */

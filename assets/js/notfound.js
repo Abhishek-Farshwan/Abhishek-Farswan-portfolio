@@ -2,10 +2,8 @@
    notfound.js — the off-map scene on 404.html.
 
   Turn the address the visitor actually asked for into a readable
-  address readout, so the page shows what broke instead of just shrugging.
-
-   No inline JS anywhere, because every page ships a strict
-   script-src 'self' CSP.
+  address readout, and add a tiny countdown so the page feels like
+  a live lost-signal scene instead of a flat error stub.
    ============================================================ */
 
 (function () {
@@ -32,9 +30,49 @@
 
   function paintReadout() {
     var path = attemptedPath();
-
     set('lost-path', path);
   }
 
+  /* ---------- countdown ---------- */
+
+  function initCountdown() {
+    var node = document.getElementById('countdown');
+    var signal = document.getElementById('lost-signal');
+    if (!node) return;
+
+    var left = 10;
+    var stopped = false;
+
+    function stop() {
+      if (stopped) return;
+      stopped = true;
+      node.textContent = 'COUNTDOWN STOPPED — TAKE YOUR TIME';
+      if (signal) {
+        signal.classList.add('is-holding');
+        signal.textContent = 'SIGNAL: HOLDING';
+      }
+    }
+
+    ['keydown', 'pointerdown', 'wheel'].forEach(function (type) {
+      window.addEventListener(type, stop, { once: true, passive: true });
+    });
+
+    var timer = window.setInterval(function () {
+      if (stopped) {
+        window.clearInterval(timer);
+        return;
+      }
+
+      left -= 1;
+      if (left <= 0) {
+        window.clearInterval(timer);
+        node.textContent = 'WOULD RETURN TO MENU NOW';
+        return;
+      }
+      node.textContent = 'RETURNING TO MENU IN ' + left;
+    }, 1000);
+  }
+
   paintReadout();
+  initCountdown();
 })();

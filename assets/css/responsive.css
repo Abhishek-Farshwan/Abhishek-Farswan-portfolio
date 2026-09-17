@@ -51,25 +51,36 @@
   .roster .menu,
   .roster-hint { display: none; }
 
-  .roster-footer {
-    margin-top: 0;
-    padding-top: 0;
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
+  .roster-footer { display: contents; }
+
+  /* Keep the sound control in the header row without changing the desktop
+     roster layout. The text remains available to assistive technology. */
+  .sound-toggle {
+    position: absolute;
+    top: var(--s-3);
+    right: 86px;
+    width: 38px;
+    min-height: 36px;
+    padding: 6px;
+    gap: 0;
   }
 
-  .sound-toggle { width: auto; padding: 8px 14px; }
+  .sound-toggle .sound-label { display: none; }
+
+  .sound-toggle .sound-glyph {
+    font-family: var(--sans);
+    font-size: 19px;
+    line-height: 1;
+  }
 
   .profile-card {
-    display: grid;
-    grid-template-columns: 62px minmax(0, 1fr);
-    align-items: center;
-    gap: var(--s-3);
+    display: block;
     text-align: left;
   }
 
+  .profile-role { margin-top: 4px; }
+
   .profile-note {
-    grid-column: 1 / -1;
     border-top: 2px dashed rgba(28, 37, 65, .35);
     text-align: left;
   }
