@@ -29,7 +29,7 @@
 
 /* ===== MOBILE: roster becomes a header card + bottom tab bar ===== */
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .app {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto minmax(0, 1fr);
@@ -43,22 +43,36 @@
     border-right: 0;
     border-bottom: var(--border);
     box-shadow: none;
-    padding: var(--s-3) var(--s-3) var(--s-4);
-    gap: var(--s-3);
+    padding: var(--s-2) var(--s-3);
+    gap: var(--s-2);
+  }
+
+  .roster-header {
+    display: none;
+    padding-right: 0;
+    position: static;
   }
 
   /* the menu list is replaced by the tab bar down here */
   .roster .menu,
   .roster-hint { display: none; }
 
-  .roster-footer { display: contents; }
+  .roster-status,
+  .profile-note { display: none; }
+
+  .roster-footer {
+    display: none;
+  }
 
   /* Keep the sound control in the header row without changing the desktop
      roster layout. The text remains available to assistive technology. */
-  .sound-toggle {
+  .sound-toggle--desktop { display: none; }
+
+  .sound-toggle--mobile {
+    display: flex;
     position: absolute;
-    top: var(--s-3);
-    right: 86px;
+    top: var(--s-2);
+    right: var(--s-2);
     width: 38px;
     min-height: 36px;
     padding: 6px;
@@ -74,21 +88,18 @@
   }
 
   .profile-card {
+    position: relative;
     display: block;
     text-align: left;
+    padding: var(--s-2) 54px var(--s-2) var(--s-2);
   }
 
-  .profile-role { margin-top: 4px; }
-
-  .profile-note {
-    border-top: 2px dashed rgba(28, 37, 65, .35);
-    text-align: left;
-  }
+  .profile-role { margin-top: 2px; }
 
   .detail {
     height: auto;
     overflow: visible;
-    padding-bottom: 92px;
+    padding-bottom: 72px;
   }
 
   .detail-inner { padding: var(--s-4) var(--s-3) var(--s-5); }
@@ -98,7 +109,7 @@
   .prompt-bar { display: none; }
 
   .toast-zone {
-    bottom: 86px;
+    bottom: 70px;
     right: 12px;
     left: 12px;
     justify-items: center;
@@ -115,6 +126,26 @@
   .step-copy { padding: var(--s-3); }
 
   .art-grid { grid-template-columns: minmax(0, 1fr); }
+  .viewer-wrap { aspect-ratio: 16 / 10; }
+
+  .npc-dialogue {
+    grid-template-columns: 58px minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "portrait copy"
+      "portrait copy"
+      "controls controls";
+    align-items: start;
+    height: 250px;
+  }
+
+  .npc-portrait-frame { width: 58px; height: 106px; }
+  .npc-portrait { width: 52px; }
+  .npc-copy { min-height: 106px; }
+  .npc-controls {
+    justify-content: space-between;
+    width: 100%;
+  }
 
   .art-controls { width: 100%; }
   .art-control { flex: 1 1 140px; }

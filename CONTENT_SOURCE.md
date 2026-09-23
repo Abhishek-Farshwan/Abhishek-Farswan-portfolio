@@ -34,6 +34,47 @@ and URLs that stay true no matter what the site looks like.
 | ArtStation | https://www.artstation.com/abhishek_farswan |
 | Sketchfab | https://sketchfab.com/AbhishekFarswan |
 
+## LinkedIn Recommendations
+
+These recommendations are presented in the About panel as one NPC-style
+dialogue at a time. The full text is retained in the character database;
+`Preview` is the compact visitor-facing line shown before `[MORE]` is opened.
+All four recommendations are from LinkedIn and currently use male NPC
+portraits selected from the matching gender pool.
+
+### Andres Gomez
+- **Role:** App Developer — RUTZ Studios
+- **Gender record:** M
+- **Preview:** Abhishek consistently showcased technical prowess, dedication to the craft, and creativity that enhanced our character designs.
+- **Recommendation:** I had the pleasure of working with Abhishek at RUTZ Studios, where he served as our 3D artist, specializing in crafting low-poly outfits for our character designs. Throughout his tenure with us, Abhishek consistently showcased not only his technical prowess but also his dedication to the craft. His creativity, combined with the right guidance, led to some of the most innovative and aesthetically pleasing designs that greatly enhanced our projects.
+
+### Antoine Le Flamanc
+- **Role:** Head of Procurement & Founder — Turbowares AI
+- **Gender record:** M
+- **Preview:** Abhishek brought a can-do attitude, learned quickly on the job, and delivered 3D modeling, animation, and scene composition to expectations.
+- **Recommendation:** Abhishek joined Ant One Entertainment on 2 projects requiring 3D modeling, 3D animation and scene composition jobs. Abhishek's hardwork and can do attitude were deeply appreciated as well as his capacity to self learn on the job. His contribution to the projects were totally at the level of the expectation and I have no doubt of Abhishek bright future given his mindset and openness to new ideas.
+
+### Zaid Kamal
+- **Role:** Game Developer — Creative Technology
+- **Gender record:** M
+- **Preview:** Abhishek is a smart working individual with a knack for sculpting creative models and bringing out the best details in his creations.
+- **Recommendation:** Abhishek is a smart working individual with great skills and experience. He has a knack for sculpting creative models and gives his best to bring out the best details in his creations. He has hands-on almost all creative 3D engines and is ready to learn any given subject due to his curious attitude. He is poised to become a great 3D artist in the future.
+
+### Breno Azevedo
+- **Role:** Veteran Game Developer, Balance Designer & Producer
+- **Gender record:** M
+- **Preview:** Abhishek was polite and timely, took feedback seriously, and did his best to deliver work that kept the client satisfied.
+- **Recommendation:** When he did some 3D modeling work for me, Abhishek has been very polite and timely, doing his best to keep me satisfied. He also takes feedback and suggestions very seriously, and tried to implement them. I'll definitely do work with Abhishek in the future!
+
+## NPC Portrait Database
+
+Character records live in `assets/characters/database.js`. Portrait assets live
+in `assets/pixel-npc/` and use `_M`, `_F`, or `-M` filename suffixes. A record
+may select a portrait from its gender pool with `profilePic.mode: "random"`,
+or force a known asset with `profilePic.mode: "specific"` and a filename.
+Portrait assignments are stable for the current dialogue session so browsing
+does not reshuffle a recommender's character.
+
 ## Sketchfab embed base pattern
 
 ```
@@ -179,11 +220,12 @@ in a major way, update `PROJECT_GUIDE.md` in the same change.
 
 ## Where this content is rendered
 
-`assets/js/data.js` mirrors this file. It holds identity, links, model IDs,
-pipeline stages, loadout, résumé text, and contact copy in one object so no
-fact is duplicated across pages. **Change a fact here first, then in
-`data.js`.** Static HTML in `index.html` and `resume.html` carries the same
-approved copy for no-JS readers; if you change a fact, grep for it in both.
+`assets/js/data.js` mirrors the identity, links, model IDs, pipeline stages,
+loadout, résumé text, and contact copy in this file. Endorsement records and
+NPC portrait rules are mirrored separately in `assets/characters/database.js`.
+**Change factual copy here first, then mirror it in the matching data file.**
+Static HTML in `index.html` and `resume.html` carries the same approved copy
+for no-JS readers; if you change a fact, grep for it in both.
 
 ## Approved copy added in the rebuild
 

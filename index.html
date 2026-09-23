@@ -87,7 +87,6 @@
 
         <div class="topbar">
           <div class="crumb" id="crumb">PROFILE / HOME</div>
-          <div class="page-chip">PORTFOLIO BUILD // 02</div>
         </div>
 
         <!-- ================= HOME ================= -->
@@ -345,6 +344,30 @@
                 </article>
               </div>
 
+              <div class="endorsements">
+                <div class="endorsements-head">
+                  <h3>ENDORSEMENTS // VERIFIED SIGNALS</h3>
+                  <span class="chip chip--gold">4 RECOMMENDATIONS</span>
+                </div>
+                <div class="npc-dialogue" id="endorsement-dialogue" aria-live="polite">
+                  <div class="npc-portrait-frame">
+                    <img class="npc-portrait" id="npc-portrait" src="" alt="" />
+                  </div>
+                  <div class="npc-copy">
+                    <div class="npc-speaker-line">
+                      <strong><img class="npc-linkedin-icon" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/linkedin.svg" alt="LinkedIn recommendation" /> <span id="npc-name">LOADING NPC</span></strong>
+                      <span id="npc-role"></span>
+                    </div>
+                    <blockquote id="npc-endorsement"><span id="npc-endorsement-text"></span> <button class="npc-more" id="npc-more" type="button" aria-expanded="false">[MORE]</button></blockquote>
+                  </div>
+                  <div class="npc-controls">
+                    <button class="npc-arrow" id="npc-prev" type="button" aria-label="Previous endorsement">&#9664;</button>
+                    <span class="npc-counter" id="npc-counter">1 / 4</span>
+                    <button class="npc-arrow" id="npc-next" type="button" aria-label="Next endorsement">&#9654;</button>
+                  </div>
+                </div>
+              </div>
+
               <div class="btn-row" style="margin-top: var(--s-4);">
                 <a class="btn btn--sm" href="./resume.html">FULL RESUME</a>
               </div>
@@ -495,6 +518,7 @@
   </div>
 
   <script src="./assets/js/data.js?v=20260915"></script>
+  <script src="./assets/characters/database.js?v=20260923"></script>
   <script src="./assets/js/util.js?v=20260915"></script>
   <script src="./assets/js/sfx.js?v=20260915"></script>
   <script src="./assets/js/chrome.js?v=20260915"></script>
@@ -502,6 +526,7 @@
   <script src="./assets/js/art.js?v=20260915"></script>
   <script src="./assets/js/inspector.js?v=20260915"></script>
   <script src="./assets/js/contact.js?v=20260915"></script>
+  <script src="./assets/js/endorsements.js?v=20260923"></script>
   <script src="./assets/js/easter.js?v=20260915"></script>
   <script src="./assets/js/main.js?v=20260915"></script>
 </body>

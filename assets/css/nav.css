@@ -162,6 +162,8 @@
   transition: background var(--snap), color var(--snap);
 }
 
+.sound-toggle--mobile { display: none; }
+
 .sound-toggle:hover { background: var(--sky-deep); }
 
 .sound-toggle[aria-pressed="true"] {

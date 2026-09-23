@@ -55,13 +55,16 @@ window.CHROME = (function () {
           '<div class="profile-name">' + UTIL.escapeHtml(SITE.identity.shortName.toUpperCase()) + '</div>' +
           '<div class="profile-role">' + UTIL.escapeHtml(SITE.identity.role) + '</div>' +
           '<p class="profile-note">' + UTIL.escapeHtml(SITE.identity.note) + '</p>' +
+          '<button class="sound-toggle sound-toggle--mobile" id="sound-toggle-mobile" type="button" aria-label="Toggle menu sound" aria-pressed="false">' +
+            '<span class="sound-glyph" aria-hidden="true">\uD83D\uDD07</span><span class="sound-label">SOUND OFF</span>' +
+          '</button>' +
         '</section>' +
 
         menuMarkup(page) +
 
         '<div class="roster-footer">' +
-          '<button class="sound-toggle" id="sound-toggle" type="button" aria-label="Toggle menu sound" aria-pressed="false">' +
-            '<span class="sound-glyph" aria-hidden="true">\uD83D\uDD0A</span><span class="sound-label">SOUND OFF</span>' +
+          '<button class="sound-toggle sound-toggle--desktop" id="sound-toggle" type="button" aria-label="Toggle menu sound" aria-pressed="false">' +
+            '<span class="sound-glyph" aria-hidden="true">\uD83D\uDD07</span><span class="sound-label">SOUND OFF</span>' +
           '</button>' +
           '<p class="roster-hint">Up/down browse.<br>Right reads, Left exits.</p>' +
         '</div>' +
@@ -112,20 +115,26 @@ window.CHROME = (function () {
   }
 
   function wireSoundToggle() {
-    var button = document.getElementById('sound-toggle');
-    if (!button) return;
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('.sound-toggle'));
+    if (!buttons.length) return;
 
     function paint() {
       var on = window.SFX.isEnabled();
-      button.setAttribute('aria-pressed', String(on));
-      var label = button.querySelector('.sound-label');
-      if (label) label.textContent = on ? 'SOUND ON' : 'SOUND OFF';
+      buttons.forEach(function (button) {
+        button.setAttribute('aria-pressed', String(on));
+        var glyph = button.querySelector('.sound-glyph');
+        if (glyph) glyph.textContent = on ? '\uD83D\uDD0A' : '\uD83D\uDD07';
+        var label = button.querySelector('.sound-label');
+        if (label) label.textContent = on ? 'SOUND ON' : 'SOUND OFF';
+      });
     }
 
-    button.addEventListener('click', function () {
-      var on = window.SFX.toggle();
-      paint();
-      UTIL.toast(on ? 'Menu sounds on.' : 'Menu sounds off.', 1800);
+    buttons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        var on = window.SFX.toggle();
+        paint();
+        UTIL.toast(on ? 'Menu sounds on.' : 'Menu sounds off.', 1800);
+      });
     });
 
     paint();
