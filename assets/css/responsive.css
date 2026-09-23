@@ -168,6 +168,32 @@
   .entry-when { margin-left: 0; width: 100%; }
 }
 
+/* ===== COMPACT TABLET: keep the dialogue horizontal ===== */
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .npc-dialogue {
+    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "portrait copy"
+      "portrait controls";
+    height: 190px;
+  }
+
+  .npc-portrait-frame {
+    width: 72px;
+    height: 106px;
+  }
+
+  .npc-portrait { width: 62px; }
+
+  .npc-controls {
+    justify-content: center;
+    gap: var(--s-3);
+    width: 100%;
+  }
+}
+
 /* ===== SMALL PHONES ===== */
 
 @media (max-width: 420px) {

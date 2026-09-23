@@ -356,11 +356,17 @@
   display: inline-block;
   width: 16px;
   height: 16px;
-  padding: 2px;
-  vertical-align: -2px;
+  margin-right: 4px;
+  padding: 1px 2px 0;
   background: var(--sky-dark);
   border-radius: 3px;
-  filter: brightness(0) invert(1);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 17px;
+  text-align: center;
+  vertical-align: -2px;
 }
 
 .endorsements-source {
