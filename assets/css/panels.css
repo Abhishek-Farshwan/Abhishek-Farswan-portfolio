@@ -29,7 +29,21 @@
   letter-spacing: .05em;
 }
 
-.hero h1 { margin: var(--s-4) 0 var(--s-3); }
+.hero-title-row {
+  display: grid;
+  grid-template-columns: max-content 112px;
+  align-items: center;
+  gap: var(--s-4);
+  margin: var(--s-4) 0 var(--s-3);
+}
+
+.hero-avatar {
+  display: block;
+  width: 112px;
+  height: auto;
+}
+
+.hero-title-row h1 { min-width: 0; margin: 0; }
 
 .hero .lead { color: var(--ink); }
 

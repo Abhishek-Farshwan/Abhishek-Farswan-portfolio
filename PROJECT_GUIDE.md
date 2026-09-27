@@ -109,8 +109,8 @@ current legibility floor; shorten labels or use icons when space is tight.
   second navigation control.
 - Sketchfab iframes keep their sandbox and must not gain `allow-top-navigation`.
 - Links with `target="_blank"` use `rel="noopener noreferrer"`.
-- Local CSS and JS references use the shared `?v=YYYYMMDD` cache-busting
-  value. Bump it when shipping a CSS or JS change.
+- Local CSS and JS references use a shared cache-busting value such as
+  `?v=YYYYMMDD-N`. Bump it when shipping a CSS or JS change.
 
 ## Quality Bar
 

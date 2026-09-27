@@ -167,6 +167,11 @@
   .entry-when { margin-left: 0; width: 100%; }
 }
 
+@media (min-width: 901px) and (max-width: 1140px) {
+  .hero-title-row { grid-template-columns: max-content; }
+  .hero-avatar { display: none; }
+}
+
 /* ===== COMPACT TABLET: keep the dialogue horizontal ===== */
 
 @media (min-width: 601px) and (max-width: 900px) {
@@ -196,11 +201,19 @@
 /* ===== SMALL PHONES ===== */
 
 @media (max-width: 420px) {
+  .hero-title-row { grid-template-columns: max-content 80px; gap: var(--s-2); }
+  .hero-avatar { width: 80px; }
   /* Keep compact tabs icon-only without shrinking labels past legibility. */
   .tabbar-btn span:not(.tab-glyph) { display: none; }
   .tabbar-btn .tab-glyph { width: 18px; height: 18px; }
   .contact-links a { grid-template-columns: 24px minmax(0, 1fr) auto; gap: var(--s-2); }
   .stat-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 360px) {
+  .hero-copy { padding-right: var(--s-3); padding-left: var(--s-3); }
+  .hero-title-row { grid-template-columns: max-content 64px; gap: var(--s-1); }
+  .hero-avatar { width: 64px; }
 }
 
 /* ===== SHORT LANDSCAPE PHONES ===== */

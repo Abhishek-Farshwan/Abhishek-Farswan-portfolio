@@ -43,14 +43,14 @@ Any static host works. No build command, publish directory is the project root.
 
 ## Cache-busting
 
-Every local CSS/JS reference carries a shared `?v=20260927` query string.
-**Bump that date whenever you ship a CSS or JS change to the live site** —
+Every local CSS/JS reference carries a shared cache token such as `?v=20260927-2`.
+**Bump the token whenever you ship a CSS or JS change to the live site** —
 otherwise a returning visitor's browser (or an aggressive CDN cache) can keep
 serving an old stylesheet or script until its cache naturally expires. Find
 and replace the version string across all four HTML files at once:
 
 ```bash
-grep -rl '?v=20260927' *.html game/secret_level/*.html | xargs sed -i 's/?v=20260927/?v=YYYYMMDD/g'
+grep -rl '?v=20260927-2' *.html game/secret_level/*.html | xargs sed -i 's/?v=20260927-2/?v=YYYYMMDD-N/g'
 ```
 
 ## Editing
