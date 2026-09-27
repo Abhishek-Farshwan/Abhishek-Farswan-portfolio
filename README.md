@@ -43,14 +43,14 @@ Any static host works. No build command, publish directory is the project root.
 
 ## Cache-busting
 
-Every local CSS/JS reference carries a shared `?v=20260915` query string.
+Every local CSS/JS reference carries a shared `?v=20260927` query string.
 **Bump that date whenever you ship a CSS or JS change to the live site** —
 otherwise a returning visitor's browser (or an aggressive CDN cache) can keep
 serving an old stylesheet or script until its cache naturally expires. Find
 and replace the version string across all four HTML files at once:
 
 ```bash
-grep -rl '?v=20260915' *.html game/secret_level/*.html | xargs sed -i 's/?v=20260915/?v=YYYYMMDD/g'
+grep -rl '?v=20260927' *.html game/secret_level/*.html | xargs sed -i 's/?v=20260927/?v=YYYYMMDD/g'
 ```
 
 ## Editing
@@ -118,7 +118,10 @@ npm install jsdom   # only dependency, only for tests
 node test/smoke.js
 ```
 
-Run it after any change to `assets/js/`.
+Run it for structural or cross-cutting changes to page boot, shared chrome,
+routing, keyboard navigation, data/render contracts, or security and embedded
+content. It is not needed for isolated copy, CSS, or static-asset edits unless
+they affect behavior; use a focused check for those changes.
 
 ## Browser support
 

@@ -13,8 +13,11 @@ decisions that future edits must preserve.
   constraints. Do not add unverified claims or silently change intentional
   spelling differences.
 - Keep the site a plain HTML/CSS/JS project with no build step or framework.
-- Verify affected behavior after edits. Run `node test/smoke.js` when Node is
-  available.
+- Verify the affected surface after edits. Run `node test/smoke.js` for
+  structural or cross-cutting changes to page boot, shared chrome, routing,
+  keyboard navigation, data/render contracts, or security and embedded
+  content. For isolated copy, CSS, or static-asset changes, use a focused check
+  and skip the full suite unless behavior is affected.
 
 ## Stack and Structure
 

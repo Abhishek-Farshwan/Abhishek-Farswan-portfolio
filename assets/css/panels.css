@@ -523,7 +523,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--s-4);
-  align-items: start;
+  align-items: stretch;
 }
 
 .contact-copy { color: var(--white); opacity: .93; margin-top: var(--s-3); }

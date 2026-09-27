@@ -8,7 +8,7 @@ window.INSPECTOR = (function () {
   'use strict';
 
   var UTIL = window.UTIL;
-  var modal, stage, frame, titleNode, descNode, metaNode, counterNode, openLink, prevBtn, nextBtn, closeBtn, loadingNode;
+  var modal, stage, frame, titleNode, metaNode, counterNode, openLink, prevBtn, nextBtn, closeBtn, loadingNode;
   var index = -1;
   var lastFocused = null;
 
@@ -17,7 +17,6 @@ window.INSPECTOR = (function () {
     if (!model) return;
 
     titleNode.textContent = model.name;
-    descNode.textContent = model.description || 'Game-ready 3D model. Drag inside the viewer to orbit, scroll to zoom.';
     openLink.href = model.view;
     counterNode.textContent = (index + 1) + ' / ' + window.ART.count();
 
@@ -89,7 +88,6 @@ window.INSPECTOR = (function () {
     stage = modal.querySelector('.modal-stage');
     frame = modal.querySelector('iframe');
     titleNode = modal.querySelector('.modal-title');
-    descNode = modal.querySelector('.modal-desc');
     metaNode = modal.querySelector('.modal-meta');
     counterNode = modal.querySelector('.modal-counter');
     openLink = modal.querySelector('[data-open-source]');

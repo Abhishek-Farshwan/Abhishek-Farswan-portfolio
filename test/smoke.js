@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { JSDOM, VirtualConsole } = require('jsdom');
 
-const SITE = '/home/claude/site';
+const SITE = path.resolve(__dirname, '..');
 let failures = 0;
 
 function check(name, condition, extra) {
@@ -36,7 +36,7 @@ function fakeModels(count) {
   }));
 }
 
-function load(file, { fetchImpl } = {}) {
+function load(file, { fetchImpl, url } = {}) {
   const virtualConsole = new VirtualConsole();
   const errors = [];
   virtualConsole.on('jsdomError', (e) => errors.push(e.message));
@@ -45,7 +45,7 @@ function load(file, { fetchImpl } = {}) {
   const dom = new JSDOM(fs.readFileSync(path.join(SITE, file), 'utf8'), {
     runScripts: 'dangerously',
     resources: undefined,
-    url: 'https://example.test/' + file,
+    url: url || 'https://example.test/' + file,
     pretendToBeVisual: true,
     virtualConsole,
     beforeParse(window) {
@@ -114,10 +114,16 @@ function tick(ms = 0) {
   check('arrow up switches back to about', doc.getElementById('panel-about').classList.contains('active'));
   check('arrow up moves focus back to about', doc.activeElement && doc.activeElement.id === 'tab-about');
 
-  doc.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
-  check('arrow right enters the focused panel', doc.activeElement && doc.activeElement.id === 'detail');
-  doc.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
-  check('arrow left exits the focused panel', doc.activeElement && doc.activeElement.id === 'tab-about');
+  doc.getElementById('npc-next').focus();
+  doc.activeElement.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+  check('focused endorsement handles arrow right', doc.getElementById('npc-counter').textContent === '2 / 4');
+  doc.getElementById('tab-about').focus();
+
+  doc.activeElement.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+  check('arrow right enters the focused panel', doc.getElementById('detail').classList.contains('detail-focused'));
+  doc.activeElement.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
+  check('arrow left exits the focused panel', !doc.getElementById('detail').classList.contains('detail-focused')
+    && doc.activeElement.id === 'tab-about');
 
   // Backspace is the explicit "come back" shortcut — jumps straight to
   // Home without needing a confirm step.
@@ -238,12 +244,13 @@ function tick(ms = 0) {
 
   /* ---------------- 404.html ---------------- */
   console.log('\n=== 404.html ===');
-  const notFound = load('404.html');
+  const notFound = load('404.html', { url: 'file:///portfolio/404.html' });
   const nDoc = notFound.dom.window.document;
   check('no script errors', notFound.errors.length === 0, notFound.errors[0]);
-  check('countdown present', !!nDoc.getElementById('countdown'));
+  check('countdown removed', !nDoc.getElementById('countdown'));
+  check('local 404 preview hides filesystem path', nDoc.getElementById('lost-path').textContent === 'LOCAL PREVIEW');
   check('return link present', !!nDoc.querySelector('a[href="./index.html"]'));
-  check('map frame and landmark pins present', !!nDoc.querySelector('.map-frame') && nDoc.querySelectorAll('.map-pin').length >= 5);
+  check('map and landmark pins present', !!nDoc.querySelector('.lost-map') && nDoc.querySelectorAll('.map-pin').length >= 5);
 
   /* ---------------- secret level ---------------- */
   console.log('\n=== game/secret_level/index.html ===');

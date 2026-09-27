@@ -82,9 +82,8 @@
   .sound-toggle .sound-label { display: none; }
 
   .sound-toggle .sound-glyph {
-    font-family: var(--sans);
-    font-size: 19px;
-    line-height: 1;
+    width: 19px;
+    height: 19px;
   }
 
   .profile-card {
@@ -197,10 +196,9 @@
 /* ===== SMALL PHONES ===== */
 
 @media (max-width: 420px) {
-  /* 6px pixel-font labels were unreadable — drop the text, keep the glyph
-     and an accessible name instead of shrinking type past legibility. */
+  /* Keep compact tabs icon-only without shrinking labels past legibility. */
   .tabbar-btn span:not(.tab-glyph) { display: none; }
-  .tabbar-btn .tab-glyph { font-size: 17px; }
+  .tabbar-btn .tab-glyph { width: 18px; height: 18px; }
   .contact-links a { grid-template-columns: 24px minmax(0, 1fr) auto; gap: var(--s-2); }
   .stat-grid { grid-template-columns: minmax(0, 1fr); }
 }

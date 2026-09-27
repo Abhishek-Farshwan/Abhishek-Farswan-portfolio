@@ -75,6 +75,8 @@ window.ENDORSEMENTS = (function () {
       more.textContent = expanded ? '[LESS]' : '[MORE]';
     });
     document.addEventListener('keydown', function (event) {
+      var dialogue = document.getElementById('endorsement-dialogue');
+      if (!dialogue || !dialogue.contains(event.target)) return;
       var tag = (event.target.tagName || '').toLowerCase();
       if (tag === 'input' || tag === 'textarea' || tag === 'select' || event.metaKey || event.ctrlKey || event.altKey) return;
       if (window.ROUTER && window.ROUTER.current() !== 'about') return;

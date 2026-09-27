@@ -219,5 +219,3 @@
   box-shadow: 0 2px 0 var(--ink);
   font-size: var(--fs-chrome-xs);
 }
-
-.prompt-spacer { margin-left: auto; }

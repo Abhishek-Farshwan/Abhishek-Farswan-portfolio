@@ -2,7 +2,7 @@
    notfound.js — the off-map scene on 404.html.
 
   Keep the page functional and readable without relying on brittle
-  layout hacks. This only handles the address readout and countdown.
+  layout hacks. This only handles the address readout.
    ============================================================ */
 
 (function () {
@@ -14,6 +14,8 @@
   }
 
   function attemptedPath() {
+    if (window.location.protocol === 'file:') return 'LOCAL PREVIEW';
+
     var raw;
     try {
       raw = decodeURIComponent(window.location.pathname + window.location.search);
@@ -30,45 +32,5 @@
     set('lost-path', attemptedPath());
   }
 
-  function initCountdown() {
-    var node = document.getElementById('countdown');
-    var signal = document.getElementById('lost-signal');
-    if (!node) return;
-
-    var left = 10;
-    var stopped = false;
-
-    function stop() {
-      if (stopped) return;
-      stopped = true;
-      node.textContent = 'COUNTDOWN STOPPED — TAKE YOUR TIME';
-      if (signal) {
-        signal.classList.add('is-holding');
-        signal.textContent = 'SIGNAL: HOLDING';
-      }
-    }
-
-    ['keydown', 'pointerdown', 'wheel'].forEach(function (type) {
-      window.addEventListener(type, stop, { once: true, passive: true });
-    });
-
-    var timer = window.setInterval(function () {
-      if (stopped) {
-        window.clearInterval(timer);
-        return;
-      }
-
-      left -= 1;
-      if (left <= 0) {
-        window.clearInterval(timer);
-        node.textContent = 'WOULD RETURN TO MENU NOW';
-        return;
-      }
-
-      node.textContent = 'RETURNING TO MENU IN ' + left;
-    }, 1000);
-  }
-
   initReadout();
-  initCountdown();
 })();

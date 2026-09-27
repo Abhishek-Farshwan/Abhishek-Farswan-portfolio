@@ -25,19 +25,23 @@ window.CHROME = (function () {
     var isHome = page === 'home';
 
     var entries = SITE.nav.map(function (item, index) {
+      var icon = '<img class="menu-icon" src="' + UTIL.escapeHtml(root() + 'assets/icon/selected/' + item.icon) + '" alt="" aria-hidden="true" />';
+      var label = '<span class="menu-label">' + item.label.toUpperCase() + '</span>';
       if (isHome) {
         return '<button class="menu-btn" role="tab" id="tab-' + item.id + '" ' +
           'aria-controls="panel-' + item.id + '" aria-selected="' + (index === 0) + '" ' +
           'tabindex="' + (index === 0 ? '0' : '-1') + '" data-panel="' + item.id + '">' +
-          item.label.toUpperCase() + '</button>';
+          icon + label + '</button>';
       }
       return '<a class="menu-btn" href="' + root() + 'index.html#' + item.id + '">' +
-        item.label.toUpperCase() + '</a>';
+        icon + label + '</a>';
     }).join('');
 
     var resumeCurrent = page === 'resume' ? ' aria-current="page"' : '';
     var resumeEntry = '<div class="menu-divider" role="presentation"></div>' +
-      '<a class="menu-btn is-external" href="' + root() + 'resume.html"' + resumeCurrent + '>RESUME</a>';
+      '<a class="menu-btn is-external" href="' + root() + 'resume.html"' + resumeCurrent + '>' +
+      '<img class="menu-icon" src="' + UTIL.escapeHtml(root() + 'assets/icon/selected/document.svg') + '" alt="" aria-hidden="true" />' +
+      '<span class="menu-label">RESUME</span></a>';
 
     return '<nav class="menu"' + (isHome ? ' role="tablist" aria-label="Portfolio sections"' : ' aria-label="Site sections"') + '>' +
       entries + resumeEntry + '</nav>';
@@ -56,7 +60,7 @@ window.CHROME = (function () {
           '<div class="profile-role">' + UTIL.escapeHtml(SITE.identity.role) + '</div>' +
           '<p class="profile-note">' + UTIL.escapeHtml(SITE.identity.note) + '</p>' +
           '<button class="sound-toggle sound-toggle--mobile" id="sound-toggle-mobile" type="button" aria-label="Toggle menu sound" aria-pressed="false">' +
-            '<span class="sound-glyph" aria-hidden="true">\uD83D\uDD07</span><span class="sound-label">SOUND OFF</span>' +
+            '<img class="sound-glyph" src="' + root() + 'assets/icon/selected/mute.svg" alt="" aria-hidden="true" /><span class="sound-label">SOUND OFF</span>' +
           '</button>' +
         '</section>' +
 
@@ -64,7 +68,7 @@ window.CHROME = (function () {
 
         '<div class="roster-footer">' +
           '<button class="sound-toggle sound-toggle--desktop" id="sound-toggle" type="button" aria-label="Toggle menu sound" aria-pressed="false">' +
-            '<span class="sound-glyph" aria-hidden="true">\uD83D\uDD07</span><span class="sound-label">SOUND OFF</span>' +
+            '<img class="sound-glyph" src="' + root() + 'assets/icon/selected/mute.svg" alt="" aria-hidden="true" /><span class="sound-label">SOUND OFF</span>' +
           '</button>' +
           '<p class="roster-hint">Up/down browse.<br>Right reads, Left exits.</p>' +
         '</div>' +
@@ -74,7 +78,7 @@ window.CHROME = (function () {
   function tabbarMarkup(page) {
     var isHome = page === 'home';
     var buttons = SITE.nav.map(function (item, index) {
-      var glyph = '<span class="tab-glyph" aria-hidden="true">' + item.glyph + '</span>';
+      var glyph = '<img class="tab-glyph" src="' + UTIL.escapeHtml(root() + 'assets/icon/selected/' + item.icon) + '" alt="" aria-hidden="true" />';
       var label = '<span>' + item.label.toUpperCase() + '</span>';
       var aria = ' aria-label="' + UTIL.escapeHtml(item.label) + '"';
       if (isHome) {
@@ -86,7 +90,6 @@ window.CHROME = (function () {
 
     return '<nav class="tabbar" id="tabbar" aria-label="Sections">' + buttons + '</nav>';
   }
-
   function promptBarMarkup(page) {
     var prompts = page === 'home'
       ? [
@@ -106,8 +109,7 @@ window.CHROME = (function () {
       return '<span class="prompt"><span class="key-cap">' + pair[0] + '</span>' + pair[1] + '</span>';
     }).join('');
 
-    return '<div class="prompt-bar" aria-hidden="true">' + items +
-      '<span class="prompt prompt-spacer">' + UTIL.escapeHtml(SITE.identity.tagline.toUpperCase()) + '</span></div>';
+    return '<div class="prompt-bar" aria-hidden="true">' + items + '</div>';
   }
 
   function footerLine() {
@@ -123,7 +125,7 @@ window.CHROME = (function () {
       buttons.forEach(function (button) {
         button.setAttribute('aria-pressed', String(on));
         var glyph = button.querySelector('.sound-glyph');
-        if (glyph) glyph.textContent = on ? '\uD83D\uDD0A' : '\uD83D\uDD07';
+        if (glyph) glyph.src = root() + 'assets/icon/selected/' + (on ? 'volume.svg' : 'mute.svg');
         var label = button.querySelector('.sound-label');
         if (label) label.textContent = on ? 'SOUND ON' : 'SOUND OFF';
       });

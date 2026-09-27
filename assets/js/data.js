@@ -259,11 +259,11 @@ window.SITE = (function () {
 
     /* ---- navigation ---- */
     nav: [
-      { id: 'home',     label: 'Home',     glyph: '\u2302' },
-      { id: 'art',      label: 'Art',      glyph: '\u25C6' },
-      { id: 'pipeline', label: 'Pipeline', glyph: '\u2699' },
-      { id: 'about',    label: 'About',    glyph: '\u2617' },
-      { id: 'contact',  label: 'Contact',  glyph: '\u2709' }
+      { id: 'home',     label: 'Home',     icon: 'house.svg' },
+      { id: 'art',      label: 'Art',      icon: 'image.svg' },
+      { id: 'pipeline', label: 'Pipeline', icon: 'tool-kit.svg' },
+      { id: 'about',    label: 'About',    icon: 'user.svg' },
+      { id: 'contact',  label: 'Contact',  icon: 'mail.svg' }
     ]
   };
 })();

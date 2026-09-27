@@ -107,19 +107,11 @@
 
 .modal-foot {
   display: grid;
+  grid-template-rows: auto auto;
   gap: var(--s-2);
   padding: var(--s-3) var(--s-4);
   border-top: var(--border);
   background: var(--cream);
-  max-height: 30vh;
-  overflow-y: auto;
-}
-
-.modal-desc {
-  font-size: var(--fs-body-sm);
-  line-height: 1.55;
-  color: var(--muted);
-  max-width: 75ch;
 }
 
 .modal-actions {
