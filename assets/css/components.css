@@ -329,3 +329,23 @@
 @keyframes toast-out {
   to { opacity: 0; transform: translateY(8px); }
 }
+
+/* Achievement variant — same toast, dressed up for the one moment on
+   the site that's actually a "you found something" beat. */
+.toast--achievement {
+  border-width: 3px;
+  padding: 13px 16px;
+  font-size: var(--fs-chrome-xs);
+  box-shadow: var(--shadow-sm), 0 0 0 3px rgba(255, 207, 77, .35);
+  animation: toast-in var(--slide) both, toast-pop 340ms ease both;
+}
+
+@keyframes toast-pop {
+  0%   { transform: scale(.85); }
+  60%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast--achievement { animation: toast-in var(--slide) both; }
+}

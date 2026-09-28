@@ -36,7 +36,7 @@ function fakeModels(count) {
   }));
 }
 
-function load(file, { fetchImpl, url } = {}) {
+function load(file, { fetchImpl, url, seed } = {}) {
   const virtualConsole = new VirtualConsole();
   const errors = [];
   virtualConsole.on('jsdomError', (e) => errors.push(e.message));
@@ -50,6 +50,7 @@ function load(file, { fetchImpl, url } = {}) {
     virtualConsole,
     beforeParse(window) {
       window.fetch = fetchImpl || (() => Promise.reject(new Error('offline')));
+      if (seed) seed(window);
       window.HTMLElement.prototype.scrollIntoView = function () {};
       window.Element.prototype.scrollTo = function () {};
     }
@@ -218,6 +219,8 @@ function tick(ms = 0) {
   ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a']
     .forEach(key => doc.dispatchEvent(new win.KeyboardEvent('keydown', { key, bubbles: true })));
   check('konami reveals secret slot', doc.getElementById('secret-slot').hidden === false);
+  check('konami fires the achievement toast',
+    !!doc.querySelector('.toast.toast--achievement') && /SECRET LEVEL FOUND/.test(doc.querySelector('.toast--achievement').textContent));
 
   /* ---------------- offline fallback ---------------- */
   console.log('\n=== index.html (sketchfab offline) ===');
@@ -230,6 +233,81 @@ function tick(ms = 0) {
   check('fallback mode switched to featured', offDoc.getElementById('art-mode').value === 'featured');
   check('fallback keeps sketchfab links',
     [...offDoc.querySelectorAll('#art-grid .model-card')].every(c => /sketchfab\.com\/3d-models/.test(c.getAttribute('data-view-url'))));
+
+  /* ---------------- glow-up features ---------------- */
+  console.log('\n=== index.html (glow-up features) ===');
+  const LONG = 'Stylized props built for a cozy game world with readable silhouettes and restrained detail so every piece holds up under real-time lighting, ' +
+    'not just inside a render, plus a few extra sentences of filler to guarantee this runs well past the two hundred character cut line.';
+  const fetchFeatures = () => Promise.resolve({
+    ok: true,
+    status: 200,
+    json: () => {
+      const models = fakeModels(6);
+      models[0].description = LONG;                      // featured uid, long copy
+      models[1].uid = 'hideme';  models[1].name = 'Hidden WIP';
+      models[2].uid = 'fixme';   models[2].description = 'strenghthen typo draft';
+      models[3].uid = 'plainuid'; models[3].name = 'Plain Model';
+      return Promise.resolve({ results: models, next: null });
+    }
+  });
+  const feat = load('index.html', { fetchImpl: fetchFeatures });
+  const fWin = feat.dom.window;
+  const fDoc = fWin.document;
+  check('no script errors on boot', feat.errors.length === 0, feat.errors[0]);
+
+  // count chips use the neutral treatment, gold stays reserved for real actions
+  check('art count chip is neutral', fDoc.getElementById('art-count').classList.contains('chip--sky')
+    && !fDoc.getElementById('art-count').classList.contains('chip--gold'));
+  check('no count/status chip uses gold', fDoc.querySelectorAll('.chip--gold').length === 0);
+
+  // copy pass: status is useful + sourced, nothing unearned, no repeated punchline, no sidebar clutter
+  const fText = fDoc.body.textContent;
+  check('status line says open for freelance', /STATUS: OPEN FOR FREELANCE/.test(fText) && !/BUILDING WORLDS/.test(fText));
+  check('art footer makes no unearned claim', /complete archive lives on my Sketchfab and ArtStation/.test(fText) && !/keeps growing|started as a block-out/.test(fText));
+  check('render-ready punchline appears once, not on every page', (fText.match(/render-ready/g) || []).length === 1, String((fText.match(/render-ready/g) || []).length));
+  check('contact copy leads with what visitors need', /Got a game that needs assets\?/.test(fText) && !/Find me around the web/.test(fText));
+  check('profile medium lists props, characters and environments', /Props, characters & environments/.test(fText));
+  check('roster footer is just sound + hint (no extra toggles)', fDoc.querySelectorAll('.roster-footer button').length === 1);
+
+  // hidden ids + description overrides go through the real config
+  fWin.SITE.sketchfab.hiddenIds.push('hideme');
+  fWin.SITE.sketchfab.descriptionOverrides['fixme'] = 'Fixed, portfolio-ready description.';
+  fDoc.querySelector('[data-goto="art"]').click();
+  await tick(80);
+  const fCards = [...fDoc.querySelectorAll('#art-grid .model-card')];
+  const titles = fCards.map(c => c.querySelector('h3').textContent);
+  check('hidden upload filtered out', fCards.length === 5 && titles.indexOf('Hidden WIP') === -1, titles.join(' | '));
+  check('count chip reflects hidden filter', fDoc.getElementById('art-count').textContent === '5 MODELS');
+
+  const byTitle = (t) => fCards.find(c => c.querySelector('h3').textContent === t);
+  const descOf = (card) => card.querySelector('.art-desc').textContent;
+  const longCard = fCards.find(c => /^Model 1/.test(c.querySelector('h3').textContent));
+  const longDesc = descOf(longCard);
+  check('long description ends with an ellipsis', /\u2026$/.test(longDesc), longDesc.slice(-20));
+  check('truncated description stays near the limit', longDesc.length <= 201, String(longDesc.length));
+  const stem = longDesc.replace(/\u2026$/, '');
+  check('truncation lands on a word boundary',
+    LONG.indexOf(stem) === 0 && (LONG.charAt(stem.length) === ' ' || LONG.charAt(stem.length) === ''), JSON.stringify(LONG.charAt(stem.length)));
+  const shortCard = byTitle('Plain Model');
+  check('short description left untouched', descOf(shortCard) === 'Test description for model 4');
+  const fixedCard = fCards.find(c => /Fixed, portfolio-ready/.test(descOf(c)));
+  check('description override replaces live copy', !!fixedCard && !/strenghthen/.test(fDoc.getElementById('art-grid').textContent));
+
+  // featured badge only on curated uids while synced
+  check('featured badge on curated uid', !!longCard.querySelector('.featured-badge'));
+  check('no featured badge on non-curated uid', !shortCard.querySelector('.featured-badge'));
+
+  // honest loading state (jsdom has no IntersectionObserver, so viewers start immediately)
+  const ph = longCard.querySelector('.viewer-placeholder');
+  check('loading state applied when viewer starts', ph.classList.contains('is-loading') && /LOADING MODEL/.test(ph.querySelector('b').textContent));
+  check('loading hint replaces stale standby copy', /Fetching the viewer/.test(ph.textContent) && !/starts when this card reaches/.test(ph.textContent));
+  check('spinner element present', !!ph.querySelector('.spinner-ring'));
+
+  // failure path flips the same placeholder to the unavailable state
+  const frame = longCard.querySelector('iframe.viewer');
+  frame.dispatchEvent(new fWin.Event('error'));
+  check('failed viewer clears loading and says so', !ph.classList.contains('is-loading') && /VIEWER UNAVAILABLE/.test(ph.querySelector('b').textContent)
+    && /did not load/.test(ph.textContent));
 
   /* ---------------- resume.html ---------------- */
   console.log('\n=== resume.html ===');

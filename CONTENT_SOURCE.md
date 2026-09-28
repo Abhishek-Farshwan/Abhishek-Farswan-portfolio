@@ -125,7 +125,7 @@ to stay consistent.
 > I model, texture, and optimize 3D assets for real-time games — the kind of props and characters that need to look good AND survive actually running in an engine.
 
 **Long version (about-section-length):**
-> I started as a freelance 3D artist shipping 100+ game-ready assets, then spent time as a Quality Verifier — which means I've got an unusually sharp eye for the small stuff that makes an asset actually ship-ready, not just render-ready. I've also taught computer fundamentals, so I'm just as comfortable explaining a workflow as executing one.
+> I started as a freelance 3D artist shipping 100+ game-ready assets, taught computer fundamentals for a while, and now work in quality verification, where attention to detail is the job. I'm just as comfortable explaining a workflow as executing one.
 
 **Quick facts (real ones only — the "coffee/weapon/weakness" style flavor
 lines from the character-sheet module were dropped here since they aren't
@@ -134,7 +134,7 @@ actual facts, just theme flavor; replace with whatever fits the new theme):**
 - shipped → 100+ game-ready assets
 - current → leveling up the pipeline
 - focus → game-ready 3D assets
-- medium → real-time props & environments
+- medium → props, characters & environments
 
 ## The Pipeline (skills breakdown — 4 stages)
 
@@ -203,7 +203,7 @@ or drop per whatever the new theme's identity ends up being.)*
 
 ## Contact section copy
 - Heading: "let's make something playable."
-- Subline: "Find me around the web, browse my 3D assets, or send me a message."
+- Subline: "Got a game that needs assets? Tell me what you're building."
 - Link labels used: resume, email, github, linkedin, artstation, sketchfab
 
 ---
@@ -237,6 +237,8 @@ asserts a skill, title, or metric that is not already in this file.
 - Hero tagline: "Make it readable. Make it game-ready."
 - Loadout heading: "STYLIZED WORLDBUILDING"
 - Loadout stats: FORM / Low / mid poly · LOOK / Stylized · ENGINE / Godot · ROLE / 3D art
+- Status line: "STATUS: OPEN FOR FREELANCE" *(restates the freelance availability already in the contact copy and the roster's OPEN badge — change it the day that stops being true; it replaced an undocumented "BUILDING WORLDS", which just echoed the loadout heading)*
+- Mission brief, first paragraph: "I build props, characters, and environment pieces for real-time games: clean silhouettes, purposeful detail, and meshes that still behave once they are inside an engine." *(props, characters, and environments are already the approved scope in the contact copy; the old first paragraph repeated the hero lead)*
 - Mission brief, second paragraph: "Two years of professional work: 100+
   game-ready assets delivered freelance, then quality verification work that
   sharpened the eye for what makes an asset ship-ready instead of
@@ -245,8 +247,7 @@ asserts a skill, title, or metric that is not already in this file.
 
 **Art**
 - Panel heading: "ART // INVENTORY"
-- Kicker: "Live from the Sketchfab account. Drag inside a viewer to orbit, or
-  hit INSPECT to open a model full size."
+- Kicker: "Pulled live from my Sketchfab. Drag inside a viewer to orbit, or hit INSPECT to open a model full size."
 - Viewer placeholder: "VIEWER STANDBY" / "The 3D viewer starts when this card
   reaches the screen." / link label "OPEN ON SKETCHFAB"
 - Failure state: "VIEWER UNAVAILABLE" / "The embedded viewer did not load. The
@@ -255,10 +256,7 @@ asserts a skill, title, or metric that is not already in this file.
   search to see every upload."
 - Status line: "N MODELS · SYNCED FROM SKETCHFAB" or "N MODELS · CURATED SET ·
   LIVE SYNC UNAVAILABLE"
-- Closing card (below the grid): "WANT TO SEE MORE?" / "This collection keeps
-  growing — every piece here started as a block-out and ended up game-ready
-  for a real engine. For the full archive, including work-in-progress pieces
-  and older uploads, the complete profiles are linked below." **This replaced
+- Closing card (below the grid): "WANT TO SEE MORE?" / "The complete archive lives on my Sketchfab and ArtStation profiles." *(the earlier copy claimed every piece began as a block-out and ended game-ready; some uploads are tutorial follow-alongs or base meshes, so it was dropped)* **This replaced
   an earlier "HOW THIS GRID WORKS" version that explained the live-sync
   mechanism to visitors** — that was implementation detail for whoever
   maintains the site, not something a visitor needs to know. If this card
@@ -281,16 +279,14 @@ asserts a skill, title, or metric that is not already in this file.
   sentence or two about the work helps."
 
 **404**
-- Heading: "PAGE NOT FOUND"
-- Body: "There is no level here. The link may be old, or the address may have a
-  typo in it."
+- Heading: "UNMAPPED COORDINATE"
+- Body: "You walked off the edge of the map. This address has no level data."
 
 **Secret level stub** (`/game/secret_level`)
 - Heading: "SECRET LEVEL"
-- Body: "This one is a stub on purpose. The door exists, the room behind it
-  does not — yet. It is reserved for a small playable thing built in Godot
+- Body: "The door is real. The room behind it is not built yet — it is reserved for a small playable thing built in Godot
   once there is something worth showing."
-- Status line: "STATUS: NOT BUILT · v1 SCOPE"
+- Status line: "STATUS: NOT BUILT YET"
 - This is a statement of intent about an unbuilt page, not a claim of shipped
   work. If the level is never built, delete the page rather than softening the
   copy into something that implies it exists.

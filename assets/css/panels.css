@@ -47,16 +47,21 @@
 
 .hero .lead { color: var(--ink); }
 
+/* A pull-quote, not a button: no shadow, no full border box, no hover
+   state. Gold lives only as a left accent so it doesn't compete with
+   the real CTA in .hero-actions. */
 .hero-tagline {
   margin-top: var(--s-4);
-  display: inline-block;
-  background: var(--gold);
-  border: var(--border-thin);
-  border-radius: var(--radius-xs);
-  padding: 9px 11px;
+  display: block;
+  max-width: 46ch;
+  background: var(--cream);
+  border-left: 5px solid var(--gold);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  padding: 10px 14px;
   font-family: var(--pixel);
   font-size: var(--fs-chrome-xs);
-  line-height: 1.7;
+  line-height: 1.8;
+  color: var(--sky-dark);
 }
 
 .hero-side {
@@ -193,6 +198,29 @@
   text-decoration: none;
 }
 
+/* Once the card scrolls into view art.js swaps the copy to "LOADING
+   MODEL" and adds this class, so the wait between trigger and the
+   real Sketchfab UI popping in has its own honest state instead of
+   sitting on stale "starts when this card reaches the screen" text. */
+.viewer-placeholder.is-loading .spinner-ring {
+  display: block;
+  width: 26px;
+  height: 26px;
+  margin: 0 auto var(--s-1);
+  border-radius: 50%;
+  border: 3px solid rgba(255, 253, 247, .3);
+  border-top-color: var(--gold);
+  animation: spin .8s linear infinite;
+}
+
+.spinner-ring { display: none; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .viewer-placeholder.is-loading .spinner-ring { animation: none; }
+}
+
 .inspect-btn {
   position: absolute;
   z-index: 2;
@@ -240,6 +268,23 @@
   border-radius: 999px;
   padding: 5px 9px;
   background: var(--red-dark);
+  color: var(--white);
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.6;
+}
+
+/* Marks a piece as one of the curated "featured" set, even while
+   browsing ALL UPLOADS — so a fast-skimming recruiter can tell which
+   pieces to look at first without touching the SHOW filter. Sky, not
+   gold: it's information, not a call to action. */
+.featured-badge {
+  display: inline-flex;
+  align-items: center;
+  border: var(--border-thin);
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: var(--sky-dark);
   color: var(--white);
   font-family: var(--pixel);
   font-size: var(--fs-chrome-xs);
@@ -353,7 +398,7 @@
 .endorsements {
   display: grid;
   gap: var(--s-3);
-  margin-top: var(--s-5);
+  margin-top: var(--s-6);
   padding-top: var(--s-4);
   border-top: var(--border-thin);
 }

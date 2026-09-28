@@ -74,10 +74,10 @@ window.UTIL = (function () {
     return zone;
   }
 
-  function toast(message, ms) {
+  function toast(message, ms, variant) {
     var zone = toastZone();
     var node = document.createElement('div');
-    node.className = 'toast';
+    node.className = variant ? 'toast toast--' + variant : 'toast';
     node.textContent = message;
     zone.appendChild(node);
     window.setTimeout(function () {

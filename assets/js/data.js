@@ -38,9 +38,9 @@ window.SITE = (function () {
       tagline: 'Built like a game menu, shipped like a portfolio',
       heroLead: '3D artist creating stylized, optimized assets for real-time games \u2014 from clean blockouts to engine-ready final meshes.',
       heroTagline: 'Make it readable. Make it game-ready.',
-      missionBrief: 'I model, texture, and optimize 3D assets for real-time games. The focus is clean silhouettes, purposeful detail, and a workflow that produces assets ready for actual engine constraints \u2014 not just pretty viewport renders.',
+      missionBrief: 'I build props, characters, and environment pieces for real-time games: clean silhouettes, purposeful detail, and meshes that still behave once they are inside an engine.',
       bioShort: 'I model, texture, and optimize 3D assets for real-time games \u2014 the kind of props and characters that need to look good AND survive actually running in an engine.',
-      bioLong: 'I started as a freelance 3D artist shipping 100+ game-ready assets, then spent time as a Quality Verifier \u2014 which means I have an unusually sharp eye for the small stuff that makes an asset actually ship-ready, not just render-ready. I have also taught computer fundamentals, so I am just as comfortable explaining a workflow as executing one.',
+      bioLong: 'I started as a freelance 3D artist shipping 100+ game-ready assets, taught computer fundamentals for a while, and now work in quality verification, where attention to detail is the job. I am just as comfortable explaining a workflow as executing one.',
       bioStyle: 'My work leans stylized low-to-mid-poly: strong silhouettes, readable materials, restrained detail, and assets that hold up beyond the viewport.'
     },
 
@@ -110,7 +110,21 @@ window.SITE = (function () {
         '699ee2e05bce46749ef93e3330cfb7d4',
         '1fe25295ecc84383a65a109dcb42f60d',
         '951d2ca02d2b468391e738d065cebc87'
-      ]
+      ],
+      /* Sketchfab uploads to leave out of the ALL UPLOADS grid without
+         touching the Sketchfab account itself — e.g. a WIP test piece.
+         Add the model's uid (same format as featuredIds above; find it
+         in the model's Sketchfab URL). Empty by default: nothing is
+         hidden unless you put it here. */
+      hiddenIds: [],
+      /* Fixes for a live Sketchfab description without editing it on
+         Sketchfab \u2014 a typo, or a draft one-liner that reads fine to you
+         mid-upload but not to someone skimming cold. Keyed by uid, same
+         as hiddenIds above. Example once you have a real uid:
+         descriptionOverrides: {
+           'abc123uid': 'A corrected, portfolio-ready description.'
+         } */
+      descriptionOverrides: {}
     },
 
     /* ---- curated fallback grid (approved baseline) ---- */
@@ -191,7 +205,7 @@ window.SITE = (function () {
       { label: 'Craft',    value: '3D art for real-time games' },
       { label: 'Shipped',  value: '100+ game-ready assets' },
       { label: 'Focus',    value: 'Game-ready 3D assets' },
-      { label: 'Medium',   value: 'Real-time props & environments' },
+      { label: 'Medium',   value: 'Props, characters & environments' },
       { label: 'Engine',   value: 'Godot' },
       { label: 'Based in', value: 'Uttarakhand, India' }
     ],
@@ -253,7 +267,7 @@ window.SITE = (function () {
     /* ---- contact copy ---- */
     contact: {
       heading: "Let's make something playable.",
-      subline: 'Find me around the web, browse my 3D assets, or send me a message.',
+      subline: "Got a game that needs assets? Tell me what you're building.",
       formNote: 'This form opens your own mail app with the message pre-filled \u2014 nothing is sent through a server, so nothing of yours is stored here.'
     },
 

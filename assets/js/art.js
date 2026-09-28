@@ -33,10 +33,11 @@ window.ART = (function () {
       var pick = images.filter(function (image) { return image.width <= 1024; })[0] || images[images.length - 1];
       thumb = pick ? pick.url : '';
     }
+    var override = CONFIG.descriptionOverrides && CONFIG.descriptionOverrides[model.uid];
     return {
       uid: model.uid,
       name: model.name || 'Untitled model',
-      description: (model.description || '').trim(),
+      description: override || (model.description || '').trim(),
       views: model.viewCount || 0,
       likes: model.likeCount || 0,
       tris: model.faceCount || 0,
@@ -129,10 +130,23 @@ window.ART = (function () {
     }).join('');
   }
 
+  var DESC_LIMIT = 200;
+
+  function truncateDescription(text) {
+    if (!text) return 'Game-ready 3D model from the Sketchfab portfolio. Drag inside the viewer to orbit.';
+    if (text.length <= DESC_LIMIT) return text;
+    var cut = text.slice(0, DESC_LIMIT);
+    var lastSpace = cut.lastIndexOf(' ');
+    if (lastSpace > DESC_LIMIT * 0.6) cut = cut.slice(0, lastSpace);
+    return cut.replace(/[.,;:\u2014\-\s]+$/, '') + '\u2026';
+  }
+
   function cardMarkup(model, index) {
-    var description = model.description
-      ? model.description.slice(0, 200)
-      : 'Game-ready 3D model from the Sketchfab portfolio. Drag inside the viewer to orbit.';
+    var description = truncateDescription(model.description);
+    /* Only badge it when synced and mixed in with everything else —
+       in the curated fallback grid every card IS the featured set,
+       so the badge would just be noise. */
+    var isFeatured = synced && CONFIG.featuredIds.indexOf(model.uid) > -1;
 
     var poster = model.thumb
       ? ' style="background-image:url(' + UTIL.escapeHtml(model.thumb) + ')"'
@@ -148,6 +162,7 @@ window.ART = (function () {
             'loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen ' +
             'sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>' +
           '<div class="viewer-placeholder"' + poster + '><div>' +
+            '<span class="spinner-ring" aria-hidden="true"></span>' +
             '<b>VIEWER STANDBY</b>' +
             '<span>The 3D viewer starts when this card reaches the screen.</span>' +
             '<a href="' + UTIL.escapeHtml(model.view) + '" target="_blank" rel="noreferrer">OPEN ON SKETCHFAB</a>' +
@@ -159,6 +174,7 @@ window.ART = (function () {
           '<h3>' + UTIL.escapeHtml(model.name) + '</h3>' +
           '<div class="art-meta">' + statChips(model) +
             (model.staffPick ? '<span class="staff-badge">STAFF PICK</span>' : '') +
+            (isFeatured ? '<span class="featured-badge">FEATURED</span>' : '') +
           '</div>' +
           '<p class="art-desc">' + UTIL.escapeHtml(description) + '</p>' +
         '</div>' +
@@ -237,22 +253,31 @@ window.ART = (function () {
 
     var placeholder = card.querySelector('.viewer-placeholder');
     var heading = placeholder ? placeholder.querySelector('b') : null;
+    /* the hint <span> sits right after the spinner-ring <span>, so grab
+       the second span specifically rather than the first. */
+    var hintSpan = placeholder ? placeholder.querySelectorAll('div > span') : null;
+    hintSpan = hintSpan && hintSpan.length > 1 ? hintSpan[1] : null;
     var timer;
 
     function fail() {
       window.clearTimeout(timer);
       frame.classList.add('viewer-failed');
       frame.classList.remove('loaded');
+      if (placeholder) placeholder.classList.remove('is-loading');
       if (heading) heading.textContent = 'VIEWER UNAVAILABLE';
-      var hint = placeholder ? placeholder.querySelector('span') : null;
-      if (hint) hint.textContent = 'The embedded viewer did not load. The model still opens on Sketchfab.';
+      if (hintSpan) hintSpan.textContent = 'The embedded viewer did not load. The model still opens on Sketchfab.';
     }
 
     frame.addEventListener('load', function () {
       window.clearTimeout(timer);
       frame.classList.add('loaded');
+      if (placeholder) placeholder.classList.remove('is-loading');
     }, { once: true });
     frame.addEventListener('error', fail, { once: true });
+
+    if (placeholder) placeholder.classList.add('is-loading');
+    if (heading) heading.textContent = 'LOADING MODEL\u2026';
+    if (hintSpan) hintSpan.textContent = 'Fetching the viewer from Sketchfab.';
 
     frame.src = src;
     timer = window.setTimeout(fail, 12000);
@@ -288,7 +313,10 @@ window.ART = (function () {
     fetchModels()
       .then(function (results) {
         if (!results.length) throw new Error('No models returned');
-        models = results.map(fromApi);
+        var hidden = CONFIG.hiddenIds || [];
+        models = results
+          .filter(function (model) { return hidden.indexOf(model.uid) === -1; })
+          .map(fromApi);
         synced = true;
         modeSelect.disabled = false;
         apply();

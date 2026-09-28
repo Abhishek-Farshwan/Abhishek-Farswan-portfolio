@@ -43,15 +43,28 @@ Any static host works. No build command, publish directory is the project root.
 
 ## Cache-busting
 
-Every local CSS/JS reference carries a shared cache token such as `?v=20260927-2`.
+Every local CSS/JS reference carries a shared cache token such as `?v=20260928-2`.
 **Bump the token whenever you ship a CSS or JS change to the live site** —
 otherwise a returning visitor's browser (or an aggressive CDN cache) can keep
 serving an old stylesheet or script until its cache naturally expires. Find
 and replace the version string across all four HTML files at once:
 
 ```bash
-grep -rl '?v=20260927-2' *.html game/secret_level/*.html | xargs sed -i 's/?v=20260927-2/?v=YYYYMMDD-N/g'
+grep -rl '?v=20260928-2' *.html game/secret_level/*.html | xargs sed -i 's/?v=20260928-2/?v=YYYYMMDD-N/g'
 ```
+
+## Art grid controls (all in `assets/js/data.js` → `sketchfab`)
+
+Three hooks let you curate the live Sketchfab sync without touching your
+Sketchfab account. Model uids are the long hex string at the end of a
+model's Sketchfab URL.
+
+- `featuredIds` — pieces that get the FEATURED pill (while browsing ALL
+  UPLOADS) and that the SHOW → FEATURED filter keeps.
+- `hiddenIds` — uploads to leave out of the grid entirely, e.g. a WIP test
+  piece. Empty by default.
+- `descriptionOverrides` — `{ 'uid': 'text' }` replaces a live Sketchfab
+  description (typo, draft one-liner). Empty by default.
 
 ## Editing
 
