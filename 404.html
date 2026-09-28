@@ -2,15 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self' mailto:;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#3b6ea5" />
-  <title>Unmapped coordinate — Abhishek Farshwan</title>
-  <meta name="description" content="There is no level data at this address. Head back to the main menu." />
+  <meta name="theme-color" content="#262b36" />
+  <title>404 · Off the map — Abhishek Farshwan</title>
+  <meta name="description" content="There is no level data at this address. Follow the compass back to the main menu." />
   <meta name="robots" content="noindex" />
 
   <link rel="icon" href="./user.png" type="image/png" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet" />
@@ -25,90 +23,102 @@
   <link rel="stylesheet" href="./assets/css/responsive.css?v=20260928-2" />
 </head>
 
-<body class="is-page" data-page="none" data-root="">
-  <main class="standalone">
-    <section class="card lost-box">
+<body class="is-page is-lost" data-page="none" data-root="">
+  <main class="lost">
+    <svg class="lost-bg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <defs>
+        <path id="cnt" vector-effect="non-scaling-stroke" d="M0,-60C40,-70 90,-40 95,0C100,45 55,75 5,70C-45,66 -95,40 -90,-5C-85,-40 -45,-52 0,-60Z" />
+        <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch" /><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .07 0" /></filter>
+        <radialGradient id="vig" cx="50%" cy="45%" r="75%"><stop offset=".55" stop-color="#000" stop-opacity="0" /><stop offset="1" stop-color="#000" stop-opacity=".45" /></radialGradient>
+        <mask id="reveal"><path class="reveal" pathLength="1" d="M-40,430C140,350 190,150 430,110S730,110 820,270 1000,480 1240,470" /></mask>
+      </defs>
+      <rect width="1200" height="800" fill="var(--scene-bg)" />
+      <g class="s-cnt"><use href="#cnt" transform="translate(210,170) rotate(0) scale(2.4)"/><use href="#cnt" transform="translate(210,170) rotate(0) scale(1.8)"/><use href="#cnt" transform="translate(210,170) rotate(0) scale(1.25)"/><use href="#cnt" transform="translate(210,170) rotate(0) scale(0.7)"/><use href="#cnt" transform="translate(980,600) rotate(40) scale(2.4)"/><use href="#cnt" transform="translate(980,600) rotate(40) scale(1.8)"/><use href="#cnt" transform="translate(980,600) rotate(40) scale(1.25)"/><use href="#cnt" transform="translate(980,600) rotate(40) scale(0.7)"/><use href="#cnt" transform="translate(640,730) rotate(-20) scale(2.4)"/><use href="#cnt" transform="translate(640,730) rotate(-20) scale(1.8)"/><use href="#cnt" transform="translate(640,730) rotate(-20) scale(1.25)"/><use href="#cnt" transform="translate(640,730) rotate(-20) scale(0.7)"/></g>
+      <path class="s-trail" mask="url(#reveal)" d="M-40,430C140,350 190,150 430,110S730,110 820,270 1000,480 1240,470" />
+      <path class="s-trail" d="M470,860C540,760 700,730 830,790" />
+      <rect width="1200" height="800" filter="url(#grain)" />
+      <rect width="1200" height="800" fill="url(#vig)" />
+    </svg>
 
-      <div class="lost-head">
+    <div class="lost-stage">
+      <header class="lost-head">
         <span class="lost-tag">WORLD MAP // SECTOR ???</span>
         <span class="lost-signal" id="lost-signal">SIGNAL: LOST</span>
+      </header>
+
+      <div class="lost-copy">
+        <span class="lost-number" aria-hidden="true"><span>4</span><span>0</span><span>4</span></span>
+        <h1>OFF THE MAP</h1>
+        <p class="prose">Error 404. You walked past the edge of the survey and this address has no level data. The compass points home; the binoculars can spot nearby landmarks.</p>
+
+        <dl class="readout">
+          <dt>LAST KNOWN ADDRESS</dt>
+          <dd id="lost-path">—</dd>
+        </dl>
+        <p class="lost-spot" id="lost-spot" role="status" aria-live="polite"><b>LOOKOUT</b>Scanning the area for landmarks…</p>
+
+        <div class="lost-btns">
+          <a class="lost-btn" href="./index.html">◀ WARP TO MENU</a>
+          <a class="lost-btn lost-btn--ghost" href="./index.html#art">VIEW PORTFOLIO</a>
+        </div>
+        <p class="form-note">Think a real door is broken? <a href="mailto:abhishekfarshwan@gmail.com">Tell me about it.</a></p>
       </div>
 
-      <div class="lost-hero">
-        <div class="lost-copy">
-          <span class="lost-number" aria-hidden="true">404</span>
-          <h1>UNMAPPED<br />COORDINATE</h1>
-          <p class="prose">You walked off the edge of the map. This address has no level data.</p>
-        </div>
+      <div class="lost-world">
+        <button class="lost-bino" id="lost-bino" type="button" aria-describedby="lost-spot">
+          <svg viewBox="0 0 200 190" aria-hidden="true" focusable="false">
+            <defs><g id="brl">
+              <rect class="c-lite" x="26" y="8" width="54" height="24" /><rect class="c-gold" x="34" y="30" width="38" height="46" /><rect class="c-deep" x="60" y="30" width="12" height="46" />
+              <rect class="c-gold" x="26" y="70" width="54" height="80" /><rect class="c-lite" x="26" y="70" width="16" height="80" /><rect class="c-deep" x="66" y="70" width="14" height="80" />
+              <rect class="c-lite" x="20" y="146" width="66" height="34" /><rect class="c-deep" x="20" y="168" width="66" height="12" />
+            </g></defs>
+            <use href="#brl" /><use href="#brl" x="94" />
+            <rect class="c-gold" x="78" y="90" width="44" height="26" /><rect class="c-deep" x="78" y="106" width="44" height="10" />
+            <circle class="c-lite" cx="100" cy="103" r="11" /><circle class="c-gold" cx="100" cy="103" r="5" />
+          </svg>
+          <span class="lost-cap">SCAN AREA</span>
+        </button>
 
-        <div class="lost-map" role="group" aria-label="A site map showing the valid sections and the lost marker outside the mapped region.">
-          <svg class="map-svg" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <div class="lost-map" role="group" aria-label="A folded map. Five landmarks mark the valid sections of this site; a red X marks the lost address.">
+          <svg class="map-svg" viewBox="0 0 420 340" aria-hidden="true" focusable="false">
             <defs>
-              <pattern id="hatch" width="10" height="10" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-                <line x1="0" y1="0" x2="0" y2="10" stroke="#1c2541" stroke-opacity="0.12" stroke-width="1"></line>
-              </pattern>
-              <radialGradient id="landShade" cx="38%" cy="32%" r="75%">
-                <stop offset="0%" stop-color="#fffdf7"></stop>
-                <stop offset="100%" stop-color="#e7dcc2"></stop>
-              </radialGradient>
+              <clipPath id="mapclip"><path d="M6,62L204,28 404,8 420,290 204,318 0,296Z" /></clipPath>
+              <linearGradient id="crease" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity="0" /><stop offset=".5" stop-color="#000" stop-opacity=".28" /><stop offset="1" stop-color="#000" stop-opacity="0" /></linearGradient>
+              <g id="pine"><path d="M0,-15L8,-2 3,-2 10,9-10,9-3,-2-8,-2Z" /><rect x="-1.5" y="9" width="3" height="5" /></g>
             </defs>
-
-            <rect x="0" y="0" width="600" height="420" fill="#f8f4e8"></rect>
-            <rect x="0" y="0" width="600" height="420" fill="url(#hatch)"></rect>
-
-            <path class="map-coast" pathLength="1"
-                  d="M 130,257 C 106,208 128,152 194,136 C 223,104 301,84 366,109
-                     C 424,120 469,151 479,193 C 509,219 498,269 457,293
-                     C 427,323 361,333 299,321 C 240,333 178,321 149,299
-                     C 121,287 125,271 130,257 Z"
-                  fill="url(#landShade)" stroke="#1c2541" stroke-width="4"></path>
-
-            <polyline class="map-route" pathLength="1"
-                      points="172,248 232,182 322,142 402,182 442,250"
-                      fill="none" stroke="#274a72" stroke-width="2.5" stroke-dasharray="0.002 0.018" stroke-linecap="round"></polyline>
-
-            <line class="map-lead" x1="520" y1="340" x2="460" y2="293" stroke="#a93434" stroke-width="2" stroke-dasharray="5 6"></line>
+            <path class="m-fold" d="M6,62L204,28 204,318 0,296Z" /><path class="m-paper" d="M204,28L404,8 420,290 204,318Z" />
+            <g clip-path="url(#mapclip)">
+              <path class="m-land" d="M20,112C50,90 100,100 112,132 92,162 40,168 20,150Z" /><path class="m-land" d="M232,108C272,88 330,98 344,132 322,164 262,168 236,146Z" /><path class="m-land" d="M150,296C170,250 200,236 226,268 216,300 178,310 150,296Z" />
+              <path class="m-water" d="M8,196C40,180 76,200 70,234 44,260 6,252 4,226Z" /><path class="m-zig" d="M20,216l8-5 8 5 8-5 8 5" />
+              <path class="m-water" d="M370,150C395,140 416,160 414,204 408,244 380,250 366,226 360,192 362,162 370,150Z" /><path class="m-zig" d="M378,190l8-5 8 5 8-5M376,212l8-5 8 5 8-5" />
+              <use href="#pine" class="m-pine" transform="translate(112,58) scale(0.9)"/><use href="#pine" class="m-pine" transform="translate(128,74) scale(0.7)"/><use href="#pine" class="m-pine" transform="translate(84,236) scale(0.8)"/><use href="#pine" class="m-pine" transform="translate(150,262) scale(1)"/><use href="#pine" class="m-pine" transform="translate(250,250) scale(0.9)"/><use href="#pine" class="m-pine" transform="translate(272,72) scale(0.8)"/><use href="#pine" class="m-pine" transform="translate(300,270) scale(0.7)"/><use href="#pine" class="m-pine" transform="translate(232,150) scale(0.75)"/>
+              <path class="m-route" d="M16,246C80,180 120,262 190,214S290,170 322,128" />
+              <rect x="196" y="0" width="16" height="340" fill="url(#crease)" />
+            </g>
+            <g class="map-x"><circle class="map-x-ring" cx="328" cy="122" r="16" /><path d="M316,110L340,134M340,110L316,134" /></g>
           </svg>
 
-          <span class="map-compass" aria-hidden="true">&#10021; N</span>
+          <a class="map-pin" style="left:14%; top:66%;" href="./index.html" data-pin="home"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIxLjk3IDEuOTkgNi4wNSA2LjA1Ij48cGF0aCBkPSJNMy45MDEgMi43MzNjLjQwOC0uMzY1LjYxMi0uNTQ3Ljg0NS0uNjA4YTEgMSAwIDAgMSAuNTA4IDBjLjIzMy4wNjEuNDM3LjI0My44NDUuNjA4bDEuNzI0IDEuNTQzQS41OTYuNTk2IDAgMCAxIDcuNSA1LjMxMWEuMzYuMzYgMCAwIDAtLjMxMy4zNTNsLS4wMDcgMS40NjNjLS4wMDEuMjEtLjAwMi4zMTYtLjAyOC40MDFhLjYuNiAwIDAgMS0uMzk4LjM5NmMtLjA4NS4wMjYtLjE5LjAyNi0uNDAxLjAyNi0uMTQxIDAtLjIxMiAwLS4yNy0uMDE4YS40LjQgMCAwIDEtLjI2NC0uMjY1QzUuOCA3LjYxIDUuOCA3LjU0IDUuOCA3LjM5OFY2LjY1YS44LjggMCAwIDAtMS42IDB2Ljc0YzAgLjE0OSAwIC4yMjMtLjAyLjI4NGEuNC40IDAgMCAxLS4yNTYuMjU2Yy0uMDYuMDItLjEzNS4wMi0uMjg0LjAyLS4yMjMgMC0uMzM1IDAtLjQyNS0uMDNhLjYuNiAwIDAgMS0uMzg2LS4zODVDMi44IDcuNDQ1IDIuOCA3LjMzMyAyLjggNy4xMVY1LjY5YS4zNi4zNiAwIDAgMC0uMzEyLS4zNTkuNjA0LjYwNCAwIDAgMS0uMzE5LTEuMDQ4eiIvPjwvc3ZnPg==" alt="" /></span><span class="tag">HOME</span></a>
+          <a class="map-pin" style="left:22%; top:26%;" href="./index.html#art" data-pin="art"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjMwIDIuMzAgNS40MCA1LjQwIj48cGF0aCBkPSJNNi4xOCAyLjhjLjY3NyAwIDEuMDE1IDAgMS4yNC4xOTJhMSAxIDAgMCAxIC4wODguMDg5Yy4xOTIuMjI0LjE5Mi41NjMuMTkyIDEuMjR2MS4zNmMwIC42NzYgMCAxLjAxNS0uMTkyIDEuMjM5YTEgMSAwIDAgMS0uMDg5LjA4OWMtLjIyNC0uMTkxLS41NjItLjE5MS0xLjIzOS4xOTFIMy44MmMtLjY3NyAwLTEuMDE1IDAtMS4yNC0uMTkxYTEgMSAwIDAgMS0uMDg4LS4wOUMyLjMgNi42OTcgMi4zIDYuMzU4IDIuMyA1LjY4MlY0LjMyYzAtLjY3NyAwLTEuMDE2LjE5Mi0xLjI0YTEgMSAwIDAgMSAuMDg5LS4wODljLjIyNC0uMTkxLjU2Mi0uMTkyIDEuMjM5LS4xOTJ6TTQuNSA0LjVjLS4zNTQgMC0uNzAxLjI5NC0uOTkuNjUtLjM1Mi40MzMtLjUyOC42NS0uNDM4LjkxMi4wMS4wMzIuMDMxLjA3NC4wNDkuMTAyLjE0Ni4yMzYuNDYyLjIzNiAxLjA5NC4yMzZoMS4yMDJjLjcwMSAwIDEuMDUyIDAgMS4xNjMtLjIyMmEuNC40IDAgMCAwIC4wMzItLjA5M2MuMDUyLS4yNDItLjIwNy0uNDUtLjcyOC0uODY2QzUuNDAxIDQuODMyIDQuODc2IDQuNSA0LjUgNC41bTItMS4xYS42LjYgMCAxIDAgMCAxLjIuNi42IDAgMCAwIDAtMS4yIi8+PC9zdmc+" alt="" /></span><span class="tag">ART</span></a>
+          <a class="map-pin" style="left:42%; top:70%;" href="./index.html#pipeline" data-pin="pipeline"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjEwIDIuMTAgNS44MCA1LjgwIj48cGF0aCBkPSJNMi4xIDYuMTAyYzAtLjExOC4xODItLjIwMi4zLS4yMDJoMS43NWEuMjUuMjUgMCAwIDEgLjI1LjI1LjYuNiAwIDEgMCAxLjIgMCAuMjUuMjUgMCAwIDEgLjI1LS4yNUg3LjZjLjExOCAwIC4zLjA4NC4zLjIwMnYuMDI4YzAgLjY3NyAwIDEuMDE1LS4xOTIgMS4yNGExIDEgMCAwIDEtLjA4OC4wODhjLS4yMjUuMTkyLS41NjMuMTkyLTEuMjQuMTkySDMuNjJjLS42NzcgMC0xLjAxNSAwLTEuMjQtLjE5MmExIDEgMCAwIDEtLjA4OC0uMDg4QzIuMSA3LjE0NSAyLjEgNi44MDYgMi4xIDYuMTN6TTUgMi4zNWMuNzUgMCAxLjEyNSAwIDEuMzg4LjE5MnEuMTI5LjA5My4yMi4yMmMuMTM2LjE4Ny4xNzUuNDMuMTg3LjgyNS4wMDUuMTk2LjAwOC4yOTQuMDU2LjM1OGwuMDIyLjAyNmMuMDU1LjA1Ni4xNjcuMDc2LjM5LjExN2EuNzIuNzIgMCAwIDEgLjQ0Ni4yNDNjLjExMy4xMzMuMTU5LjMwNy4xNzcuNTY4LjAwOC4xMTYtLjE3LjIwMS0uMjg2LjIwMUgyLjRjLS4xMTcgMC0uMjk1LS4wODYtLjI4Ni0uMjAyLjAxOC0uMjYuMDY0LS40MzQuMTc4LS41NjdhLjcyMy43MjMgMCAwIDEgLjQ0NC0uMjQyYy4yMjMtLjA0Mi4zMzUtLjA2Mi4zOS0uMTE4bC4wMjItLjAyNmMuMDQ4LS4wNjQuMDUtLjE2Mi4wNTYtLjM1OC4wMTItLjM5NC4wNTItLjYzOC4xODctLjgyNXEuMDk0LS4xMjguMjIyLS4yMkMzLjg3NiAyLjM1IDQuMjUgMi4zNSA1IDIuMzVtMCAuOGMtLjQ3IDAtLjcwNyAwLS44NTMuMTQ2YS40OC40OCAwIDAgMC0uMTI0LjI4Yy0uMDMuMTktLjA0NS4yODcuMDE1LjM3cS4wMTIuMDE2LjAyOC4wMzMzLjA3My43MS4xODYuMDcxLjQxMS4wNzFoMS4wNDdjLjIyNSAwIC4zMzggMCAuNDExLS4wNzFxLjAxNS0uMDE3LjAyOC0uMDMzYy4wNi0uMDgzLjA0NS0uMTguMDE1LS4zN2EuNDguNDggMCAwIDAtLjEyNC0uMjhDNS43MDggMy4xNSA1LjQ3MiAzLjE1IDUgMy4xNSIvPjwvc3ZnPg==" alt="" /></span><span class="tag">PIPELINE</span></a>
+          <a class="map-pin" style="left:52%; top:22%;" href="./index.html#about" data-pin="about"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjAwIDIuMDAgNi4wMCI+PHBhdGggZD0iTTYuNDc2IDUuMzVjLjExLjAyLjE3My4wNzEuMy4xNzIuNjguNTQ3LjcyNCAxLjM0NS43MjQgMS40NzcgMCAuMi0uMiAxLTسyLjVzLTIuNS0uOC0yLjUtMWMwLS4xMzIuMDQ0LS45MjkuNzI1LTEuNDc2LjEyNi0uMTAxLjE4OS0uMTUyLjMtLjE3M2wuMDQ3LS4wMDdjLjExMi0uMDA5LjI0Ny4wNS41MTQuMTY2YTIuMjggMi4yOCAwIDAgMCAxLjgyOCAwYy4yNjctLjExNy40LS4xNzUuNTEzLS4xNjZ6TTUgMmExLjQgMS40IDAgMSAxIDAgMi44MDFBMS40IDEuNCAwIDAgMSA1IDIiLz48L3N2Zz4=" alt="" /></span><span class="tag">ABOUT</span></a>
+          <a class="map-pin" style="left:76%; top:78%;" href="./index.html#contact" data-pin="contact"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjAwIDIuMDAgNi4wMCI+PHBhdGggZD0iTTYuMSAyLjhjLjg0NSAwIDEuMjY5IDAgMS41NS4yNHEuMDYuMDUxLjExLjExQzggMy40MzIgOCAzLjg1NSA4IDQuN3YuNmMwIC44NDYgMCAxLjI2OS0uMjQgMS41NXEtLjA1LjA1OS0uMTEuMTFjLS4yODEuMjQtLjcwNC4yNC0xLjU1LjI0SDMuOWMtLjg0NiAwLTEuMjY5IDAtMS41NS0uMjRhMSAxIDAgMCAxLS4xMS0uMTFDMiA2LjU2OCAyIDYuMTQ1IDIgNS4zdi0uNmMwLS44NDYgMC0xLjI2OS4yNC0xLjU1cS4wNS0uMDU5LjExLS4xMWMuMjgxLS4yNC43MDUtLjI0IDEuNTUtLjI0em0xLjA4NSAxLjAzYS41LjUgMCAwIDAtLjcwNS0uMDY0TDUuMTkyIDQuODRhLjMuMyAwIDAgMS0uMzgzIDBMMTMuNTIgMy43NjZhLjUuNSAwIDAgMC0uNjQxLjc2OGwxLjI4OCAxLjA3M2ExLjMgMS4zIDAgMCAwIDEuNjY0IDBMMTcuMTIgNC41MzRhLjUuNSAwIDAgMCAuMDY1LS43MDQiLz48L3N2Zz4=" alt="" /></span><span class="tag">CONTACT</span></a>
 
-          <a class="map-pin" style="left:28.7%; top:59%;" href="./index.html">
-            <span class="badge" aria-hidden="true"><img class="map-pin-icon" src="./assets/icon/selected/house.svg" alt="" /></span><span class="tag">HOME</span>
-          </a>
-          <a class="map-pin" style="left:38.7%; top:43.3%;" href="./index.html#art">
-            <span class="badge" aria-hidden="true"><img class="map-pin-icon" src="./assets/icon/selected/image.svg" alt="" /></span><span class="tag">ART</span>
-          </a>
-          <a class="map-pin" style="left:53.7%; top:33.8%;" href="./index.html#pipeline">
-            <span class="badge" aria-hidden="true"><img class="map-pin-icon" src="./assets/icon/selected/tool-kit.svg" alt="" /></span><span class="tag">PIPELINE</span>
-          </a>
-          <a class="map-pin" style="left:67%; top:43.3%;" href="./index.html#about">
-            <span class="badge" aria-hidden="true"><img class="map-pin-icon" src="./assets/icon/selected/user.svg" alt="" /></span><span class="tag">ABOUT</span>
-          </a>
-          <a class="map-pin" style="left:73.7%; top:59.5%;" href="./index.html#contact">
-            <span class="badge" aria-hidden="true"><img class="map-pin-icon" src="./assets/icon/selected/mail.svg" alt="" /></span><span class="tag">CONTACT</span>
-          </a>
-
-          <div class="map-you" style="left:86.7%; top:81%;" aria-label="Current location is off the map">
-            <span class="glyph" aria-hidden="true">&#10005;</span>
-            <span class="tag">YOU ARE HERE</span>
-          </div>
+          <span class="map-you">YOU ARE HERE</span>
         </div>
+
+        <a class="lost-compass is-hunting" href="./index.html" aria-label="Compass. The needle points home. Follow it to the main menu.">
+          <svg viewBox="0 0 160 190" aria-hidden="true" focusable="false">
+            <circle class="c-ring" cx="80" cy="16" r="11" /><rect class="c-deep" x="70" y="24" width="20" height="16" />
+            <circle class="c-deep" cx="84" cy="118" r="68" /><circle class="c-gold" cx="80" cy="112" r="68" /><circle class="c-lite" cx="80" cy="112" r="58" /><circle class="c-face" cx="80" cy="112" r="50" />
+            <path class="c-tick" d="M80,66v8M80,150v8M34,112h8M118,112h8" />
+            <g class="needle"><path class="c-n" d="M71,112L80,66 89,112Z" /><path class="c-s" d="M71,112L80,158 89,112Z" /></g>
+            <circle class="compass-hub c-gold" cx="80" cy="112" r="5" />
+          </svg>
+          <span class="lost-cap">FOLLOW HOME</span>
+        </a>
       </div>
-
-      <dl class="readout">
-        <div class="readout-cell readout-cell--wide">
-          <dt>ADDRESS</dt>
-          <dd id="lost-path">—</dd>
-        </div>
-      </dl>
-
-      <div class="btn-row">
-        <a class="btn" href="./index.html">◀ WARP TO MENU</a>
-        <a class="btn btn--ghost" href="./index.html#art">VIEW PORTFOLIO</a>
-      </div>
-
-      <p class="form-note">Think a real door is broken? <a href="mailto:abhishekfarshwan@gmail.com">Tell me about it.</a></p>
-    </section>
+    </div>
   </main>
 
   <script src="./assets/js/data.js?v=20260928-2"></script>
@@ -121,3 +131,4 @@
   <script src="./assets/js/notfound.js?v=20260928-2"></script>
 </body>
 </html>
+
