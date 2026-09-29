@@ -180,12 +180,16 @@ window.ROUTER = (function () {
     bindKeys(page);
     if (page !== 'home') return;
 
+    var resumeLink = document.querySelector('.menu-btn.is-external');
+    if (resumeLink) {
+      resumeLink.addEventListener('click', function () { window.SFX.select(); });
+    }
+
     tabs.concat(tabbarButtons).forEach(function (control) {
       control.addEventListener('click', function () {
         window.SFX.select();
         activate(control.getAttribute('data-panel'));
       });
-      control.addEventListener('mouseenter', function () { window.SFX.move(); });
     });
 
     UTIL.qsa('[data-goto]').forEach(function (link) {

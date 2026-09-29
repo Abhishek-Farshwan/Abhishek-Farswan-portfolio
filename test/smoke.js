@@ -89,6 +89,13 @@ function tick(ms = 0) {
   check('profile name rendered', doc.querySelector('.profile-name').textContent === 'ABHISHEK');
   check('5 panel menu entries', doc.querySelectorAll('.menu-btn[data-panel]').length === 5);
   check('resume entry present', !!doc.querySelector('.menu-btn.is-external'));
+  check('resume entry has a document icon', /document\.svg$/.test(doc.querySelector('.menu-btn.is-external .menu-icon').getAttribute('src')));
+  const resumeMenuSounds = [];
+  win.SFX.select = () => resumeMenuSounds.push('select');
+  const resumeMenuLink = doc.querySelector('.menu-btn.is-external');
+  resumeMenuLink.addEventListener('click', event => event.preventDefault(), { once: true });
+  resumeMenuLink.click();
+  check('home resume button plays select cue', resumeMenuSounds[0] === 'select');
   check('tab bar rendered', doc.querySelectorAll('.tabbar-btn').length === 5);
   check('prompt bar rendered', !!doc.querySelector('.prompt-bar'));
   check('footer tagline filled', /SHIPPED LIKE A PORTFOLIO/.test(doc.querySelector('.footer-line').textContent));
@@ -115,9 +122,22 @@ function tick(ms = 0) {
   check('arrow up switches back to about', doc.getElementById('panel-about').classList.contains('active'));
   check('arrow up moves focus back to about', doc.activeElement && doc.activeElement.id === 'tab-about');
 
+  const endorsementSounds = [];
+  win.SFX.move = () => endorsementSounds.push('move');
+  win.SFX.confirm = () => endorsementSounds.push('confirm');
+  win.SFX.back = () => endorsementSounds.push('back');
+  doc.getElementById('tab-about').dispatchEvent(new win.MouseEvent('mouseenter'));
+  check('menu hover is silent', endorsementSounds.length === 0);
   doc.getElementById('npc-next').focus();
   doc.activeElement.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
   check('focused endorsement handles arrow right', doc.getElementById('npc-counter').textContent === '2 / 4');
+  check('endorsement navigation plays move cue', endorsementSounds[0] === 'move');
+  doc.getElementById('npc-prev').click();
+  doc.getElementById('npc-next').click();
+  check('endorsement buttons play move cues', endorsementSounds.slice(1, 3).join(',') === 'move,move');
+  doc.getElementById('npc-more').click();
+  doc.getElementById('npc-more').click();
+  check('endorsement expand and collapse use confirm and back', endorsementSounds.slice(3).join(',') === 'confirm,back');
   doc.getElementById('tab-about').focus();
 
   doc.activeElement.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
@@ -194,6 +214,11 @@ function tick(ms = 0) {
 
   // contact form validation
   doc.getElementById('tab-contact').click();
+  win.SFX.select = () => endorsementSounds.push('select');
+  const contactLink = doc.querySelector('.contact-links a');
+  contactLink.addEventListener('click', event => event.preventDefault(), { once: true });
+  contactLink.click();
+  check('contact links play select cue', endorsementSounds[endorsementSounds.length - 1] === 'select');
   const form = doc.getElementById('contact-form');
   form.dispatchEvent(new win.Event('submit', { bubbles: true, cancelable: true }));
   check('empty form flags name', doc.getElementById('contact-name-error').textContent.length > 0);
@@ -209,9 +234,11 @@ function tick(ms = 0) {
 
   // sound toggle
   const sound = doc.getElementById('sound-toggle');
+  check('sound toggle describes UI sounds', sound.getAttribute('aria-label') === 'Toggle UI sounds');
   sound.click();
   check('sound toggle flips state', sound.getAttribute('aria-pressed') === 'true');
   check('sound toggle relabels', /SOUND ON/.test(sound.textContent));
+  check('sound toggle toast describes UI sounds', /UI sounds on/i.test(doc.querySelector('.toast').textContent));
   sound.click();
   check('sound toggle flips back', sound.getAttribute('aria-pressed') === 'false');
 
@@ -312,6 +339,7 @@ function tick(ms = 0) {
   /* ---------------- resume.html ---------------- */
   console.log('\n=== resume.html ===');
   const resume = load('resume.html');
+  const rWin = resume.dom.window;
   const rDoc = resume.dom.window.document;
   check('no script errors', resume.errors.length === 0, resume.errors[0]);
   check('roster mounted as links', rDoc.querySelectorAll('.menu-btn[href]').length === 6);
@@ -319,6 +347,16 @@ function tick(ms = 0) {
   check('menu links point home with hash', rDoc.querySelector('.menu-btn[href="index.html#art"]') !== null);
   check('resume name is the Farswan spelling', /ABHISHEK FARSWAN/.test(rDoc.querySelector('h1').textContent));
   check('three experience entries', rDoc.querySelectorAll('.resume-section .entry').length === 3);
+  let resumeCue = '';
+  let printCalled = false;
+  rWin.SFX.select = () => { resumeCue = 'select'; };
+  rWin.SFX.confirm = () => { resumeCue = 'confirm'; };
+  rWin.print = () => { printCalled = true; };
+  rDoc.querySelector('.resume-meta a').addEventListener('click', event => event.preventDefault(), { once: true });
+  rDoc.querySelector('.resume-meta a').click();
+  check('resume links play select cue', resumeCue === 'select');
+  rDoc.getElementById('print-btn').click();
+  check('print action plays confirm cue', resumeCue === 'confirm' && printCalled);
 
   /* ---------------- 404.html ---------------- */
   console.log('\n=== 404.html ===');

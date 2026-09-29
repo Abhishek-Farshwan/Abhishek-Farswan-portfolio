@@ -3,21 +3,21 @@
    --scene-* tokens, so it looks the same in light and dark mode.
    ============================================================ */
 :root {
-  --scene-bg:        #262b36;
-  --scene-line:      #353c4c;
-  --scene-trail:     #66738f;
-  --scene-paper:     #e9e5d5;
-  --scene-paper-fold:#d6d1bc;
-  --scene-land:      #b7b19b;
-  --scene-water:     #4f647f;
-  --scene-pine:      #46536b;
-  --scene-route:     #b8842c;
-  --scene-x:         #c9443e;
-  --scene-gold:      #dba43e;
-  --scene-gold-deep: #a97a22;
-  --scene-gold-lite: #f0c766;
-  --scene-ink:       #151a2b;
-  --scene-cream:     #f4efdd;
+  --scene-bg:        var(--sky-deep);
+  --scene-line:      var(--sky-dark);
+  --scene-trail:     var(--sky);
+  --scene-paper:     var(--cream);
+  --scene-paper-fold:var(--paper);
+  --scene-land:      var(--leaf);
+  --scene-water:     var(--sky);
+  --scene-pine:      var(--sky-dark);
+  --scene-route:     var(--gold-dark);
+  --scene-x:         var(--red);
+  --scene-gold:      var(--gold);
+  --scene-gold-deep: var(--gold-dark);
+  --scene-gold-lite: var(--white);
+  --scene-ink:       var(--ink);
+  --scene-cream:     var(--cream);
 }
 
 :root body.is-lost { margin: 0; background: var(--scene-bg); color: var(--scene-cream); }

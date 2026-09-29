@@ -59,7 +59,7 @@ window.CHROME = (function () {
           '<div class="profile-name">' + UTIL.escapeHtml(SITE.identity.shortName.toUpperCase()) + '</div>' +
           '<div class="profile-role">' + UTIL.escapeHtml(SITE.identity.role) + '</div>' +
           '<p class="profile-note">' + UTIL.escapeHtml(SITE.identity.note) + '</p>' +
-          '<button class="sound-toggle sound-toggle--mobile" id="sound-toggle-mobile" type="button" aria-label="Toggle menu sound" aria-pressed="false">' +
+          '<button class="sound-toggle sound-toggle--mobile" id="sound-toggle-mobile" type="button" aria-label="Toggle UI sounds" aria-pressed="false">' +
             '<img class="sound-glyph" src="' + root() + 'assets/icon/selected/mute.svg" alt="" aria-hidden="true" /><span class="sound-label">SOUND OFF</span>' +
           '</button>' +
         '</section>' +
@@ -67,7 +67,7 @@ window.CHROME = (function () {
         menuMarkup(page) +
 
         '<div class="roster-footer">' +
-          '<button class="sound-toggle sound-toggle--desktop" id="sound-toggle" type="button" aria-label="Toggle menu sound" aria-pressed="false">' +
+          '<button class="sound-toggle sound-toggle--desktop" id="sound-toggle" type="button" aria-label="Toggle UI sounds" aria-pressed="false">' +
             '<img class="sound-glyph" src="' + root() + 'assets/icon/selected/mute.svg" alt="" aria-hidden="true" /><span class="sound-label">SOUND OFF</span>' +
           '</button>' +
           '<p class="roster-hint">Up/down browse.<br>Right reads, Left exits.</p>' +
@@ -135,7 +135,7 @@ window.CHROME = (function () {
       button.addEventListener('click', function () {
         var on = window.SFX.toggle();
         paint();
-        UTIL.toast(on ? 'Menu sounds on.' : 'Menu sounds off.', 1800);
+        UTIL.toast(on ? 'UI sounds on.' : 'UI sounds off.', 1800);
       });
     });
 

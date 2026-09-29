@@ -60,7 +60,7 @@ portrait filename suffixes in `assets/pixel-npc`.
 The site should behave like a real warm console menu, not a marketing page
 wearing game decoration. The memorable mechanic is the menu itself: visible
 selection state, keyboard navigation, panel transitions, inventory-style art
-inspection, and restrained menu sounds.
+inspection, and restrained, opt-in UI sounds.
 
 Preserve the Bright Ledger identity: blue roster, cream detail surface, red
 banners, gold selection states, chunky dark borders, and graph-paper texture.

@@ -32,7 +32,16 @@
     window.CONTACT.init();
 
     var printBtn = document.getElementById('print-btn');
-    if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
+    if (printBtn) printBtn.addEventListener('click', function () {
+      window.SFX.confirm();
+      window.print();
+    });
+
+    if (page === 'resume') {
+      window.UTIL.qsa('.menu-btn[href], .topbar .btn-row a, .resume-meta a').forEach(function (link) {
+        link.addEventListener('click', function () { window.SFX.select(); });
+      });
+    }
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());

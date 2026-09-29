@@ -104,7 +104,7 @@ becoming a second work log.
 | `Home` | jump to the Home panel |
 | `End` | jump to the Contact panel |
 | `R` | open the résumé |
-| `M` | toggle menu sound |
+| `M` | toggle UI sounds |
 | `Esc` | close the model inspector |
 | `P` | print (résumé) |
 

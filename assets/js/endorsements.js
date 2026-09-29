@@ -50,6 +50,7 @@ window.ENDORSEMENTS = (function () {
 
   function move(step) {
     current = (current + step + characters.length) % characters.length;
+    window.SFX.move();
     paint();
   }
 
@@ -68,6 +69,8 @@ window.ENDORSEMENTS = (function () {
       var more = document.getElementById('npc-more');
       var dialogue = document.getElementById('endorsement-dialogue');
       expanded = !expanded;
+      if (expanded) window.SFX.confirm();
+      else window.SFX.back();
       quoteText.textContent = '\u201c' + (expanded ? characters[current].endorsement : (characters[current].preview || characters[current].endorsement)) + '\u201d';
       quote.classList.toggle('is-expanded', expanded);
       dialogue.classList.toggle('is-expanded', expanded);

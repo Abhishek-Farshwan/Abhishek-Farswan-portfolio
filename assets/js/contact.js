@@ -101,6 +101,10 @@ window.CONTACT = (function () {
       });
     }
 
+    UTIL.qsa('.contact-links a, #panel-contact .btn-row a').forEach(function (link) {
+      link.addEventListener('click', function () { window.SFX.select(); });
+    });
+
     UTIL.qsa('.social-icon').forEach(function (img) {
       img.addEventListener('error', function () {
         var fallback = document.createElement('span');

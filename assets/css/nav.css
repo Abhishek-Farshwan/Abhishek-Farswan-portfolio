@@ -80,6 +80,8 @@
 .menu-btn[aria-selected="true"] .menu-icon,
 .menu-btn[aria-current="page"] .menu-icon { filter: brightness(0); }
 
+.menu-btn.is-external .menu-icon { filter: brightness(0); }
+
 .menu-label { min-width: 0; }
 
 /* the selection cursor */
@@ -147,6 +149,19 @@
 .menu-btn.is-external {
   background: var(--cream);
   color: var(--ink);
+}
+
+body[data-page="home"] .menu-btn.is-external {
+  animation: resume-gold-pulse 1s .35s ease-out 1 both;
+}
+
+@keyframes resume-gold-pulse {
+  0%, 100% { box-shadow: var(--shadow-sm); }
+  45% { box-shadow: var(--shadow), 0 0 0 4px rgba(255, 207, 77, .75); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="home"] .menu-btn.is-external { animation: none; }
 }
 
 .menu-btn.is-external::after {
