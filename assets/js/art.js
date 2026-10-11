@@ -148,12 +148,16 @@ window.ART = (function () {
        so the badge would just be noise. */
     var isFeatured = synced && CONFIG.featuredIds.indexOf(model.uid) > -1;
 
+    /* RPG loot tier: featured outranks staff pick; the rest stay common */
+    var rarity = isFeatured ? 'legendary' : (model.staffPick ? 'epic' : '');
+
     var poster = model.thumb
       ? ' style="background-image:url(' + UTIL.escapeHtml(model.thumb) + ')"'
       : '';
 
     return '' +
       '<article class="art-card model-card" data-index="' + index + '" ' +
+        (rarity ? 'data-rarity="' + rarity + '" ' : '') +
         'data-src="' + UTIL.escapeHtml(model.embed) + '" ' +
         'data-view-url="' + UTIL.escapeHtml(model.view) + '" ' +
         'data-title="' + UTIL.escapeHtml(model.name) + '">' +

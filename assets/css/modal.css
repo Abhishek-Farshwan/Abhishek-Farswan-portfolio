@@ -17,7 +17,7 @@
 .modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(28, 37, 65, .72);
+  background: var(--scrim);
   border: 0;
   padding: 0;
   cursor: pointer;
@@ -48,8 +48,8 @@
   align-items: center;
   gap: var(--s-3);
   padding: var(--s-3) var(--s-4);
-  background: var(--sky);
-  color: var(--white);
+  background: var(--modal-head-bg);
+  color: var(--modal-head-fg);
   border-bottom: var(--border);
 }
 
@@ -127,7 +127,7 @@
   font-family: var(--pixel);
   font-size: var(--fs-chrome-xs);
   line-height: 1.7;
-  color: var(--sky-dark);
+  color: var(--text-accent);
 }
 
 body.modal-open { overflow: hidden; }

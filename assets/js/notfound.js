@@ -12,6 +12,7 @@
   var doc = document;
   var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var busy = false;
+  var locked = null;   /* the place the compass and signal are locked on */
 
   var PLACES = [
     { k: 'home', l: 'HOME', h: './index.html', w: ['home', 'index', 'main', 'menu', 'start'] },
@@ -79,6 +80,7 @@
   function say(text, place) {
     var box = $('lost-spot');
     if (!box) return;
+    box.hidden = false;
     box.textContent = '';
 
     var label = doc.createElement('b');
@@ -124,7 +126,7 @@
         say('Spotted ' + found.l + ' in range. Was this what you were after?', found);
       } else {
         ping(pins());
-        say('Nothing matches that address. These landmarks are in range: pick one on the map.', null);
+        if (!quiet) say('Nothing matches that address. Every landmark in range is lit up on the map.', null);
       }
 
       busy = false;
@@ -134,14 +136,18 @@
   function lockNeedle() {
     var compass = doc.querySelector('.lost-compass');
     var hub = doc.querySelector('.compass-hub');
-    var home = pinFor('home');
-    if (!compass || !hub || !home) return;
+    var target = pinFor(locked && pinFor(locked.k) ? locked.k : 'home');
+    if (!compass || !hub || !target) return;
 
     var a = hub.getBoundingClientRect();
-    var b = home.querySelector('.badge').getBoundingClientRect();
+    var b = target.querySelector('.badge').getBoundingClientRect();
     var deg = Math.atan2((b.top + b.height / 2) - (a.top + a.height / 2),
       (b.left + b.width / 2) - (a.left + a.width / 2)) * 180 / Math.PI + 90;
     compass.style.setProperty('--needle', deg.toFixed(1) + 'deg');
+  }
+
+  function setSignal(label) {
+    set('lost-signal', 'SIGNAL: LOCKED ON ' + label);
   }
 
   function init() {
@@ -153,20 +159,35 @@
     var bino = $('lost-bino');
 
     window.setTimeout(function () {
+      /* lock on the closest match for the bad address, else home */
+      locked = match() || PLACES[0];
       if (compass) {
         compass.classList.remove('is-hunting');
         compass.classList.add('is-locked');
+        compass.href = locked.h;
+        compass.setAttribute('aria-label', 'Compass. The needle points to ' + locked.l.toLowerCase() + '. Follow it.');
+        var cap = compass.querySelector('.lost-cap');
+        if (cap) cap.textContent = 'FOLLOW ' + locked.l;
         lockNeedle();
       }
-      if (signal) {
-        signal.textContent = 'SIGNAL: LOCKED ON HOME';
-        signal.classList.add('is-locked');
-      }
+      setSignal(locked.l);
+      if (signal) signal.classList.add('is-locked');
       if (window.SFX && window.SFX.move) window.SFX.move();
       scan(true);
     }, reduce ? 0 : 1700);
 
     if (bino) bino.addEventListener('click', function () { scan(false); });
+
+    /* hovering or focusing a landmark previews the signal on it */
+    pins().forEach(function (pin) {
+      var label = pin.querySelector('.tag').textContent;
+      var preview = function () { if (locked) setSignal(label); };
+      var restore = function () { if (locked) setSignal(locked.l); };
+      pin.addEventListener('mouseenter', preview);
+      pin.addEventListener('focus', preview);
+      pin.addEventListener('mouseleave', restore);
+      pin.addEventListener('blur', restore);
+    });
 
     var timer;
     window.addEventListener('resize', function () {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#262b36" />
+  <meta name="theme-color" content="#f8f4e8" />
   <title>404 · Off the map — Abhishek Farshwan</title>
   <meta name="description" content="There is no level data at this address. Follow the compass back to the main menu." />
   <meta name="robots" content="noindex" />
@@ -13,14 +13,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="./assets/css/tokens.css?v=20260929-2" />
-  <link rel="stylesheet" href="./assets/css/base.css?v=20260929-2" />
-  <link rel="stylesheet" href="./assets/css/layout.css?v=20260929-2" />
-  <link rel="stylesheet" href="./assets/css/nav.css?v=20260929-2" />
-  <link rel="stylesheet" href="./assets/css/components.css?v=20260929-2" />
-  <link rel="stylesheet" href="./assets/css/panels.css?v=20260929-2" />
-  <link rel="stylesheet" href="./assets/css/lost.css?v=20260929-2" />
-  <link rel="stylesheet" href="./assets/css/responsive.css?v=20260929-2" />
+  <link rel="stylesheet" href="./assets/css/tokens.css?v=20261009-1" />
+  <link rel="stylesheet" href="./assets/css/base.css?v=20261009-1" />
+  <link rel="stylesheet" href="./assets/css/layout.css?v=20261009-1" />
+  <link rel="stylesheet" href="./assets/css/nav.css?v=20261009-1" />
+  <link rel="stylesheet" href="./assets/css/components.css?v=20261009-1" />
+  <link rel="stylesheet" href="./assets/css/panels.css?v=20261009-1" />
+  <link rel="stylesheet" href="./assets/css/lost.css?v=20261009-1" />
+  <link rel="stylesheet" href="./assets/css/responsive.css?v=20261009-1" />
+  <link rel="stylesheet" href="./assets/css/decor.css?v=20261009-1" media="screen" />
 </head>
 
 <body class="is-page is-lost" data-page="none" data-root="">
@@ -28,16 +29,11 @@
     <svg class="lost-bg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
       <defs>
         <path id="cnt" vector-effect="non-scaling-stroke" d="M0,-60C40,-70 90,-40 95,0C100,45 55,75 5,70C-45,66 -95,40 -90,-5C-85,-40 -45,-52 0,-60Z" />
-        <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch" /><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .07 0" /></filter>
-        <radialGradient id="vig" cx="50%" cy="45%" r="75%"><stop offset=".55" stop-color="#000" stop-opacity="0" /><stop offset="1" stop-color="#000" stop-opacity=".45" /></radialGradient>
         <mask id="reveal"><path class="reveal" pathLength="1" d="M-40,430C140,350 190,150 430,110S730,110 820,270 1000,480 1240,470" /></mask>
       </defs>
-      <rect width="1200" height="800" fill="var(--scene-bg)" />
       <g class="s-cnt"><use href="#cnt" transform="translate(210,170) rotate(0) scale(2.4)"/><use href="#cnt" transform="translate(210,170) rotate(0) scale(1.8)"/><use href="#cnt" transform="translate(210,170) rotate(0) scale(1.25)"/><use href="#cnt" transform="translate(210,170) rotate(0) scale(0.7)"/><use href="#cnt" transform="translate(980,600) rotate(40) scale(2.4)"/><use href="#cnt" transform="translate(980,600) rotate(40) scale(1.8)"/><use href="#cnt" transform="translate(980,600) rotate(40) scale(1.25)"/><use href="#cnt" transform="translate(980,600) rotate(40) scale(0.7)"/><use href="#cnt" transform="translate(640,730) rotate(-20) scale(2.4)"/><use href="#cnt" transform="translate(640,730) rotate(-20) scale(1.8)"/><use href="#cnt" transform="translate(640,730) rotate(-20) scale(1.25)"/><use href="#cnt" transform="translate(640,730) rotate(-20) scale(0.7)"/></g>
       <path class="s-trail" mask="url(#reveal)" d="M-40,430C140,350 190,150 430,110S730,110 820,270 1000,480 1240,470" />
       <path class="s-trail" d="M470,860C540,760 700,730 830,790" />
-      <rect width="1200" height="800" filter="url(#grain)" />
-      <rect width="1200" height="800" fill="url(#vig)" />
     </svg>
 
     <div class="lost-stage">
@@ -46,16 +42,17 @@
         <span class="lost-signal" id="lost-signal">SIGNAL: LOST</span>
       </header>
 
+      <div class="lost-window">
       <div class="lost-copy">
         <span class="lost-number" aria-hidden="true"><span>4</span><span>0</span><span>4</span></span>
         <h1>OFF THE MAP</h1>
-        <p class="prose">Error 404. You walked past the edge of the survey and this address has no level data. The compass points home; the binoculars can spot nearby landmarks.</p>
+        <p class="prose">Error 404. This address has no level data. Pick a landmark on the map to warp back in.</p>
 
         <dl class="readout">
           <dt>LAST KNOWN ADDRESS</dt>
           <dd id="lost-path">—</dd>
         </dl>
-        <p class="lost-spot" id="lost-spot" role="status" aria-live="polite"><b>LOOKOUT</b>Scanning the area for landmarks…</p>
+        <p class="lost-spot" id="lost-spot" role="status" aria-live="polite" hidden></p>
 
         <div class="lost-btns">
           <a class="lost-btn" href="./index.html">◀ WARP TO MENU</a>
@@ -65,19 +62,6 @@
       </div>
 
       <div class="lost-world">
-        <button class="lost-bino" id="lost-bino" type="button" aria-describedby="lost-spot">
-          <svg viewBox="0 0 200 190" aria-hidden="true" focusable="false">
-            <defs><g id="brl">
-              <rect class="c-lite" x="26" y="8" width="54" height="24" /><rect class="c-gold" x="34" y="30" width="38" height="46" /><rect class="c-deep" x="60" y="30" width="12" height="46" />
-              <rect class="c-gold" x="26" y="70" width="54" height="80" /><rect class="c-lite" x="26" y="70" width="16" height="80" /><rect class="c-deep" x="66" y="70" width="14" height="80" />
-              <rect class="c-lite" x="20" y="146" width="66" height="34" /><rect class="c-deep" x="20" y="168" width="66" height="12" />
-            </g></defs>
-            <use href="#brl" /><use href="#brl" x="94" />
-            <rect class="c-gold" x="78" y="90" width="44" height="26" /><rect class="c-deep" x="78" y="106" width="44" height="10" />
-            <circle class="c-lite" cx="100" cy="103" r="11" /><circle class="c-gold" cx="100" cy="103" r="5" />
-          </svg>
-          <span class="lost-cap">SCAN AREA</span>
-        </button>
 
         <div class="lost-map" role="group" aria-label="A folded map. Five landmarks mark the valid sections of this site; a red X marks the lost address.">
           <svg class="map-svg" viewBox="0 0 420 340" aria-hidden="true" focusable="false">
@@ -98,15 +82,29 @@
             <g class="map-x"><circle class="map-x-ring" cx="328" cy="122" r="16" /><path d="M316,110L340,134M340,110L316,134" /></g>
           </svg>
 
-          <a class="map-pin" style="left:14%; top:66%;" href="./index.html" data-pin="home"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIxLjk3IDEuOTkgNi4wNSA2LjA1Ij48cGF0aCBkPSJNMy45MDEgMi43MzNjLjQwOC0uMzY1LjYxMi0uNTQ3Ljg0NS0uNjA4YTEgMSAwIDAgMSAuNTA4IDBjLjIzMy4wNjEuNDM3LjI0My44NDUuNjA4bDEuNzI0IDEuNTQzQS41OTYuNTk2IDAgMCAxIDcuNSA1LjMxMWEuMzYuMzYgMCAwIDAtLjMxMy4zNTNsLS4wMDcgMS40NjNjLS4wMDEuMjEtLjAwMi4zMTYtLjAyOC40MDFhLjYuNiAwIDAgMS0uMzk4LjM5NmMtLjA4NS4wMjYtLjE5LjAyNi0uNDAxLjAyNi0uMTQxIDAtLjIxMiAwLS4yNy0uMDE4YS40LjQgMCAwIDEtLjI2NC0uMjY1QzUuOCA3LjYxIDUuOCA3LjU0IDUuOCA3LjM5OFY2LjY1YS44LjggMCAwIDAtMS42IDB2Ljc0YzAgLjE0OSAwIC4yMjMtLjAyLjI4NGEuNC40IDAgMCAxLS4yNTYuMjU2Yy0uMDYuMDItLjEzNS4wMi0uMjg0LjAyLS4yMjMgMC0uMzM1IDAtLjQyNS0uMDNhLjYuNiAwIDAgMS0uMzg2LS4zODVDMi44IDcuNDQ1IDIuOCA3LjMzMyAyLjggNy4xMVY1LjY5YS4zNi4zNiAwIDAgMC0uMzEyLS4zNTkuNjA0LjYwNCAwIDAgMS0uMzE5LTEuMDQ4eiIvPjwvc3ZnPg==" alt="" /></span><span class="tag">HOME</span></a>
-          <a class="map-pin" style="left:22%; top:26%;" href="./index.html#art" data-pin="art"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjMwIDIuMzAgNS40MCA1LjQwIj48cGF0aCBkPSJNNi4xOCAyLjhjLjY3NyAwIDEuMDE1IDAgMS4yNC4xOTJhMSAxIDAgMCAxIC4wODguMDg5Yy4xOTIuMjI0LjE5Mi41NjMuMTkyIDEuMjR2MS4zNmMwIC42NzYgMCAxLjAxNS0uMTkyIDEuMjM5YTEgMSAwIDAgMS0uMDg5LjA4OWMtLjIyNC0uMTkxLS41NjItLjE5MS0xLjIzOS4xOTFIMy44MmMtLjY3NyAwLTEuMDE1IDAtMS4yNC0uMTkxYTEgMSAwIDAgMS0uMDg4LS4wOUMyLjMgNi42OTcgMi4zIDYuMzU4IDIuMyA1LjY4MlY0LjMyYzAtLjY3NyAwLTEuMDE2LjE5Mi0xLjI0YTEgMSAwIDAgMSAuMDg5LS4wODljLjIyNC0uMTkxLjU2Mi0uMTkyIDEuMjM5LS4xOTJ6TTQuNSA0LjVjLS4zNTQgMC0uNzAxLjI5NC0uOTkuNjUtLjM1Mi40MzMtLjUyOC42NS0uNDM4LjkxMi4wMS4wMzIuMDMxLjA3NC4wNDkuMTAyLjE0Ni4yMzYuNDYyLjIzNiAxLjA5NC4yMzZoMS4yMDJjLjcwMSAwIDEuMDUyIDAgMS4xNjMtLjIyMmEuNC40IDAgMCAwIC4wMzItLjA5M2MuMDUyLS4yNDItLjIwNy0uNDUtLjcyOC0uODY2QzUuNDAxIDQuODMyIDQuODc2IDQuNSA0LjUgNC41bTItMS4xYS42LjYgMCAxIDAgMCAxLjIuNi42IDAgMCAwIDAtMS4yIi8+PC9zdmc+" alt="" /></span><span class="tag">ART</span></a>
-          <a class="map-pin" style="left:42%; top:70%;" href="./index.html#pipeline" data-pin="pipeline"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjEwIDIuMTAgNS44MCA1LjgwIj48cGF0aCBkPSJNMi4xIDYuMTAyYzAtLjExOC4xODItLjIwMi4zLS4yMDJoMS43NWEuMjUuMjUgMCAwIDEgLjI1LjI1LjYuNiAwIDEgMCAxLjIgMCAuMjUuMjUgMCAwIDEgLjI1LS4yNUg3LjZjLjExOCAwIC4zLjA4NC4zLjIwMnYuMDI4YzAgLjY3NyAwIDEuMDE1LS4xOTIgMS4yNGExIDEgMCAwIDEtLjA4OC4wODhjLS4yMjUuMTkyLS41NjMuMTkyLTEuMjQuMTkySDMuNjJjLS42NzcgMC0xLjAxNSAwLTEuMjQtLjE5MmExIDEgMCAwIDEtLjA4OC0uMDg4QzIuMSA3LjE0NSAyLjEgNi44MDYgMi4xIDYuMTN6TTUgMi4zNWMuNzUgMCAxLjEyNSAwIDEuMzg4LjE5MnEuMTI5LjA5My4yMi4yMmMuMTM2LjE4Ny4xNzUuNDMuMTg3LjgyNS4wMDUuMTk2LjAwOC4yOTQuMDU2LjM1OGwuMDIyLjAyNmMuMDU1LjA1Ni4xNjcuMDc2LjM5LjExN2EuNzIuNzIgMCAwIDEgLjQ0Ni4yNDNjLjExMy4xMzMuMTU5LjMwNy4xNzcuNTY4LjAwOC4xMTYtLjE3LjIwMS0uMjg2LjIwMUgyLjRjLS4xMTcgMC0uMjk1LS4wODYtLjI4Ni0uMjAyLjAxOC0uMjYuMDY0LS40MzQuMTc4LS41NjdhLjcyMy43MjMgMCAwIDEgLjQ0NC0uMjQyYy4yMjMtLjA0Mi4zMzUtLjA2Mi4zOS0uMTE4bC4wMjItLjAyNmMuMDQ4LS4wNjQuMDUtLjE2Mi4wNTYtLjM1OC4wMTItLjM5NC4wNTItLjYzOC4xODctLjgyNXEuMDk0LS4xMjguMjIyLS4yMkMzLjg3NiAyLjM1IDQuMjUgMi4zNSA1IDIuMzVtMCAuOGMtLjQ3IDAtLjcwNyAwLS44NTMuMTQ2YS40OC40OCAwIDAgMC0uMTI0LjI4Yy0uMDMuMTktLjA0NS4yODcuMDE1LjM3cS4wMTIuMDE2LjAyOC4wMzMzLjA3My43MS4xODYuMDcxLjQxMS4wNzFoMS4wNDdjLjIyNSAwIC4zMzggMCAuNDExLS4wNzFxLjAxNS0uMDE3LjAyOC0uMDMzYy4wNi0uMDgzLjA0NS0uMTguMDE1LS4zN2EuNDguNDggMCAwIDAtLjEyNC0uMjhDNS43MDggMy4xNSA1LjQ3MiAzLjE1IDUgMy4xNSIvPjwvc3ZnPg==" alt="" /></span><span class="tag">PIPELINE</span></a>
-          <a class="map-pin" style="left:52%; top:22%;" href="./index.html#about" data-pin="about"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjAwIDIuMDAgNi4wMCI+PHBhdGggZD0iTTYuNDc2IDUuMzVjLjExLjAyLjE3My4wNzEuMy4xNzIuNjguNTQ3LjcyNCAxLjM0NS43MjQgMS40NzcgMCAuMi0uMiAxLTسyLjVzLTIuNS0uOC0yLjUtMWMwLS4xMzIuMDQ0LS45MjkuNzI1LTEuNDc2LjEyNi0uMTAxLjE4OS0uMTUyLjMtLjE3M2wuMDQ3LS4wMDdjLjExMi0uMDA5LjI0Ny4wNS41MTQuMTY2YTIuMjggMi4yOCAwIDAgMCAxLjgyOCAwYy4yNjctLjExNy40LS4xNzUuNTEzLS4xNjZ6TTUgMmExLjQgMS40IDAgMSAxIDAgMi44MDFBMS40IDEuNCAwIDAgMSA1IDIiLz48L3N2Zz4=" alt="" /></span><span class="tag">ABOUT</span></a>
-          <a class="map-pin" style="left:76%; top:78%;" href="./index.html#contact" data-pin="contact"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjAwIDIuMDAgNi4wMCI+PHBhdGggZD0iTTYuMSAyLjhjLjg0NSAwIDEuMjY5IDAgMS41NS4yNHEuMDYuMDUxLjExLjExQzggMy40MzIgOCAzLjg1NSA4IDQuN3YuNmMwIC44NDYgMCAxLjI2OS0uMjQgMS41NXEtLjA1LjA1OS0uMTEuMTFjLS4yODEuMjQtLjcwNC4yNC0xLjU1LjI0SDMuOWMtLjg0NiAwLTEuMjY5IDAtMS41NS0uMjRhMSAxIDAgMCAxLS4xMS0uMTFDMiA2LjU2OCAyIDYuMTQ1IDIgNS4zdi0uNmMwLS44NDYgMC0xLjI2OS4yNC0xLjU1cS4wNS0uMDU5LjExLS4xMWMuMjgxLS4yNC43MDUtLjI0IDEuNTUtLjI0em0xLjA4NSAxLjAzYS41LjUgMCAwIDAtLjcwNS0uMDY0TDUuMTkyIDQuODRhLjMuMyAwIDAgMS0uMzgzIDBMMTMuNTIgMy43NjZhLjUuNSAwIDAgMC0uNjQxLjc2OGwxLjI4OCAxLjA3M2ExLjMgMS4zIDAgMCAwIDEuNjY0IDBMMTcuMTIgNC41MzRhLjUuNSAwIDAgMCAuMDY1LS43MDQiLz48L3N2Zz4=" alt="" /></span><span class="tag">CONTACT</span></a>
+          <a class="map-pin" href="./index.html" data-pin="home"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIxLjk3IDEuOTkgNi4wNSA2LjA1Ij48cGF0aCBkPSJNMy45MDEgMi43MzNjLjQwOC0uMzY1LjYxMi0uNTQ3Ljg0NS0uNjA4YTEgMSAwIDAgMSAuNTA4IDBjLjIzMy4wNjEuNDM3LjI0My44NDUuNjA4bDEuNzI0IDEuNTQzQS41OTYuNTk2IDAgMCAxIDcuNSA1LjMxMWEuMzYuMzYgMCAwIDAtLjMxMy4zNTNsLS4wMDcgMS40NjNjLS4wMDEuMjEtLjAwMi4zMTYtLjAyOC40MDFhLjYuNiAwIDAgMS0uMzk4LjM5NmMtLjA4NS4wMjYtLjE5LjAyNi0uNDAxLjAyNi0uMTQxIDAtLjIxMiAwLS4yNy0uMDE4YS40LjQgMCAwIDEtLjI2NC0uMjY1QzUuOCA3LjYxIDUuOCA3LjU0IDUuOCA3LjM5OFY2LjY1YS44LjggMCAwIDAtMS42IDB2Ljc0YzAgLjE0OSAwIC4yMjMtLjAyLjI4NGEuNC40IDAgMCAxLS4yNTYuMjU2Yy0uMDYuMDItLjEzNS4wMi0uMjg0LjAyLS4yMjMgMC0uMzM1IDAtLjQyNS0uMDNhLjYuNiAwIDAgMS0uMzg2LS4zODVDMi44IDcuNDQ1IDIuOCA3LjMzMyAyLjggNy4xMVY1LjY5YS4zNi4zNiAwIDAgMC0uMzEyLS4zNTkuNjA0LjYwNCAwIDAgMS0uMzE5LTEuMDQ4eiIvPjwvc3ZnPg==" alt="" /></span><span class="tag">HOME</span></a>
+          <a class="map-pin" href="./index.html#art" data-pin="art"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjMwIDIuMzAgNS40MCA1LjQwIj48cGF0aCBkPSJNNi4xOCAyLjhjLjY3NyAwIDEuMDE1IDAgMS4yNC4xOTJhMSAxIDAgMCAxIC4wODguMDg5Yy4xOTIuMjI0LjE5Mi41NjMuMTkyIDEuMjR2MS4zNmMwIC42NzYgMCAxLjAxNS0uMTkyIDEuMjM5YTEgMSAwIDAgMS0uMDg5LjA4OWMtLjIyNC0uMTkxLS41NjItLjE5MS0xLjIzOS4xOTFIMy44MmMtLjY3NyAwLTEuMDE1IDAtMS4yNC0uMTkxYTEgMSAwIDAgMS0uMDg4LS4wOUMyLjMgNi42OTcgMi4zIDYuMzU4IDIuMyA1LjY4MlY0LjMyYzAtLjY3NyAwLTEuMDE2LjE5Mi0xLjI0YTEgMSAwIDAgMSAuMDg5LS4wODljLjIyNC0uMTkxLjU2Mi0uMTkyIDEuMjM5LS4xOTJ6TTQuNSA0LjVjLS4zNTQgMC0uNzAxLjI5NC0uOTkuNjUtLjM1Mi40MzMtLjUyOC42NS0uNDM4LjkxMi4wMS4wMzIuMDMxLjA3NC4wNDkuMTAyLjE0Ni4yMzYuNDYyLjIzNiAxLjA5NC4yMzZoMS4yMDJjLjcwMSAwIDEuMDUyIDAgMS4xNjMtLjIyMmEuNC40IDAgMCAwIC4wMzItLjA5M2MuMDUyLS4yNDItLjIwNy0uNDUtLjcyOC0uODY2QzUuNDAxIDQuODMyIDQuODc2IDQuNSA0LjUgNC41bTItMS4xYS42LjYgMCAxIDAgMCAxLjIuNi42IDAgMCAwIDAtMS4yIi8+PC9zdmc+" alt="" /></span><span class="tag">ART</span></a>
+          <a class="map-pin" href="./index.html#pipeline" data-pin="pipeline"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjEwIDIuMTAgNS44MCA1LjgwIj48cGF0aCBkPSJNMi4xIDYuMTAyYzAtLjExOC4xODItLjIwMi4zLS4yMDJoMS43NWEuMjUuMjUgMCAwIDEgLjI1LjI1LjYuNiAwIDEgMCAxLjIgMCAuMjUuMjUgMCAwIDEgLjI1LS4yNUg3LjZjLjExOCAwIC4zLjA4NC4zLjIwMnYuMDI4YzAgLjY3NyAwIDEuMDE1LS4xOTIgMS4yNGExIDEgMCAwIDEtLjA4OC4wODhjLS4yMjUuMTkyLS41NjMuMTkyLTEuMjQuMTkySDMuNjJjLS42NzcgMC0xLjAxNSAwLTEuMjQtLjE5MmExIDEgMCAwIDEtLjA4OC0uMDg4QzIuMSA3LjE0NSAyLjEgNi44MDYgMi4xIDYuMTN6TTUgMi4zNWMuNzUgMCAxLjEyNSAwIDEuMzg4LjE5MnEuMTI5LjA5My4yMi4yMmMuMTM2LjE4Ny4xNzUuNDMuMTg3LjgyNS4wMDUuMTk2LjAwOC4yOTQuMDU2LjM1OGwuMDIyLjAyNmMuMDU1LjA1Ni4xNjcuMDc2LjM5LjExN2EuNzIuNzIgMCAwIDEgLjQ0Ni4yNDNjLjExMy4xMzMuMTU5LjMwNy4xNzcuNTY4LjAwOC4xMTYtLjE3LjIwMS0uMjg2LjIwMUgyLjRjLS4xMTcgMC0uMjk1LS4wODYtLjI4Ni0uMjAyLjAxOC0uMjYuMDY0LS40MzQuMTc4LS41NjdhLjcyMy43MjMgMCAwIDEgLjQ0NC0uMjQyYy4yMjMtLjA0Mi4zMzUtLjA2Mi4zOS0uMTE4bC4wMjItLjAyNmMuMDQ4LS4wNjQuMDUtLjE2Mi4wNTYtLjM1OC4wMTItLjM5NC4wNTItLjYzOC4xODctLjgyNXEuMDk0LS4xMjguMjIyLS4yMkMzLjg3NiAyLjM1IDQuMjUgMi4zNSA1IDIuMzVtMCAuOGMtLjQ3IDAtLjcwNyAwLS44NTMuMTQ2YS40OC40OCAwIDAgMC0uMTI0LjI4Yy0uMDMuMTktLjA0NS4yODcuMDE1LjM3cS4wMTIuMDE2LjAyOC4wMzMzLjA3My43MS4xODYuMDcxLjQxMS4wNzFoMS4wNDdjLjIyNSAwIC4zMzggMCAuNDExLS4wNzFxLjAxNS0uMDE3LjAyOC0uMDMzYy4wNi0uMDgzLjA0NS0uMTguMDE1LS4zN2EuNDguNDggMCAwIDAtLjEyNC0uMjhDNS43MDggMy4xNSA1LjQ3MiAzLjE1IDUgMy4xNSIvPjwvc3ZnPg==" alt="" /></span><span class="tag">PIPELINE</span></a>
+          <a class="map-pin" href="./index.html#about" data-pin="about"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjAwIDIuMDAgNi4wMCI+PHBhdGggZD0iTTYuNDc2IDUuMzVjLjExLjAyLjE3My4wNzEuMy4xNzIuNjguNTQ3LjcyNCAxLjM0NS43MjQgMS40NzcgMCAuMi0uMiAxLTسyLjVzLTIuNS0uOC0yLjUtMWMwLS4xMzIuMDQ0LS45MjkuNzI1LTEuNDc2LjEyNi0uMTAxLjE4OS0uMTUyLjMtLjE3M2wuMDQ3LS4wMDdjLjExMi0uMDA5LjI0Ny4wNS41MTQuMTY2YTIuMjggMi4yOCAwIDAgMCAxLjgyOCAwYy4yNjctLjExNy40LS4xNzUuNTEzLS4xNjZ6TTUgMmExLjQgMS40IDAgMSAxIDAgMi44MDFBMS40IDEuNCAwIDAgMSA1IDIiLz48L3N2Zz4=" alt="" /></span><span class="tag">ABOUT</span></a>
+          <a class="map-pin" href="./index.html#contact" data-pin="contact"><span class="badge" aria-hidden="true"><img class="map-pin-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIyLjAwIDIuMDAgNi4wMCI+PHBhdGggZD0iTTYuMSAyLjhjLjg0NSAwIDEuMjY5IDAgMS41NS4yNHEuMDYuMDUxLjExLjExQzggMy40MzIgOCAzLjg1NSA4IDQuN3YuNmMwIC44NDYgMCAxLjI2OS0uMjQgMS41NXEtLjA1LjA1OS0uMTEuMTFjLS4yODEuMjQtLjcwNC4yNC0xLjU1LjI0SDMuOWMtLjg0NiAwLTEuMjY5IDAtMS41NS0uMjRhMSAxIDAgMCAxLS4xMS0uMTFDMiA2LjU2OCAyIDYuMTQ1IDIgNS4zdi0uNmMwLS44NDYgMC0xLjI2OS4yNC0xLjU1cS4wNS0uMDU5LjExLS4xMWMuMjgxLS4yNC43MDUtLjI0IDEuNTUtLjI0em0xLjA4NSAxLjAzYS41LjUgMCAwIDAtLjcwNS0uMDY0TDUuMTkyIDQuODRhLjMuMyAwIDAgMS0uMzgzIDBMMTMuNTIgMy43NjZhLjUuNSAwIDAgMC0uNjQxLjc2OGwxLjI4OCAxLjA3M2ExLjMgMS4zIDAgMCAwIDEuNjY0IDBMMTcuMTIgNC41MzRhLjUuNSAwIDAgMCAuMDY1LS43MDQiLz48L3N2Zz4=" alt="" /></span><span class="tag">CONTACT</span></a>
 
           <span class="map-you">YOU ARE HERE</span>
         </div>
 
+        <div class="lost-side">
+        <button class="lost-bino" id="lost-bino" type="button" aria-describedby="lost-spot">
+          <svg viewBox="0 0 200 190" aria-hidden="true" focusable="false">
+            <defs><g id="brl">
+              <rect class="c-lite" x="26" y="8" width="54" height="24" /><rect class="c-gold" x="34" y="30" width="38" height="46" /><rect class="c-deep" x="60" y="30" width="12" height="46" />
+              <rect class="c-gold" x="26" y="70" width="54" height="80" /><rect class="c-lite" x="26" y="70" width="16" height="80" /><rect class="c-deep" x="66" y="70" width="14" height="80" />
+              <rect class="c-lite" x="20" y="146" width="66" height="34" /><rect class="c-deep" x="20" y="168" width="66" height="12" />
+            </g></defs>
+            <use href="#brl" /><use href="#brl" x="94" />
+            <rect class="c-gold" x="78" y="90" width="44" height="26" /><rect class="c-deep" x="78" y="106" width="44" height="10" />
+            <circle class="c-lite" cx="100" cy="103" r="11" /><circle class="c-gold" cx="100" cy="103" r="5" />
+          </svg>
+          <span class="lost-cap">SCAN AREA</span>
+        </button>
         <a class="lost-compass is-hunting" href="./index.html" aria-label="Compass. The needle points home. Follow it to the main menu.">
           <svg viewBox="0 0 160 190" aria-hidden="true" focusable="false">
             <circle class="c-ring" cx="80" cy="16" r="11" /><rect class="c-deep" x="70" y="24" width="20" height="16" />
@@ -117,18 +115,20 @@
           </svg>
           <span class="lost-cap">FOLLOW HOME</span>
         </a>
+        </div>
+      </div>
       </div>
     </div>
   </main>
 
-  <script src="./assets/js/data.js?v=20260929-2"></script>
-  <script src="./assets/js/util.js?v=20260929-2"></script>
-  <script src="./assets/js/sfx.js?v=20260929-2"></script>
-  <script src="./assets/js/chrome.js?v=20260929-2"></script>
-  <script src="./assets/js/router.js?v=20260929-2"></script>
-  <script src="./assets/js/contact.js?v=20260929-2"></script>
-  <script src="./assets/js/main.js?v=20260929-2"></script>
-  <script src="./assets/js/notfound.js?v=20260929-2"></script>
+  <script src="./assets/js/data.js?v=20261009-1"></script>
+  <script src="./assets/js/util.js?v=20261009-1"></script>
+  <script src="./assets/js/sfx.js?v=20261009-1"></script>
+  <script src="./assets/js/chrome.js?v=20261009-1"></script>
+  <script src="./assets/js/router.js?v=20261009-1"></script>
+  <script src="./assets/js/contact.js?v=20261009-1"></script>
+  <script src="./assets/js/main.js?v=20261009-1"></script>
+  <script src="./assets/js/notfound.js?v=20261009-1"></script>
 </body>
 </html>
 

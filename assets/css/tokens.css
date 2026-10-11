@@ -15,16 +15,85 @@
   --white:      #fffdf7;
   --ink:        #1c2541;
   --muted:      #5e677d;
-  --red:        #d64545;
+  --red:        #c93b3b;   /* white and cream text on it both hold 4.5:1 */
   --red-dark:   #a93434;
   --gold:       #ffcf4d;
   --gold-dark:  #e0ac22;
   --leaf:       #4f9d69;   /* confirm / online / ok states only */
 
+  /* loot rarity tiers (art cards) */
+  --legend:        #f0951a;
+  --legend-dark:   #8c4a06;
+  --legend-glow:   color-mix(in srgb, #f0951a 55%, transparent);
+  --legend-tint:   #fff1cf;
+  --legend-tint-2: #ffd98a;
+  --epic:          #8a5cf0;
+  --epic-dark:     #43287f;
+  --epic-glow:     color-mix(in srgb, #8a5cf0 45%, transparent);
+  --epic-tint:     #f0e8ff;
+  --epic-tint-2:   #cdb8ff;
+
+  /* hero availability readout */
+  --status-bg:   #123a27;
+  --status-edge: #7ee2a0;
+  --status-fg:   #d4fbe0;
+  --led:         #5cf28c;
+
+  /* --- semantic roles: rules pick colours through these, never by palette name --- */
+  --roster-bg:    #4177ae;   /* a touch lighter than --sky: white text 4.6:1, ink outline 3.2:1 */
+  --roster-fg:    var(--white);
+  --cta-bg:       var(--gold);
+  --cta-fg:       var(--ink);
+  --text-accent:  var(--sky-dark);
+
+  /* --- shell roles: roster, menu, chips, crumb (Phase 3) --- */
+  --roster-icon:       var(--icon-on-dark);   /* glyph tint for roster icons + tab bar */
+  --roster-rule:       var(--white-a30);      /* divider under the menu */
+  --roster-chip-bg:    var(--sky-dark);       /* status pill, sound toggle */
+  --roster-chip-fg:    var(--white);
+  --roster-chip-edge:  var(--white);
+  --roster-chip-hover: var(--sky-deep);
+  --menu-bg:           var(--sky-dark);
+  --menu-fg:           var(--white);
+  --menu-hover-bg:     var(--sky-deep);
+  --menu-hover-fg:     var(--white);
+  --menu-ring:         var(--gold);           /* hover ring + selection cursor */
+  --menu-active-bg:    var(--gold);           /* the open panel */
+  --menu-active-fg:    var(--ink);
+  --menu-ext-bg:       var(--cream);          /* "leaves the menu" entry (resume) */
+  --menu-ext-fg:       var(--ink);
+  --crumb-bg:          var(--red-dark);
+  --crumb-fg:          var(--white);
+
+  /* --- component roles (Phase 4) --- */
+  --banner-bg:         var(--red-dark);       /* card-banner tab */
+  --banner-fg:         var(--white);
+  --focus-ring:        var(--sky-dark);       /* form-field focus + reading-mode ring (gold was 1.3:1 on cream) */
+  --modal-head-bg:     var(--sky);
+  --modal-head-fg:     var(--white);
+
+  /* --- panel roles (Phase 5) --- */
+  --eyebrow-bg:        var(--red-dark);       /* hero label */
+  --eyebrow-fg:        var(--white);
+  --hero-side-bg:      var(--sky-dark);       /* loadout panel */
+  --hero-side-fg:      var(--white);
+  --hero-side-accent:  var(--gold);           /* loadout heading */
+  --badge-staff-bg:    var(--red-dark);
+  --badge-staff-fg:    var(--white);
+  --badge-featured-bg: var(--sky-dark);
+  --badge-featured-fg: var(--white);
+  --step-bg:           var(--sky-dark);       /* pipeline stage number */
+  --step-fg:           var(--gold);
+  --thread-color:      var(--sky-dark);       /* marching-ants line behind the stages */
+  --portrait-bg:       var(--sky-dark);       /* endorsement NPC portrait frame */
+  --card-sky-bg:       var(--sky);            /* contact card */
+  --card-sky-fg:       var(--white);
+
   /* --- ink relationships --- */
+  --outline:     var(--ink);   /* border colour; themes can soften it without touching text */
   --border-w:    4px;
-  --border:      var(--border-w) solid var(--ink);
-  --border-thin: 2px solid var(--ink);
+  --border:      var(--border-w) solid var(--outline);
+  --border-thin: 2px solid var(--outline);
   --shadow:      5px 5px 0 var(--ink);
   --shadow-sm:   3px 3px 0 var(--ink);
   --shadow-lg:   8px 8px 0 var(--ink);
@@ -33,6 +102,37 @@
   --radius:    12px;
   --radius-sm: 9px;
   --radius-xs: 6px;
+
+  /* --- derived tints (follow the base palette, so a theme only has to
+         override the base colours on :root) --- */
+  --grid-line:    color-mix(in srgb, var(--ink) 3.5%, transparent);   /* graph-paper lines */
+  --ink-dash-30:  color-mix(in srgb, var(--ink) 30%, transparent);    /* timeline rail */
+  --ink-dash-35:  color-mix(in srgb, var(--ink) 35%, transparent);    /* dashed dividers */
+  --scrim:        color-mix(in srgb, var(--ink) 72%, transparent);    /* modal backdrop */
+  --scrim-sky:    color-mix(in srgb, var(--sky-deep) 72%, transparent); /* viewer backdrop */
+  --white-a30:    color-mix(in srgb, var(--white) 30%, transparent);  /* menu divider, spinner ring */
+  --white-a75:    color-mix(in srgb, var(--white) 75%, transparent);  /* skeleton sweep */
+  --gold-glow-30: color-mix(in srgb, var(--gold) 30%, transparent);   /* hero corner glow */
+  --gold-glow-35: color-mix(in srgb, var(--gold) 35%, transparent);   /* achievement toast ring */
+  --gold-glow-40: color-mix(in srgb, var(--gold) 40%, transparent);   /* hero sweep tail */
+  --gold-glow-75: color-mix(in srgb, var(--gold) 75%, transparent);   /* resume pulse ring */
+  --sky-glow-22:  color-mix(in srgb, var(--sky) 22%, transparent);    /* hero corner glow */
+  --shine-60:     color-mix(in srgb, #fff 60%, transparent);          /* button shine */
+  --shine-55:     color-mix(in srgb, #fff 55%, transparent);          /* hero sweep */
+  --error-bg:     #fdeeee;                                            /* invalid field wash */
+
+  /* --- ornament tints (decor.css) ---
+     --tex-dark only ever DARKENS, so textures under light text can only raise contrast. */
+  --rivet:      color-mix(in srgb, var(--ink) 38%, transparent);    /* corner rivets */
+  --bevel-hi:   color-mix(in srgb, var(--white) 38%, transparent);  /* top edge of a chunky button */
+  --bevel-lo:   color-mix(in srgb, var(--ink) 22%, transparent);    /* bottom edge */
+  --tex-dark:   color-mix(in srgb, var(--ink) 9%, transparent);     /* checker, scanlines, stripes, recesses */
+  --bracket:      color-mix(in srgb, var(--ink) 55%, transparent);    /* HUD corner brackets on light panels */
+  --bracket-lite: color-mix(in srgb, var(--white) 55%, transparent);  /* ...and on dark panels */
+
+  /* --- icon tinting: menu/sound/button icons are monochrome masks --- */
+  --icon-on-dark:  brightness(0) invert(1);   /* white glyph for dark surfaces */
+  --icon-on-light: brightness(0);             /* ink glyph for light surfaces */
 
   /* --- type --- */
   --pixel: "Press Start 2P", ui-monospace, monospace;
@@ -44,6 +144,10 @@
   --fs-body-sm:   12px;
   --fs-body:      14px;
   --fs-body-lg:   16px;
+  --fs-h1:        clamp(22px, 4vw, 42px);
+  --fs-h2:        clamp(14px, 1.9vw, 20px);
+  --ls-head:      .01em;          /* tracking for h1-h4 */
+  --ls-h1:        .045em;
 
   /* --- spacing scale (4px base) --- */
   --s-1:  4px;

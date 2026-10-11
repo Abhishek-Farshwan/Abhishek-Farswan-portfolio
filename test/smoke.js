@@ -289,7 +289,7 @@ function tick(ms = 0) {
 
   // copy pass: status is useful + sourced, nothing unearned, no repeated punchline, no sidebar clutter
   const fText = fDoc.body.textContent;
-  check('status line says open for freelance', /STATUS: OPEN FOR FREELANCE/.test(fText) && !/BUILDING WORLDS/.test(fText));
+  check('status line says open for freelance', /STATUS\s*OPEN FOR FREELANCE/.test(fText) && !/BUILDING WORLDS/.test(fText));
   check('art footer makes no unearned claim', /complete archive lives on my Sketchfab and ArtStation/.test(fText) && !/keeps growing|started as a block-out/.test(fText));
   check('render-ready punchline appears once, not on every page', (fText.match(/render-ready/g) || []).length === 1, String((fText.match(/render-ready/g) || []).length));
   check('contact copy leads with what visitors need', /Got a game that needs assets\?/.test(fText) && !/Find me around the web/.test(fText));

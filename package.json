@@ -5,7 +5,11 @@
   "description": "3D artist portfolio built as a console/JRPG menu. Static HTML/CSS/JS, no build step.",
   "scripts": {
     "start": "python3 -m http.server 8000",
-    "test": "node test/smoke.js"
+    "test": "node test/smoke.js",
+    "contrast": "node test/contrast.js",
+    "lint": "node test/theme-lint.js",
+    "check": "node test/smoke.js && node test/theme-lint.js && node test/contrast.js",
+    "render": "node test/render.mjs"
   },
   "devDependencies": {
     "jsdom": "^24.0.0"

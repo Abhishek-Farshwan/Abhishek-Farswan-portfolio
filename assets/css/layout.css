@@ -13,8 +13,8 @@
 /* ===== ROSTER (left panel) ===== */
 
 .roster {
-  background: var(--sky);
-  color: var(--white);
+  background: var(--roster-bg);
+  color: var(--roster-fg);
   border-right: var(--border);
   padding: var(--s-4) var(--s-4) var(--s-3);
   display: flex;
@@ -43,8 +43,9 @@
 
 .roster-status {
   border: var(--border-thin);
-  border-color: var(--white);
-  background: var(--sky-dark);
+  border-color: var(--roster-chip-edge);
+  background: var(--roster-chip-bg);
+  color: var(--roster-chip-fg);
   border-radius: var(--radius-xs);
   padding: 5px 6px;
   font-size: var(--fs-chrome-xs);
@@ -91,7 +92,7 @@
    has left the roster and now scrolls this panel directly; Backspace/Esc
    hands focus back to the roster. */
 .detail.detail-focused {
-  box-shadow: inset 0 0 0 3px var(--gold);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
 }
 
 .detail-inner {
@@ -113,8 +114,8 @@
   font-family: var(--pixel);
   font-size: var(--fs-chrome-sm);
   line-height: 1.7;
-  background: var(--red-dark);
-  color: var(--white);
+  background: var(--crumb-bg);
+  color: var(--crumb-fg);
   border: var(--border);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-sm);

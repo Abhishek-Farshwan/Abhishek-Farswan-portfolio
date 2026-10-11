@@ -43,14 +43,14 @@ Any static host works. No build command, publish directory is the project root.
 
 ## Cache-busting
 
-Every local CSS/JS reference carries a shared cache token such as `?v=20260928-2`.
+Every local CSS/JS reference carries a shared cache token such as `?v=20261009-1`.
 **Bump the token whenever you ship a CSS or JS change to the live site** —
 otherwise a returning visitor's browser (or an aggressive CDN cache) can keep
 serving an old stylesheet or script until its cache naturally expires. Find
 and replace the version string across all four HTML files at once:
 
 ```bash
-grep -rl '?v=20260928-2' *.html game/secret_level/*.html | xargs sed -i 's/?v=20260928-2/?v=YYYYMMDD-N/g'
+grep -rl '?v=20261009-1' *.html game/secret_level/*.html | xargs sed -i 's/?v=20261009-1/?v=YYYYMMDD-N/g'
 ```
 
 ## Art grid controls (all in `assets/js/data.js` → `sketchfab`)
@@ -74,8 +74,10 @@ carries the same copy for no-JS readers — if you change a fact, grep for it in
 both.
 
 **Design values** (colour, type, spacing, motion) live in
-`assets/css/tokens.css` and nowhere else. Change a token, the whole site
-follows.
+`assets/css/tokens.css`, plus the 404 stage tokens at the top of
+`assets/css/lost.css` and the fixed print palette. Change a token, the whole
+site follows. The game-style ornament (rivets, corner brackets, textures,
+bevels) lives in `assets/css/decor.css`.
 
 **Structure, behavior, creative direction, and maintenance rules** live in
 `PROJECT_GUIDE.md`. Read it before structural or design changes. This repo
@@ -88,7 +90,8 @@ becoming a second work log.
 |---|---|
 | Add or change a social link | `assets/js/data.js` → `links`, and the contact panel in `index.html` |
 | Change the featured four models | `assets/js/data.js` → `sketchfab.featuredIds` and `featured` |
-| Change a colour or the border weight | `assets/css/tokens.css` |
+| Change a colour or the border weight | `assets/css/tokens.css` (components read role tokens such as `--menu-bg` or `--cta-bg`, so retint a component by editing its role) |
+| Change the ornament (rivets, brackets, textures, bevels) | `assets/css/decor.css`, and the `--rivet`, `--bevel-*`, `--tex-dark`, `--bracket*` tints in `tokens.css` |
 | Add a menu entry | `assets/js/data.js` → `nav`, then add a matching `<section class="panel" id="panel-…">` in `index.html` |
 | Change résumé content | `resume.html` and `assets/js/data.js` → `resume` |
 | Send the contact form to a real backend | `assets/js/contact.js` → replace the `mailto:` in `compose()` with a POST, and update the form note copy |
@@ -126,10 +129,21 @@ Sketchfab API, and asserts the interactions — routing, keyboard, sync and
 offline fallback, sorting, search, empty state, the inspector, form validation
 and the easter egg.
 
+`test/theme-lint.js` checks the stylesheet and page conventions without a
+browser, and `test/contrast.js` measures text and UI contrast and fails on any
+problem.
+
 ```bash
 npm install jsdom   # only dependency, only for tests
-node test/smoke.js
+npm run check       # smoke test + style lint + contrast
 ```
+
+Each also runs alone: `npm test`, `npm run lint`, `npm run contrast`.
+
+There is also an optional visual check, `npm run render`, that screenshots every
+page at four widths plus a print view in a real headless Chromium and fails on
+script errors or content past the screen edge. It needs extra packages (see the
+top of `test/render.mjs`), takes several minutes, and accepts `--only <name>`.
 
 Run it for structural or cross-cutting changes to page boot, shared chrome,
 routing, keyboard navigation, data/render contracts, or security and embedded
@@ -138,7 +152,9 @@ they affect behavior; use a focused check for those changes.
 
 ## Browser support
 
-Modern evergreen browsers. Graceful degradation is built in: no
+Modern evergreen browsers (the visual layer uses `color-mix()`,
+`conic-gradient()` and `:has()`, all available since 2023; older browsers lose
+tints and rarity colours, not content). Graceful degradation is built in: no
 `IntersectionObserver` loads every viewer directly, no `matchMedia` falls back
 to desktop assumptions, no `localStorage` falls back to memory, no
 `AudioContext` silently skips sound, and no JavaScript at all still renders
