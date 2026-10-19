@@ -9,9 +9,22 @@
   :root { --roster-w: 208px; }
 
   .hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+
+  .showcase-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lab-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
-/* ===== TABLET: stack hero and split columns ===== */
+@media (min-width: 901px) and (max-width: 1180px) {
+  .hero-avatar { width: 86px; }
+  .hero-title-row { padding: var(--s-3); gap: var(--s-2); }
+}
+
+/* ===== TABLET & MOBILE SHELL (<= 900px): stack hero and split columns ===== */
 
 @media (max-width: 900px) {
   .spec-matrix,
@@ -21,6 +34,7 @@
     min-width: 0;
     width: 100%;
   }
+
   .hero { grid-template-columns: minmax(0, 1fr); }
 
   .hero-side {
@@ -32,18 +46,7 @@
   .contact-grid { grid-template-columns: minmax(0, 1fr); }
 
   .art-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
-}
 
-/* ===== MOBILE: roster becomes a header card + bottom tab bar ===== */
-
-@media (max-width: 900px) {
-  .spec-matrix,
-  .lab-specimen,
-  .lab-stage {
-    grid-template-columns: minmax(0, 1fr);
-    min-width: 0;
-    width: 100%;
-  }
   .app {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto minmax(0, 1fr);
@@ -61,32 +64,22 @@
     gap: var(--s-2);
   }
 
-  .roster-header {
-    display: none;
-    padding-right: 0;
-    position: static;
-  }
-
-  /* the menu list is replaced by the tab bar down here */
+  .roster-header,
   .roster .menu,
-  .roster-hint { display: none; }
-
+  .roster-hint,
   .roster-status,
-  .profile-note { display: none; }
-
-  .roster-footer {
+  .profile-note,
+  .roster-footer,
+  .sound-toggle--desktop {
     display: none;
   }
-
-  /* Keep the sound control in the header row without changing the desktop
-     roster layout. The text remains available to assistive technology. */
-  .sound-toggle--desktop { display: none; }
 
   .sound-toggle--mobile {
     display: flex;
     position: absolute;
-    top: var(--s-2);
+    top: 50%;
     right: var(--s-2);
+    transform: translateY(-50%);
     width: 38px;
     min-height: 36px;
     padding: 6px;
@@ -102,12 +95,15 @@
 
   .profile-card {
     position: relative;
-    display: block;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 10px;
     text-align: left;
-    padding: var(--s-2) 54px var(--s-2) var(--s-2);
+    padding: 8px 52px 8px var(--s-3);
   }
 
-  .profile-role { margin-top: 2px; }
+  .profile-role { margin-top: 0; }
 
   .detail {
     height: auto;
@@ -115,7 +111,7 @@
     padding-bottom: 72px;
   }
 
-  .detail-inner { padding: var(--s-4) var(--s-3) var(--s-5); }
+  .detail-inner { padding: var(--s-3) var(--s-3) var(--s-5); }
 
   .tabbar { display: flex; }
 
@@ -135,20 +131,17 @@
     margin: calc(var(--s-4) * -1) 0 var(--s-3) calc(var(--s-4) * -1);
   }
 
-  .pipeline-step { grid-template-columns: 54px minmax(0, 1fr); }
-  .step-number { font-size: 14px; }
+  .pipeline-step { grid-template-columns: 58px minmax(0, 1fr); }
+  .step-number { font-size: 14px; padding-top: 14px; }
   .step-copy { padding: var(--s-3); }
 
-  .art-grid { grid-template-columns: minmax(0, 1fr); }
-  .viewer-wrap { aspect-ratio: 16 / 10; }
-
   .npc-body {
-    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-columns: 68px minmax(0, 1fr);
     gap: var(--s-2);
     padding: var(--s-2);
   }
 
-  .npc-portrait-frame { width: 64px; height: 96px; }
+  .npc-portrait-frame { width: 68px; height: 96px; }
   .npc-portrait { width: 56px; }
   .npc-copy { min-height: 96px; padding: 8px 10px; }
   .npc-controls {
@@ -156,10 +149,16 @@
     width: 100%;
   }
 
+  /* Art toolbar controls: Search spans top row, Show + Sort sit 50/50 below */
   .art-controls {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--s-2);
   }
+
+  .art-control--search {
+    grid-column: 1 / -1;
+  }
+
   .art-toolbar {
     padding: var(--s-3);
   }
@@ -181,11 +180,7 @@
   .entry-when { margin-left: 0; width: 100%; }
 }
 
-@media (min-width: 901px) and (max-width: 1180px) {
-  .hero-avatar { width: 88px; }
-}
-
-/* ===== COMPACT TABLET: keep the dialogue horizontal ===== */
+/* ===== COMPACT TABLET (601px - 900px) ===== */
 
 @media (min-width: 601px) and (max-width: 900px) {
   .npc-body {
@@ -198,50 +193,180 @@
   .npc-portrait { width: 62px; }
 }
 
-/* ===== SMALL PHONES ===== */
+/* ===== MOBILE PHONES (<= 600px): optimize all 5 tabs for handheld ergonomics ===== */
+
+@media (max-width: 600px) {
+  /* Single-line HUD topbar so Crumb + XP + Controls don't waste vertical screen space */
+  .topbar {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .crumb {
+    padding: 7px 9px;
+    font-size: var(--fs-chrome-xs);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .topbar-hud {
+    width: auto;
+    flex-wrap: nowrap;
+    gap: 6px;
+    flex: none;
+  }
+
+  .hud-chip,
+  #manual-open-btn {
+    min-height: 34px;
+    padding: 6px 8px;
+    font-size: 8px;
+  }
+
+  /* Home: Single-Frame Player Deck + Balanced CTA Grid */
+  .hero-copy {
+    padding: var(--s-3);
+  }
+
+  .hero-meta-row {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .eyebrow,
+  .hero-meta-row .chip {
+    font-size: 8px;
+    padding: 4px 8px;
+  }
+
+  .hero-title-row {
+    padding: var(--s-3);
+    gap: var(--s-2);
+  }
+
+  .hero-avatar {
+    width: 76px;
+  }
+
+  .hero-cta-bar .btn-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .hero-cta-bar .btn-row .btn:first-child {
+    grid-column: 1 / -1;
+  }
+
+  #panel-home .card > .btn-row .btn {
+    flex: 1 1 auto;
+  }
+
+  .showcase-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .showcase-stage {
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Art: Single-row touch-scroll category filter ribbon + 16:10 cards */
+  .art-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .viewer-wrap {
+    aspect-ratio: 16 / 10;
+  }
+
+  .art-toolbar-cats {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .art-toolbar-cats .filter-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .art-toolbar-cats .filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .art-toolbar-cats .filter-pill {
+    flex: none;
+  }
+
+  /* Pipeline: Workbench stage height & unclipped tool chips */
+  .lab-stage {
+    aspect-ratio: auto;
+    min-height: 256px;
+    padding-top: 28px;
+  }
+
+  .tool-list {
+    gap: 6px 18px;
+  }
+
+  /* About: Prevent fixed-height clipping of NPC endorsements & [MORE] button on narrow phones */
+  .npc-copy {
+    height: auto;
+    min-height: 96px;
+    overflow: visible;
+    justify-content: flex-start;
+  }
+
+  .secret-readout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ===== SMALL PHONES (<= 480px) ===== */
 
 @media (max-width: 480px) {
-  .hero-title-row { grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-2); }
-  .hero-avatar { width: 72px; }
-  /* Keep compact tabs icon-only without shrinking labels past legibility. */
+  .hero-avatar { width: 70px; }
+
+  /* Keep compact bottom tabs icon-only without shrinking labels past legibility */
   .tabbar-btn span:not(.tab-glyph) { display: none; }
   .tabbar-btn .tab-glyph { width: 18px; height: 18px; }
-  .contact-links a { grid-template-columns: 24px minmax(0, 1fr) auto; gap: var(--s-2); }
-  .stat-grid { grid-template-columns: minmax(0, 1fr); }
+
+  .contact-links a {
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+    gap: var(--s-2);
+  }
+
+  /* Keep Loadout and Workbench spec tiles in a crisp 2x2 console grid on mobile */
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #contact-form .btn-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #contact-form .btn-row .btn {
+    width: 100%;
+  }
 }
 
 @media (max-width: 380px) {
-  .hero-copy { padding-right: var(--s-3); padding-left: var(--s-3); }
-  .hero-avatar { width: 62px; }
+  .hero-meta-row {
+    padding: 6px 8px;
+  }
+  .hero-title-row {
+    padding: var(--s-2) 10px;
+    gap: 8px;
+  }
+  .hero-avatar { width: 64px; }
 }
 
 /* ===== SHORT LANDSCAPE PHONES ===== */
 
 @media (max-height: 520px) and (orientation: landscape) {
   .roster { padding: var(--s-2) var(--s-3); }
-}
-
-
-/* ===== ROUND 3 RESPONSIVE RULES ===== */
-
-@media (max-width: 1080px) {
-  .showcase-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .lab-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-@media (max-width: 560px) {
-  .showcase-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .secret-readout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .topbar-hud {
-    width: 100%;
-    justify-content: flex-start;
-  }
 }

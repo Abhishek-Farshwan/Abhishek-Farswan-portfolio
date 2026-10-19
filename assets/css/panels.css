@@ -73,12 +73,26 @@
   gap: var(--s-3);
 }
 
+.hero-player-frame {
+  background: var(--cream);
+  color: var(--ink);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: grid;
+}
+
 .hero-meta-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--s-2);
+  padding: 8px 12px;
+  background: var(--paper);
+  color: var(--ink);
+  border-bottom: var(--border-thin);
 }
 
 .eyebrow {
@@ -98,46 +112,55 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: var(--s-4);
-  margin: var(--s-1) 0;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  margin: 0;
+  background: var(--white);
+  color: var(--ink);
 }
 
 .hero-identity {
   min-width: 0;
+  container-type: inline-size;
 }
 
 .hero-title-row h1 {
   min-width: 0;
   margin: 0;
+  font-size: clamp(16px, 2.4vw, 34px);
+  font-size: clamp(15px, 10.6cqw, 36px);
+  line-height: 1.32;
 }
 
 .hero .lead {
   color: var(--ink);
-  max-width: 48ch;
+  max-width: 54ch;
 }
 
 .hero-portrait-card {
   margin: 0;
   padding: 6px;
+  width: min-content;
   background: var(--cream);
   color: var(--ink);
-  border: var(--border);
-  border-radius: var(--radius-sm);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
   box-shadow: var(--shadow-sm);
   display: grid;
   justify-items: center;
-  gap: 6px;
+  gap: 5px;
   transition: transform var(--snap), box-shadow var(--snap);
 }
 
 .hero-portrait-card:hover {
-  transform: translate(-2px, -2px) rotate(-1deg);
+  transform: translate(-2px, -2px);
   box-shadow: var(--shadow);
 }
 
 .hero-avatar {
   display: block;
-  width: 112px;
+  width: clamp(74px, 8vw, 108px);
+  max-width: none;
   height: auto;
   border: var(--border-thin);
   border-radius: 4px;
@@ -146,13 +169,13 @@
 .hero-portrait-cap {
   width: 100%;
   text-align: center;
-  padding: 3px 6px;
+  padding: 3px 5px;
   background: var(--sky-dark);
   color: var(--white);
   border-radius: 3px;
   font-family: var(--pixel);
-  font-size: var(--fs-chrome-xs);
-  line-height: 1.4;
+  font-size: 8px;
+  line-height: 1.35;
 }
 
 /* A pull-quote anchored cleanly above the CTA bar */

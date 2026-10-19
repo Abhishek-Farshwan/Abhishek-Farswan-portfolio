@@ -1,17 +1,31 @@
 # Project Guide
 
 This is a static portfolio built as a console/JRPG menu. Keep the guide
-current, short, and practical: it describes how the site works and the few
+current, short, and practical: it describes how the site works, the active
+technical partnership model, the site-wide design philosophy, and the
 decisions that future edits must preserve.
+
+## Active Technical Partner Operating Principles
+
+Act as an active technical partner, not merely a code generator. The user may not have complete technical knowledge, so help them make informed decisions.
+
+- Guide proactively: Recommend better approaches, identify missing requirements, and highlight risks or overlooked opportunities without waiting to be asked.
+- Challenge constructively: Question weak ideas, explain trade-offs, and offer your own reasoned opinions. Never agree just to please the user.
+- Discuss before committing: For significant features or architectural decisions, explain the best options, recommend one, and seek user feedback when the decision meaningfully affects the outcome.
+- Communicate efficiently: Ask focused questions when necessary, but handle routine, low-risk tasks independently. Avoid overwhelming the user with unnecessary choices or explanations.
+- Explain clearly: Use accessible language and briefly explain important technical decisions without assuming expert knowledge.
+- Own the outcome: Consider maintainability, security, performance, usability, and project goals. Test implementations and identify remaining issues honestly.
+
+Principle: Don't just build what the user asks for. Help them discover and build what they actually need, while keeping them informed and in control.
 
 ## Editing Rules
 
 - `CONTENT_SOURCE.md` owns factual content, links, resume text, model IDs,
   and approved visitor-facing copy. Update it first, then mirror facts in
   `assets/js/data.js` and no-JS HTML where needed.
-- This file owns architecture, behavior, accessibility, security, and visual
-  constraints. Do not add unverified claims or silently change intentional
-  spelling differences.
+- This file (`PROJECT_GUIDE.md`) and `AGENTS.md` own architecture, behavior,
+  design philosophy, accessibility, security, and visual constraints. Do not
+  add unverified claims or silently change intentional spelling differences.
 - Keep the site a plain HTML/CSS/JS project with no build step or framework.
 - Verify the affected surface after edits. Run `node test/smoke.js` for
   structural or cross-cutting changes to page boot, shared chrome, routing,
@@ -27,6 +41,8 @@ static host. Scripts are classic deferred IIFEs, not ES modules.
 
 ```text
 /
+|-- AGENTS.md               active technical partner & design philosophy charter
+|-- PROJECT_GUIDE.md        architecture, rules, and verification guide
 |-- index.html              home, art, pipeline, about, contact
 |-- resume.html             print-oriented resume
 |-- 404.html                not-found page
@@ -35,7 +51,8 @@ static host. Scripts are classic deferred IIFEs, not ES modules.
 |   |-- characters/         endorsement character database
 |   |-- css/                tokens, layout, navigation, panels, responsive,
 |   |                       decor (ornament layer), lost (404 stage), print
-|   |-- js/                 data, chrome, router, art, inspector, contact
+|   |-- js/                 data, chrome, router, art, inspector, contact,
+|   |                       endorsements, easter, enhancements, main
 |   `-- pixel-npc/          pixel-art NPC portraits
 `-- test/                   smoke.js (jsdom), theme-lint.js (conventions),
                             contrast.js (WCAG), render.mjs (optional browser)
@@ -90,36 +107,61 @@ scanline textures, bevels, stripe fills, slot numbers, and rarity strips.
   selector (`.contact-links a[href]`) to out-rank it.
 - Sections are added at the bottom, one per area.
 
-## Creative Direction
+## Site-Wide Design Philosophy & Creative Direction
 
-The site should behave like a real warm console menu, not a marketing page
+The site behaves like a real warm console/JRPG menu, not a marketing page
 wearing game decoration. The memorable mechanic is the menu itself: visible
 selection state, keyboard navigation, panel transitions, inventory-style art
 inspection, and restrained, opt-in UI sounds.
 
-Preserve the Bright Ledger identity: blue roster, cream detail surface, red
-banners, gold selection states, chunky dark borders, and graph-paper texture.
-Press Start 2P is for chrome; Nunito Sans is for readable content. Game
-character comes from the ornament layer (quiet rivets, corner brackets, pixel
-textures, bevels). Avoid dark mode, neon or terminal glow effects, and
-decorative motion without a clear purpose. The blinking status light and the
-active-quest marker are status, and stop under `prefers-reduced-motion`.
+1. **Bright Ledger Identity**:
+   - Preserve the core palette and materials: blue roster, cream detail surface,
+     red banners, gold selection states, chunky dark borders, and graph-paper
+     texture.
+   - `Press Start 2P` is for compact chrome (headings, badges, buttons, HUD
+     readouts); `Nunito Sans` is for readable body copy.
+   - Game character comes from the ornament layer (quiet rivets, corner
+     brackets, pixel textures, bevels). Avoid dark mode, neon or terminal glow
+     effects, and decorative motion without a clear purpose. The blinking status
+     light and the active-quest marker indicate live status and stop under
+     `prefers-reduced-motion`.
 
-The profile card is text-first: name, role, and note only. It does not use a
-profile portrait or avatar. Endorsement NPC portraits are a separate dialogue
-element, not a change to the profile card. Keep copy aimed at visitors rather
-than explaining implementation details on the page.
+2. **Unified Single-Frame Player Identity & Container-Aware Sizing**:
+   - The left sidebar `.profile-card` remains text-first (`ABHISHEK`, role, note).
+   - On the Home panel, the player status badges (`PLAYER 01 // ARTIST SELECTED`,
+     `100+ ASSETS SHIPPED`), display heading (`ABHISHEK FARSHWAN`), and character
+     portrait plate (`.hero-portrait-card`) live together inside a single
+     bordered Character-Select frame (`.hero-player-frame`).
+   - `.hero-identity` uses `container-type: inline-size` with `cqw`-based fluid
+     sizing on `h1`, and `.hero-portrait-card` uses `width: min-content` so the
+     pixel display name and portrait card never collide or leave wide empty
+     margins at any desktop, laptop, tablet, or mobile width.
+   - Lead prose, pull-quote taglines, and CTA bars sit below `.hero-player-frame`
+     at 100% full width so body copy is never squeezed beside a floating image.
 
-Use darker palette variants for text-bearing red and blue surfaces so text
-keeps at least 4.5:1 contrast, and UI boundaries and focus rings at least
-3:1. `npm run contrast` enforces this with no exceptions: any failure exits
-non-zero. It measures every rule that sets both a text and a background
-color, pairs hover/focus/selected rules with their base rule, and checks a
-list of manual pairs. It cannot see gradients, images, opacity, or inherited
-colors that no rule pairs, so add a manual pair in `test/contrast.js` for a
-new surface, and calculate by hand for descendants of a hovered element. Do
-not shrink pixel-font labels below the current legibility floor; shorten
-labels or use icons when space is tight.
+3. **Consistent Mobile Handheld UX Across All Tabs**:
+   - **Mobile Header & HUD**: Under `900px`, the roster condenses into a compact
+     horizontal header bar and bottom tab bar, while `.topbar` keeps the
+     section breadcrumb, `XP` chip, and `? CONTROLS` button aligned on a single
+     compact row.
+   - **Home**: Primary CTA (`SEE THE 3D WORK ▸`) spans full width on mobile with
+     secondary links (`PIPELINE`, `RESUME ↗`) paired 50/50 below; Loadout spec
+     tiles stay in a compact 2×2 grid.
+   - **Art**: Category filter pills scroll horizontally in a single touch row on
+     mobile, and `SHOW` + `SORT BY` sit side-by-side below the search bar so
+     controls never push the 3D inventory off-screen.
+   - **Pipeline**: Stage number rails give top clearance for `STAGE` ornament
+     headers, tool chips wrap cleanly without clipping `+` joints, and the
+     Workbench viewer stage maintains explicit mobile height and badge clearance.
+   - **About**: `.npc-copy` uses fluid height on mobile (`<=600px`) so longer
+     endorsement excerpts and the `[MORE]` button never clip inside a fixed box.
+   - **Contact**: Form action buttons stack cleanly at 100% width on small phones.
+
+4. **Strict Contrast Enforcement**:
+   - Use darker palette variants for text-bearing red and blue surfaces so text
+     keeps at least 4.5:1 contrast, and UI boundaries and focus rings at least
+     3:1. `npm run contrast` enforces this with no exceptions: any failure exits
+     non-zero.
 
 ## Current Behavior
 
@@ -130,15 +172,16 @@ labels or use icons when space is tight.
 - On Home, Up/Down browse the menu, Right/Enter/Space enters the selected
   detail panel, and Left/Backspace returns to Home or exits detail mode.
 - `1`-`5` jump to panels, `Home` and `End` jump to the first and last panel,
-  `R` opens the resume, `M` toggles sound, and `Esc` closes the inspector.
+  `R` opens the resume, `M` toggles sound, `?` opens the controls manual, and
+  `Esc` closes any open modal or inspector.
 - On non-home pages, Left/Backspace returns to the main menu and `P` prints.
 - The Art panel syncs current Sketchfab uploads, keeps four curated cards as
-  the offline fallback, and lazy-loads viewers. Do not replace this source
+  the offline fallback, and uses poster-first inline 3D orbit (`▶ ORBIT 3D`)
+  plus full-screen inspection (`3D INSPECT ▸`). Do not replace this source
   without updating `CONTENT_SOURCE.md`.
 - The About panel shows one LinkedIn recommendation at a time as NPC dialogue:
-  gender-aware pixel portrait, speaker name, role, compact preview, inline
-  `[MORE]` toggle, and previous/next controls. Keep the compact dialogue height
-  stable while browsing and preserve left/right keyboard navigation.
+  gender-aware pixel portrait, speaker name, role, fitted excerpt, inline
+  `[MORE]` toggle when truncated, and previous/next controls.
 - No-JS readers still get the panels and curated art cards through static
   HTML and the existing `<noscript>` behavior.
 
@@ -151,9 +194,6 @@ labels or use icons when space is tight.
   console in a real browser.
 - New images with JavaScript error fallback must set `data-src` first and
   assign `src` only after the error listener is attached.
-- The LinkedIn mark in the endorsement speaker line is decorative and may use
-  the public Simple Icons SVG already allowed by the page CSP; it is not a
-  second navigation control.
 - Sketchfab iframes keep their sandbox and must not gain `allow-top-navigation`.
 - Links with `target="_blank"` use `rel="noopener noreferrer"`.
 - Local CSS and JS references use a shared cache-busting value such as
@@ -163,9 +203,8 @@ labels or use icons when space is tight.
 
 - Keep desktop, tablet, and mobile layouts usable without horizontal overflow.
   `npm run render` checks this in a real browser at 360, 768, 1280 and 1919px.
-- The visual layer uses `color-mix()`, `conic-gradient()` and `:has()` (all
-  evergreen browsers since 2023). Older browsers lose tints and rarity colors,
-  not content.
+- The visual layer uses `color-mix()`, `conic-gradient()`, `:has()`, and
+  container query units (`cqw`) (all evergreen browsers since 2023).
 - Preserve visible keyboard focus and clear contrast.
 - Prefer transform/opacity motion and respect `prefers-reduced-motion`.
 - Keep the roster compact and the detail panel readable at laptop widths.
@@ -178,22 +217,3 @@ labels or use icons when space is tight.
 npm install
 npm run check      # smoke test + style lint + contrast, all must pass
 ```
-
-`test/smoke.js` covers boot, routing, keyboard input, Sketchfab sync and
-offline fallback, sorting, search, the inspector, forms, and the easter egg.
-`test/theme-lint.js` enforces the stylesheet and page conventions: every token
-defined and used, no raw colors outside tokens, `decor.css` ornament-only and
-screen-only, no inline styles, one cache token, and a pinned set of head
-links. `test/contrast.js` fails on any contrast problem.
-
-Optional: `npm run render` renders every page at four widths plus a print view
-in a real headless Chromium, and fails on script errors or any content that
-pokes past the viewport edge (which also catches content clipped by
-`overflow: hidden`). It needs extra packages, which the project deliberately
-does not depend on; install them with the command at the top of
-`test/render.mjs`. A full run takes several minutes, so use `--only <name>`.
-It proves pages render without errors; a person still decides if they look
-right.
-
-When changing scripts, event handlers, CSP, or embedded content, also load
-the affected page in a real browser and check the console for CSP violations.

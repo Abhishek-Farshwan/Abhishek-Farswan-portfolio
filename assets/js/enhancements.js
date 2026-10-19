@@ -83,7 +83,7 @@ window.MANUAL = (function () {
       var match = QUESTS.filter(function (q) { return q.id === id; })[0];
       var doneCount = QUESTS.filter(function (q) { return Boolean(state[q.id]); }).length;
       if (match) {
-        if (window.SFX && window.SFX.confirm) window.SFX.confirm();
+        /* achievement toast is visual; calling action already played its own SFX cue */
         UTIL.toast('\uD83C\uDFC6 ACHIEVEMENT UNLOCKED \u2014 ' + match.title.toUpperCase() + ' (' + doneCount + '/' + QUESTS.length + ' XP)', 3400, 'achievement');
       }
     }
