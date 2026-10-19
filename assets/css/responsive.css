@@ -14,6 +14,13 @@
 /* ===== TABLET: stack hero and split columns ===== */
 
 @media (max-width: 900px) {
+  .spec-matrix,
+  .lab-specimen,
+  .lab-stage {
+    grid-template-columns: minmax(0, 1fr);
+    min-width: 0;
+    width: 100%;
+  }
   .hero { grid-template-columns: minmax(0, 1fr); }
 
   .hero-side {
@@ -30,6 +37,13 @@
 /* ===== MOBILE: roster becomes a header card + bottom tab bar ===== */
 
 @media (max-width: 900px) {
+  .spec-matrix,
+  .lab-specimen,
+  .lab-stage {
+    grid-template-columns: minmax(0, 1fr);
+    min-width: 0;
+    width: 100%;
+  }
   .app {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto minmax(0, 1fr);
@@ -106,6 +120,7 @@
   .tabbar { display: flex; }
 
   .prompt-bar { display: none; }
+  .topbar-hud { display: flex; }
 
   .toast-zone {
     bottom: 70px;
@@ -127,28 +142,27 @@
   .art-grid { grid-template-columns: minmax(0, 1fr); }
   .viewer-wrap { aspect-ratio: 16 / 10; }
 
-  .npc-dialogue {
-    grid-template-columns: 58px minmax(0, 1fr);
-    grid-template-rows: auto auto auto;
-    grid-template-areas:
-      "portrait copy"
-      "portrait copy"
-      "controls controls";
-    align-items: start;
-    height: 250px;
+  .npc-body {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: var(--s-2);
+    padding: var(--s-2);
   }
 
-  .npc-portrait-frame { width: 58px; height: 106px; }
-  .npc-portrait { width: 52px; }
-  .npc-copy { min-height: 106px; }
+  .npc-portrait-frame { width: 64px; height: 96px; }
+  .npc-portrait { width: 56px; }
+  .npc-copy { min-height: 96px; padding: 8px 10px; }
   .npc-controls {
     justify-content: space-between;
     width: 100%;
   }
 
-  .art-controls { width: 100%; }
-  .art-control { flex: 1 1 140px; }
-  .art-control .input { min-width: 0; }
+  .art-controls {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-2);
+  }
+  .art-toolbar {
+    padding: var(--s-3);
+  }
 
   .topbar { margin-bottom: var(--s-3); }
 
@@ -167,42 +181,28 @@
   .entry-when { margin-left: 0; width: 100%; }
 }
 
-@media (min-width: 901px) and (max-width: 1140px) {
-  .hero-title-row { grid-template-columns: max-content; }
-  .hero-avatar { display: none; }
+@media (min-width: 901px) and (max-width: 1180px) {
+  .hero-avatar { width: 88px; }
 }
 
 /* ===== COMPACT TABLET: keep the dialogue horizontal ===== */
 
 @media (min-width: 601px) and (max-width: 900px) {
-  .npc-dialogue {
+  .npc-body {
     grid-template-columns: 72px minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) auto;
-    grid-template-areas:
-      "portrait copy"
-      "portrait controls";
-    height: 190px;
   }
-
   .npc-portrait-frame {
     width: 72px;
-    height: 106px;
+    height: 102px;
   }
-
   .npc-portrait { width: 62px; }
-
-  .npc-controls {
-    justify-content: center;
-    gap: var(--s-3);
-    width: 100%;
-  }
 }
 
 /* ===== SMALL PHONES ===== */
 
-@media (max-width: 420px) {
-  .hero-title-row { grid-template-columns: max-content 80px; gap: var(--s-2); }
-  .hero-avatar { width: 80px; }
+@media (max-width: 480px) {
+  .hero-title-row { grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-2); }
+  .hero-avatar { width: 72px; }
   /* Keep compact tabs icon-only without shrinking labels past legibility. */
   .tabbar-btn span:not(.tab-glyph) { display: none; }
   .tabbar-btn .tab-glyph { width: 18px; height: 18px; }
@@ -210,14 +210,38 @@
   .stat-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
   .hero-copy { padding-right: var(--s-3); padding-left: var(--s-3); }
-  .hero-title-row { grid-template-columns: max-content 64px; gap: var(--s-1); }
-  .hero-avatar { width: 64px; }
+  .hero-avatar { width: 62px; }
 }
 
 /* ===== SHORT LANDSCAPE PHONES ===== */
 
 @media (max-height: 520px) and (orientation: landscape) {
   .roster { padding: var(--s-2) var(--s-3); }
+}
+
+
+/* ===== ROUND 3 RESPONSIVE RULES ===== */
+
+@media (max-width: 1080px) {
+  .showcase-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .lab-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .showcase-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .secret-readout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .topbar-hud {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }

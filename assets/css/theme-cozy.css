@@ -1,0 +1,509 @@
+/* ============================================================
+   theme-cozy.css — rules that exist ONLY in the cozy theme.
+   Colours and sizes come from tokens.css; this file adds shape,
+   softer states and small scrapbook details.
+
+   Rules:
+   - Every selector starts with :root[data-theme="cozy"], so
+     Bright Ledger is untouched when the attribute is absent.
+   - No raw colours: tokens or color-mix() on tokens only.
+   - Linked with media="screen", so print and the resume stay fixed.
+   - One section per phase; add new phases at the bottom.
+   ============================================================ */
+
+/* ===== PHASE 3 — SHELL ===== */
+
+/* roster: faint polka dots, like the quilted backdrops in craft menus */
+:root[data-theme="cozy"] .roster {
+  background-image: radial-gradient(color-mix(in srgb, var(--white) 38%, transparent) 1.4px, transparent 1.7px);
+  background-size: 20px 20px;
+}
+
+:root[data-theme="cozy"] .roster-hint { font-size: 12px; }
+
+/* status pill + sound toggle: round, soft */
+:root[data-theme="cozy"] .roster-status {
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+:root[data-theme="cozy"] .sound-toggle,
+:root[data-theme="cozy"] .theme-toggle { border-radius: 999px; }
+
+:root[data-theme="cozy"] .sound-toggle[aria-pressed="true"] { border-color: var(--menu-ring); }
+
+/* profile card: white paper with a strip of washi tape (desktop roster only;
+   on small screens the card becomes a compact top bar) */
+:root[data-theme="cozy"] .profile-card {
+  position: relative;
+  background: var(--card-bg);
+  border: var(--border-thin);
+}
+
+@media (min-width: 901px) {
+  :root[data-theme="cozy"] .profile-card::before {
+    content: "";
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    width: 72px;
+    height: 20px;
+    transform: translateX(-50%) rotate(-3deg);
+    background: color-mix(in srgb, var(--lilac) 88%, transparent);
+    clip-path: polygon(0 0, 100% 0, 97% 25%, 100% 50%, 97% 75%, 100% 100%,
+                       0 100%, 3% 75%, 0 50%, 3% 25%);
+    pointer-events: none;
+  }
+}
+
+/* menu: white cards. hover lifts, the open panel slides in and goes amber */
+:root[data-theme="cozy"] .menu-btn:hover,
+:root[data-theme="cozy"] .menu-btn:focus-visible {
+  transform: translateY(-2px);
+}
+
+:root[data-theme="cozy"] .menu-btn[aria-selected="true"],
+:root[data-theme="cozy"] .menu-btn[aria-current="page"] {
+  transform: translateX(3px);
+  border-color: var(--menu-ring);
+}
+
+:root[data-theme="cozy"] .menu-btn:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* the resume entry leaves the menu: dashed, lilac */
+:root[data-theme="cozy"] .menu-btn.is-external { border-style: dashed; }
+
+/* divider: a dashed stitch line instead of a solid bar */
+:root[data-theme="cozy"] .menu-divider {
+  height: 0;
+  margin: 4px 0;
+  background: none;
+  border-top: 2px dashed var(--roster-rule);
+}
+
+/* breadcrumb + page chip: sticker labels */
+:root[data-theme="cozy"] .crumb {
+  border: var(--border-thin);
+  border-radius: 999px;
+  padding: 8px 18px;
+}
+
+:root[data-theme="cozy"] .page-chip {
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+/* prompt bar: no hard rule, a soft lift, and rounded key caps */
+:root[data-theme="cozy"] .prompt-bar {
+  border-top: 0;
+  box-shadow: 0 -4px 16px color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+:root[data-theme="cozy"] .key-cap {
+  background: var(--white);
+  border: var(--border-thin);
+  border-radius: 8px;
+  box-shadow: 0 2px 0 var(--outline);
+}
+
+/* mobile tab bar: rounded top edge, pill buttons */
+:root[data-theme="cozy"] .tabbar {
+  border-top: var(--border-thin);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 16px color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+:root[data-theme="cozy"] .tabbar-btn { border-radius: 999px; }
+
+/* ===== PHASE 4 — SHARED COMPONENTS ===== */
+
+/* paper cards: notebook grid, with a lilac sheet peeking out underneath */
+:root[data-theme="cozy"] .card--paper {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+  box-shadow: var(--shadow), 7px 7px 0 -2px color-mix(in srgb, var(--lilac) 75%, transparent);
+}
+
+:root[data-theme="cozy"] .card--sky { border-color: var(--outline); }
+
+/* banner: a stitched tab label hanging off the card corner */
+:root[data-theme="cozy"] .card-banner {
+  border-style: dashed;
+  letter-spacing: .03em;
+}
+
+/* chips: all pills */
+:root[data-theme="cozy"] .chip--plain {
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+/* buttons: amber pills with a soft gloss and a pressed-in bottom edge */
+:root[data-theme="cozy"] .btn {
+  border-radius: 999px;
+  padding: 11px 22px;
+  background-image: linear-gradient(180deg, color-mix(in srgb, var(--white) 38%, transparent), transparent 55%);
+  box-shadow: var(--shadow-sm), inset 0 -3px 0 color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+:root[data-theme="cozy"] .btn--sm { padding: 8px 16px; }
+
+:root[data-theme="cozy"] .btn--ghost { background-color: var(--card-bg); }
+
+/* dark variant: no gloss, so white text keeps its contrast */
+:root[data-theme="cozy"] .btn--sky { background-image: none; }
+
+:root[data-theme="cozy"] .btn:hover,
+:root[data-theme="cozy"] .btn:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow), inset 0 -3px 0 color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+:root[data-theme="cozy"] .btn:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-sm), inset 0 2px 0 color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+/* stat tiles, loadout rows: a bit rounder */
+:root[data-theme="cozy"] .stat,
+:root[data-theme="cozy"] .bullet { border-radius: var(--radius-sm); }
+
+/* career-log timeline: stitched rail with round markers, like a quest list */
+:root[data-theme="cozy"] .entry { border-left-width: 3px; }
+
+:root[data-theme="cozy"] .entry::before {
+  left: -9px;
+  border-radius: 50%;
+}
+
+/* form fields: white wells, rounded, selects as pills */
+:root[data-theme="cozy"] .input,
+:root[data-theme="cozy"] .textarea,
+:root[data-theme="cozy"] .select {
+  background: var(--card-bg);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+}
+
+:root[data-theme="cozy"] .select {
+  border-radius: 999px;
+  padding: 10px 16px;
+}
+
+:root[data-theme="cozy"] .input:focus,
+:root[data-theme="cozy"] .textarea:focus,
+:root[data-theme="cozy"] .select:focus { outline-offset: 2px; }
+
+/* inspector: lilac dialog header on a stitched rule, round close button */
+:root[data-theme="cozy"] .modal-head { border-bottom-style: dashed; }
+
+:root[data-theme="cozy"] .modal-close {
+  border-radius: 999px;
+  padding: 7px 14px;
+}
+
+/* ===== PHASE 5a — HOME + ART ===== */
+
+/* hero: a scrapbook page. A sky-blue mat with two paper cards laid on it. */
+:root[data-theme="cozy"] .hero {
+  gap: var(--s-4);
+  padding: var(--s-4);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--sky) 38%, var(--white)) 0%,
+    color-mix(in srgb, var(--sky) 14%, var(--cream)) 100%);
+}
+
+:root[data-theme="cozy"] .hero-copy {
+  position: relative;
+  background: var(--card-bg);
+  border: var(--border-thin);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* tape on the copy card (the hero's padding leaves room for it) */
+:root[data-theme="cozy"] .hero-copy::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 28px;
+  width: 76px;
+  height: 20px;
+  transform: rotate(-4deg);
+  background: color-mix(in srgb, var(--lilac) 88%, transparent);
+  clip-path: polygon(0 0, 100% 0, 97% 25%, 100% 50%, 97% 75%, 100% 100%,
+                     0 100%, 3% 75%, 0 50%, 3% 25%);
+  pointer-events: none;
+}
+
+/* loadout: notebook-paper card. Full border so it still reads as a card
+   when the hero stacks on small screens. */
+:root[data-theme="cozy"] .hero-side {
+  border: var(--border-thin);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* its first label becomes a lilac header strip */
+:root[data-theme="cozy"] .hero-side .mini-label:first-child {
+  display: inline-block;
+  background: var(--header-bg);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-radius: 999px;
+  padding: 5px 14px;
+}
+
+:root[data-theme="cozy"] .eyebrow {
+  border-radius: 999px;
+  padding: 6px 16px;
+}
+
+:root[data-theme="cozy"] .hero-tagline {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* portrait: a die-cut sticker */
+:root[data-theme="cozy"] .hero-avatar {
+  rotate: 3deg;
+  filter:
+    drop-shadow(2px 0 0 var(--white)) drop-shadow(-2px 0 0 var(--white))
+    drop-shadow(0 2px 0 var(--white)) drop-shadow(0 -2px 0 var(--white))
+    drop-shadow(0 5px 8px color-mix(in srgb, var(--ink) 28%, transparent));
+}
+
+/* art cards: polaroids with a strip of tape. The tape sits top-centre
+   because Sketchfab draws its own avatar/share buttons in the top corners. */
+:root[data-theme="cozy"] .art-card:hover,
+:root[data-theme="cozy"] .art-card:focus-within {
+  transform: translateY(-3px) rotate(-.6deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme="cozy"] .art-card:hover,
+  :root[data-theme="cozy"] .art-card:focus-within { transform: translateY(-3px); }
+}
+
+:root[data-theme="cozy"] .viewer-wrap::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: 8px;
+  left: 50%;
+  width: 64px;
+  height: 18px;
+  transform: translateX(-50%) rotate(-3deg);
+  background: color-mix(in srgb, var(--lilac) 88%, transparent);
+  clip-path: polygon(0 0, 100% 0, 97% 25%, 100% 50%, 97% 75%, 100% 100%,
+                     0 100%, 3% 75%, 0 50%, 3% 25%);
+  pointer-events: none;
+}
+
+:root[data-theme="cozy"] .art-card:nth-child(3n+2) .viewer-wrap::before {
+  background: color-mix(in srgb, var(--banner-bg) 92%, transparent);
+  transform: translateX(-50%) rotate(2deg);
+}
+
+:root[data-theme="cozy"] .art-card:nth-child(3n) .viewer-wrap::before {
+  background: color-mix(in srgb, var(--gold) 70%, transparent);
+  transform: translateX(-50%) rotate(-1deg);
+}
+
+:root[data-theme="cozy"] .art-body { padding: var(--s-4); }
+
+:root[data-theme="cozy"] .art-body h3 {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+:root[data-theme="cozy"] .inspect-btn {
+  border-radius: 999px;
+  padding: 7px 16px;
+  box-shadow: var(--shadow-sm), inset 0 -3px 0 color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+/* ===== PHASE 5b — PIPELINE, ABOUT, CONTACT ===== */
+
+/* pipeline: each stage reads like a craft recipe. The tool chips are the
+   materials, joined with "+", and a "→ ✓" badge marks the finished stage.
+   Pure CSS: no copy is added to the page. */
+:root[data-theme="cozy"] .step-number {
+  font-size: 26px;
+  border-right-style: dashed;
+}
+
+:root[data-theme="cozy"] .tool-list {
+  align-items: center;
+  row-gap: 8px;
+}
+
+:root[data-theme="cozy"] .tool-chip {
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+:root[data-theme="cozy"] .tool-chip + .tool-chip {
+  position: relative;
+  margin-left: 16px;
+}
+
+:root[data-theme="cozy"] .tool-chip + .tool-chip::before {
+  content: "+";
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--olive);
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+:root[data-theme="cozy"] .tool-list::after {
+  content: "\2192  \2713";
+  content: "\2192  \2713" / "";  /* decorative: keep it out of screen readers where supported */
+  margin-left: 6px;
+  background: var(--banner-bg);
+  color: var(--banner-fg);
+  border: var(--border-thin);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.6;
+}
+
+/* about: the endorsement carousel is a quest-giver dialogue box */
+:root[data-theme="cozy"] .endorsements { border-top-style: dashed; }
+
+:root[data-theme="cozy"] .npc-dialogue {
+  background: var(--card-bg);
+  border: var(--border-thin);
+  border-radius: var(--radius);
+}
+
+:root[data-theme="cozy"] .npc-portrait-frame { border-radius: var(--radius-sm); }
+
+:root[data-theme="cozy"] .npc-controls { border-top-style: dashed; }
+
+:root[data-theme="cozy"] .npc-arrow {
+  width: 40px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm), inset 0 -3px 0 color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+/* contact: a request bulletin pinned to a dotted board */
+:root[data-theme="cozy"] .card--sky {
+  position: relative;
+  background-image: radial-gradient(color-mix(in srgb, var(--white) 38%, transparent) 1.4px, transparent 1.7px);
+  background-size: 20px 20px;
+}
+
+:root[data-theme="cozy"] .card--sky::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  transform: translateX(-50%);
+  border: var(--border-thin);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--white) 0 12%, transparent 13%), var(--coral);
+  box-shadow: var(--shadow-sm);
+  pointer-events: none;
+}
+
+/* the arrow is olive on cream, but olive on the amber hover fill is too
+   faint, so it turns ink there */
+:root[data-theme="cozy"] .contact-links a:hover::after,
+:root[data-theme="cozy"] .contact-links a:focus-visible::after { color: var(--ink); }
+
+:root[data-theme="cozy"] .icon-fallback { border-radius: 50%; }
+
+/* muted grey on the amber hover fill is only 3.4:1, so the small detail
+   line turns ink (6.7:1) while the row is hovered or focused */
+:root[data-theme="cozy"] .contact-links a:hover .contact-link-detail,
+:root[data-theme="cozy"] .contact-links a:focus-visible .contact-link-detail { color: var(--ink); }
+
+/* ===== PHASE 6 — SIDE PAGES (404, resume, standalone) ===== */
+
+/* 404: a twilight stage. The scene tokens already follow the palette, so
+   this only softens the hard-edged pieces: pills, soft shadows, round pins. */
+:root[data-theme="cozy"] .lost-tag,
+:root[data-theme="cozy"] .lost-signal {
+  border: var(--border-thin);
+  border-radius: 999px;
+  padding: 8px 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+:root[data-theme="cozy"] .lost-number {
+  text-shadow:
+    0 .06em 0 var(--scene-ink),
+    0 .1em .2em color-mix(in srgb, var(--scene-shadow) 35%, transparent);
+}
+
+:root[data-theme="cozy"] .lost .readout { border-radius: var(--radius-sm); }
+
+:root[data-theme="cozy"] .lost-spot { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+
+:root[data-theme="cozy"] .lost-btn {
+  border: var(--border-thin);
+  border-radius: 999px;
+  padding: 13px 24px;
+  background-image: linear-gradient(180deg, color-mix(in srgb, var(--white) 38%, transparent), transparent 55%);
+  box-shadow: var(--shadow-sm), inset 0 -3px 0 color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+:root[data-theme="cozy"] .lost-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow), inset 0 -3px 0 color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+:root[data-theme="cozy"] .lost-btn:active {
+  transform: translateY(2px);
+  box-shadow: var(--shadow-sm), inset 0 2px 0 color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+:root[data-theme="cozy"] .lost-map {
+  filter: drop-shadow(0 10px 14px color-mix(in srgb, var(--scene-shadow) 40%, transparent));
+}
+
+:root[data-theme="cozy"] .lost-bino svg,
+:root[data-theme="cozy"] .lost-compass svg {
+  filter: drop-shadow(0 5px 6px color-mix(in srgb, var(--scene-shadow) 35%, transparent));
+}
+
+:root[data-theme="cozy"] .map-pin .badge {
+  border-width: 2px;
+  box-shadow: var(--shadow-sm);
+}
+
+:root[data-theme="cozy"] .map-pin .tag,
+:root[data-theme="cozy"] .map-you {
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+/* resume: the gold underline under the name becomes a soft rounded bar */
+:root[data-theme="cozy"] .resume-head > div:first-child h1::after {
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+/* secret level / standalone: pill countdown */
+:root[data-theme="cozy"] .countdown {
+  border-radius: 999px;
+  padding: 9px 18px;
+}

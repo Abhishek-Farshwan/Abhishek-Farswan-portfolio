@@ -79,7 +79,7 @@ window.UTIL = (function () {
     var node = document.createElement('div');
     node.className = variant ? 'toast toast--' + variant : 'toast';
     node.textContent = message;
-    zone.appendChild(node);
+    zone.insertBefore(node, zone.firstChild);
     window.setTimeout(function () {
       node.classList.add('is-out');
       window.setTimeout(function () { node.remove(); }, 260);

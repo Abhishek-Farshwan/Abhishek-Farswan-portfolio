@@ -1,27 +1,40 @@
 /* ============================================================
    inspector.js — the "inspect item" dialogue box.
    One asset at a time, full size, arrow keys to walk the
-   inventory, Esc to back out.
+   active list (4 featured models on Home, or visible grid on Art),
+   Esc to back out.
    ============================================================ */
 
 window.INSPECTOR = (function () {
   'use strict';
 
   var UTIL = window.UTIL;
-  var modal, stage, frame, titleNode, metaNode, counterNode, openLink, prevBtn, nextBtn, closeBtn, loadingNode;
+  var modal, stage, frame, titleNode, metaNode, descNode, counterNode, openLink, prevBtn, nextBtn, closeBtn, loadingNode;
   var index = -1;
+  var customPool = null;
   var lastFocused = null;
 
+  function itemAt(i) {
+    if (customPool && customPool.length) return customPool[i];
+    return window.ART.at(i);
+  }
+
+  function itemCount() {
+    if (customPool && customPool.length) return customPool.length;
+    return window.ART.count();
+  }
+
   function render() {
-    var model = window.ART.at(index);
+    var model = itemAt(index);
     if (!model) return;
 
+    var total = itemCount();
     titleNode.textContent = model.name;
     openLink.href = model.view;
-    counterNode.textContent = (index + 1) + ' / ' + window.ART.count();
+    counterNode.textContent = (index + 1) + ' / ' + total;
 
     var bits = [];
-    if (model.views !== null) {
+    if (model.views !== null && model.views !== undefined) {
       bits.push('VIEWS ' + UTIL.formatCount(model.views));
       bits.push('LIKES ' + UTIL.formatCount(model.likes));
       bits.push('TRIS ' + UTIL.formatCount(model.tris));
@@ -32,16 +45,23 @@ window.INSPECTOR = (function () {
       return '<span class="chip">' + UTIL.escapeHtml(text) + '</span>';
     }).join('');
 
+    if (descNode) {
+      descNode.textContent = model.description || '';
+      descNode.hidden = !model.description;
+    }
+
+    if (window.MANUAL) window.MANUAL.unlock('inspect');
     loadingNode.hidden = false;
     frame.src = model.embed;
     frame.title = model.name + ' \u2014 full size 3D viewer';
 
-    prevBtn.disabled = window.ART.count() < 2;
-    nextBtn.disabled = window.ART.count() < 2;
+    prevBtn.disabled = total < 2;
+    nextBtn.disabled = total < 2;
   }
 
-  function open(next) {
+  function open(next, pool) {
     if (!modal) return;
+    customPool = Array.isArray(pool) && pool.length ? pool.slice(0, 4) : null;
     index = next;
     lastFocused = document.activeElement;
     modal.hidden = false;
@@ -60,7 +80,7 @@ window.INSPECTOR = (function () {
   }
 
   function step(delta) {
-    var total = window.ART.count();
+    var total = itemCount();
     if (total < 2) return;
     index = (index + delta + total) % total;
     window.SFX.move();
@@ -89,6 +109,7 @@ window.INSPECTOR = (function () {
     frame = modal.querySelector('iframe');
     titleNode = modal.querySelector('.modal-title');
     metaNode = modal.querySelector('.modal-meta');
+    descNode = document.getElementById('inspector-desc');
     counterNode = modal.querySelector('.modal-counter');
     openLink = modal.querySelector('[data-open-source]');
     prevBtn = modal.querySelector('[data-step="-1"]');

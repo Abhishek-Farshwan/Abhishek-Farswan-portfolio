@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://cdn.jsdelivr.net data:; connect-src 'self' https://api.sketchfab.com; frame-src https://sketchfab.com; object-src 'none'; base-uri 'self'; form-action 'self' mailto:;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://cdn.jsdelivr.net https://media.sketchfab.com https://sketchfab.com data:; connect-src 'self' https://api.sketchfab.com; frame-src https://sketchfab.com; object-src 'none'; base-uri 'self'; form-action 'self' mailto:;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#4177ae" />
   <title>Abhishek Farshwan — 3D Game Artist</title>
@@ -55,16 +55,16 @@
   <link rel="preconnect" href="https://api.sketchfab.com" />
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="./assets/css/tokens.css?v=20261009-1" />
-  <link rel="stylesheet" href="./assets/css/base.css?v=20261009-1" />
-  <link rel="stylesheet" href="./assets/css/layout.css?v=20261009-1" />
-  <link rel="stylesheet" href="./assets/css/nav.css?v=20261009-1" />
-  <link rel="stylesheet" href="./assets/css/components.css?v=20261009-1" />
-  <link rel="stylesheet" href="./assets/css/panels.css?v=20261009-1" />
-  <link rel="stylesheet" href="./assets/css/modal.css?v=20261009-1" />
-  <link rel="stylesheet" href="./assets/css/responsive.css?v=20261009-1" />
-  <link rel="stylesheet" href="./assets/css/decor.css?v=20261009-1" media="screen" />
-  <link rel="stylesheet" href="./assets/css/print.css?v=20261009-1" media="print" />
+  <link rel="stylesheet" href="./assets/css/tokens.css?v=20261019-2" />
+  <link rel="stylesheet" href="./assets/css/base.css?v=20261019-2" />
+  <link rel="stylesheet" href="./assets/css/layout.css?v=20261019-2" />
+  <link rel="stylesheet" href="./assets/css/nav.css?v=20261019-2" />
+  <link rel="stylesheet" href="./assets/css/components.css?v=20261019-2" />
+  <link rel="stylesheet" href="./assets/css/panels.css?v=20261019-2" />
+  <link rel="stylesheet" href="./assets/css/modal.css?v=20261019-2" />
+  <link rel="stylesheet" href="./assets/css/responsive.css?v=20261019-2" />
+  <link rel="stylesheet" href="./assets/css/decor.css?v=20261019-2" media="screen" />
+  <link rel="stylesheet" href="./assets/css/print.css?v=20261019-2" media="print" />
 
   <noscript>
     <style>
@@ -88,36 +88,75 @@
 
         <div class="topbar">
           <div class="crumb" id="crumb">PROFILE / HOME</div>
+          <div class="topbar-hud">
+            <button class="hud-chip" id="quest-open-btn" type="button" aria-label="Open explorer milestones window">
+              <span class="hud-chip__dot" aria-hidden="true"></span>
+              <span id="quest-hud-label">XP 1 / 5</span>
+            </button>
+            <button class="btn btn--ghost btn--sm" id="manual-open-btn" type="button" aria-label="Open keyboard controls and quick warp manual">? CONTROLS</button>
+          </div>
         </div>
 
         <!-- ================= HOME ================= -->
         <section class="panel active" id="panel-home" role="tabpanel" aria-labelledby="tab-home">
           <div class="hero">
             <div class="hero-copy">
-              <p class="eyebrow">PLAYER 01 // ARTIST SELECTED</p>
-              <div class="hero-title-row">
-                <h1>Abhishek<br />Farshwan</h1>
-                <img class="hero-avatar" src="./assets/img/player-character.png" alt="Abhishek Farshwan character portrait" width="147" height="125" />
+              <div class="hero-meta-row">
+                <p class="eyebrow">PLAYER 01 // ARTIST SELECTED</p>
+                <span class="chip chip--sky">100+ ASSETS SHIPPED</span>
               </div>
-              <p class="lead">3D artist creating stylized, optimized assets for real-time games — from clean blockouts to engine-ready final meshes.</p>
+
+              <div class="hero-title-row">
+                <div class="hero-identity">
+                  <h1>Abhishek<br />Farshwan</h1>
+                  <p class="lead mt-3">3D artist creating stylized, optimized assets for real-time games — from clean blockouts to engine-ready final meshes.</p>
+                </div>
+                <figure class="hero-portrait-card">
+                  <img class="hero-avatar" src="./assets/img/player-character.png" alt="Abhishek Farshwan character portrait" width="147" height="125" />
+                  <figcaption class="hero-portrait-cap">3D GAME ARTIST</figcaption>
+                </figure>
+              </div>
+
               <p class="hero-tagline">MAKE IT READABLE. MAKE IT GAME-READY.</p>
+
+              <div class="hero-cta-bar">
+                <div class="btn-row">
+                  <a class="btn" href="#art" data-goto="art">SEE THE 3D WORK ▸</a>
+                  <a class="btn btn--ghost" href="#pipeline" data-goto="pipeline">PIPELINE</a>
+                  <a class="btn btn--ghost" href="./resume.html">RESUME ↗</a>
+                </div>
+              </div>
             </div>
 
             <div class="hero-side">
-              <div>
-                <p class="mini-label">LOADOUT // CURRENT FOCUS</p>
-                <h2>STYLIZED WORLDBUILDING</h2>
-                <div class="stat-grid">
-                  <div class="stat"><strong>FORM</strong><span>Low / mid poly</span></div>
-                  <div class="stat"><strong>LOOK</strong><span>Stylized</span></div>
-                  <div class="stat"><strong>ENGINE</strong><span>Godot</span></div>
-                  <div class="stat"><strong>ROLE</strong><span>3D art</span></div>
+              <div class="hero-side-top">
+                <div class="hero-side-head">
+                  <p class="mini-label">LOADOUT // CURRENT FOCUS</p>
+                  <span class="hero-side-hint">[SELECT A TILE]</span>
                 </div>
-                <p class="status-bar mt-3"><span class="status-bar__key">STATUS</span><span class="status-bar__val"><i class="status-led" aria-hidden="true"></i>OPEN FOR FREELANCE</span></p>
+                <h2>STYLIZED WORLDBUILDING</h2>
+                <div class="stat-grid" role="tablist" aria-label="Inspect loadout specifications">
+                  <button class="stat stat--interactive" type="button" role="tab" data-loadout-spec="form" aria-selected="true">
+                    <strong>FORM</strong><span>Low / mid poly</span>
+                  </button>
+                  <button class="stat stat--interactive" type="button" role="tab" data-loadout-spec="look" aria-selected="false">
+                    <strong>LOOK</strong><span>Stylized</span>
+                  </button>
+                  <button class="stat stat--interactive" type="button" role="tab" data-loadout-spec="engine" aria-selected="false">
+                    <strong>ENGINE</strong><span>Godot</span>
+                  </button>
+                  <button class="stat stat--interactive" type="button" role="tab" data-loadout-spec="role" aria-selected="false">
+                    <strong>ROLE</strong><span>3D art</span>
+                  </button>
+                </div>
+                <div class="hero-spec-readout" id="hero-spec-readout" aria-live="polite">
+                  <b id="hero-spec-title">FORM // SILHOUETTE &amp; TOPOLOGY</b>
+                  <span id="hero-spec-body">Clean low-to-mid-poly cages built to hold strong silhouettes at gameplay camera distance with zero wasted geometry.</span>
+                </div>
               </div>
-              <div class="btn-row hero-actions">
-                <a class="btn" href="#art" data-goto="art">SEE THE 3D WORK</a>
-                <a class="btn btn--ghost" href="./resume.html">RESUME</a>
+
+              <div class="hero-side-foot">
+                <p class="status-bar"><span class="status-bar__key">STATUS</span><span class="status-bar__val"><i class="status-led" aria-hidden="true"></i>OPEN FOR FREELANCE</span></p>
               </div>
             </div>
           </div>
@@ -133,12 +172,79 @@
                 <a class="btn btn--sm" href="#contact" data-goto="contact">GET IN TOUCH</a>
               </div>
             </section>
+            <section class="card">
+              <div class="showcase-head">
+                <div>
+                  <h2 class="card-banner">FEATURED LOADOUT // 3D INVENTORY</h2>
+                  <p class="prose">Synced live from my Sketchfab.</p>
+                </div>
+                <span class="chip chip--sky" id="showcase-count">FEATURED</span>
+              </div>
+
+              <div class="showcase-grid" id="showcase-grid">
+                <article class="showcase-slot" data-showcase-uid="2a1563b0a4ef40d79b52c3112d2d9437">
+                  <div class="showcase-stage" data-showcase-inspect="2a1563b0a4ef40d79b52c3112d2d9437" role="button" tabindex="0" aria-label="Inspect Stylized Cattail Plant in 3D">
+                    <div class="showcase-fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg><span>LIVE 3D MODEL</span></div>
+                    <span class="showcase-tag">FOLIAGE</span>
+                  </div>
+                  <div class="showcase-body">
+                    <div class="showcase-info">
+                      <h3>Stylized Cattail Plant</h3>
+                      <p class="showcase-meta">BLENDER · FOLIAGE · LOWPOLY</p>
+                    </div>
+                    <button class="btn btn--ghost btn--sm" type="button" data-showcase-inspect="2a1563b0a4ef40d79b52c3112d2d9437">3D INSPECT ▸</button>
+                  </div>
+                </article>
+
+                <article class="showcase-slot" data-showcase-uid="699ee2e05bce46749ef93e3330cfb7d4">
+                  <div class="showcase-stage" data-showcase-inspect="699ee2e05bce46749ef93e3330cfb7d4" role="button" tabindex="0" aria-label="Inspect Base Mesh Chibi in 3D">
+                    <div class="showcase-fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg><span>LIVE 3D MODEL</span></div>
+                    <span class="showcase-tag">CHARACTER</span>
+                  </div>
+                  <div class="showcase-body">
+                    <div class="showcase-info">
+                      <h3>Base Mesh Chibi</h3>
+                      <p class="showcase-meta">1.4K TRIS · CC BY 4.0</p>
+                    </div>
+                    <button class="btn btn--ghost btn--sm" type="button" data-showcase-inspect="699ee2e05bce46749ef93e3330cfb7d4">3D INSPECT ▸</button>
+                  </div>
+                </article>
+
+                <article class="showcase-slot" data-showcase-uid="1fe25295ecc84383a65a109dcb42f60d">
+                  <div class="showcase-stage" data-showcase-inspect="1fe25295ecc84383a65a109dcb42f60d" role="button" tabindex="0" aria-label="Inspect Stylized Throne in 3D">
+                    <div class="showcase-fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg><span>LIVE 3D MODEL</span></div>
+                    <span class="showcase-tag">HARD SURFACE</span>
+                  </div>
+                  <div class="showcase-body">
+                    <div class="showcase-info">
+                      <h3>Stylized Throne</h3>
+                      <p class="showcase-meta">BLENDER · PROPS · LOWPOLY</p>
+                    </div>
+                    <button class="btn btn--ghost btn--sm" type="button" data-showcase-inspect="1fe25295ecc84383a65a109dcb42f60d">3D INSPECT ▸</button>
+                  </div>
+                </article>
+
+                <article class="showcase-slot" data-showcase-uid="951d2ca02d2b468391e738d065cebc87">
+                  <div class="showcase-stage" data-showcase-inspect="951d2ca02d2b468391e738d065cebc87" role="button" tabindex="0" aria-label="Inspect Stylized Cozy Props in 3D">
+                    <div class="showcase-fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg><span>LIVE 3D MODEL</span></div>
+                    <span class="showcase-tag">ENVIRONMENT</span>
+                  </div>
+                  <div class="showcase-body">
+                    <div class="showcase-info">
+                      <h3>Stylized Cozy Props</h3>
+                      <p class="showcase-meta">BLENDER · ENVIRONMENT · PROPS</p>
+                    </div>
+                    <button class="btn btn--ghost btn--sm" type="button" data-showcase-inspect="951d2ca02d2b468391e738d065cebc87">3D INSPECT ▸</button>
+                  </div>
+                </article>
+              </div>
+            </section>
 
             <section class="card card--paper" id="secret-slot" hidden>
-              <h3>// SECRET LEVEL UNLOCKED</h3>
-              <p class="prose mt-2">You found the old code. There is a door here, but the level behind it is not built yet.</p>
-              <div class="btn-row mt-3">
-                <a class="btn btn--sm" href="./game/secret_level/index.html">OPEN THE DOOR</a>
+              <h2 class="card-banner">SECRET LEVEL // DOOR UNLOCKED</h2>
+              <div class="secret-slot-row">
+                <p class="prose">You found the old code. There is a door here, but the level behind it is not built yet.</p>
+                <a class="btn btn--sm" href="./game/secret_level/index.html">OPEN THE DOOR ▸</a>
               </div>
             </section>
           </div>
@@ -146,16 +252,33 @@
 
         <!-- ================= ART ================= -->
         <section class="panel" id="panel-art" role="tabpanel" aria-labelledby="tab-art" hidden>
-          <div class="section-head">
-            <div>
-              <h2>ART // INVENTORY</h2>
-              <p class="section-kicker">Pulled live from my Sketchfab. Drag inside a viewer to orbit, or hit <b>INSPECT</b> to open a model full size.</p>
-              <p class="section-kicker mini-label" id="art-status" aria-live="polite">SYNCING WITH SKETCHFAB…</p>
+          <div class="art-header-block">
+            <div class="art-title-bar">
+              <div>
+                <h2>ART // INVENTORY</h2>
+                <p class="section-kicker">Game-ready stylized props, characters, and world kits synced live from Sketchfab. Click <b>▶ ORBIT 3D</b> on any thumbnail to spin inline, or hit <b>3D INSPECT</b> for full screen.</p>
+              </div>
+              <div class="art-status-group">
+                <p class="art-sync-readout mini-label" id="art-status" aria-live="polite">SYNCING WITH SKETCHFAB…</p>
+                <span class="chip chip--sky" id="art-count">4 MODELS</span>
+              </div>
+            </div>
+
+            <div class="art-toolbar">
+              <div class="art-toolbar-cats">
+                <span class="art-cat-label">CATEGORY FILTER</span>
+                <div class="filter-bar" id="art-cat-bar" role="group" aria-label="Filter models by category">
+                  <button class="filter-pill" type="button" data-art-cat="all" aria-pressed="true">ALL TYPES</button>
+                  <button class="filter-pill" type="button" data-art-cat="props" aria-pressed="false">PROPS &amp; HARD SURFACE</button>
+                  <button class="filter-pill" type="button" data-art-cat="characters" aria-pressed="false">CHARACTERS</button>
+                  <button class="filter-pill" type="button" data-art-cat="foliage" aria-pressed="false">FOLIAGE &amp; WORLD</button>
+                </div>
+              </div>
 
               <div class="art-controls">
-                <label class="art-control" for="art-search">
-                  SEARCH
-                  <input class="input" id="art-search" type="search" placeholder="throne, chibi, props…" autocomplete="off" />
+                <label class="art-control art-control--search" for="art-search">
+                  SEARCH INVENTORY
+                  <input class="input" id="art-search" type="search" placeholder="Search throne, chibi, weapons, props, foliage…" autocomplete="off" />
                 </label>
                 <label class="art-control" for="art-mode">
                   SHOW
@@ -165,7 +288,7 @@
                   </select>
                 </label>
                 <label class="art-control" for="art-sort">
-                  SORT
+                  SORT BY
                   <select class="select" id="art-sort">
                     <option value="likes">MOST LIKED</option>
                     <option value="views">MOST VIEWED</option>
@@ -175,57 +298,92 @@
                 </label>
               </div>
             </div>
-            <span class="chip chip--sky" id="art-count">4 MODELS</span>
           </div>
 
           <!-- Static curated set: the approved baseline, and what shows if
                scripting or the Sketchfab API is unavailable. -->
           <div class="art-grid" id="art-grid">
-            <article class="art-card model-card" data-src="https://sketchfab.com/models/2a1563b0a4ef40d79b52c3112d2d9437/embed?ui_theme=dark&amp;ui_infos=0&amp;ui_watermark=0&amp;ui_watermark_link=0" data-view-url="https://sketchfab.com/3d-models/stylized-cattail-plant-2a1563b0a4ef40d79b52c3112d2d9437" data-title="Stylized Cattail Plant">
-              <div class="viewer-wrap">
+            <article class="art-card model-card" data-index="0" data-src="https://sketchfab.com/models/2a1563b0a4ef40d79b52c3112d2d9437/embed?ui_theme=dark&amp;ui_infos=0&amp;ui_watermark=0&amp;ui_watermark_link=0" data-view-url="https://sketchfab.com/3d-models/stylized-cattail-plant-2a1563b0a4ef40d79b52c3112d2d9437" data-title="Stylized Cattail Plant">
+              <div class="viewer-wrap" data-inline-orbit="0">
                 <iframe class="viewer" title="Stylized Cattail Plant — 3D viewer" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>
                 <div class="viewer-placeholder"><div><b>VIEWER STANDBY</b><span>The 3D viewer starts when this card reaches the screen.</span><a href="https://sketchfab.com/3d-models/stylized-cattail-plant-2a1563b0a4ef40d79b52c3112d2d9437" target="_blank" rel="noopener noreferrer">OPEN ON SKETCHFAB</a></div></div>
+                <span class="viewer-slot-tag">#01 · FOLIAGE</span>
+                <button class="viewer-orbit-pill" type="button" data-inline-orbit="0" aria-label="Orbit Stylized Cattail Plant in 3D">▶ ORBIT 3D</button>
               </div>
               <div class="art-body">
-                <h3>Stylized Cattail Plant</h3>
+                <div class="art-card-head">
+                  <h3>Stylized Cattail Plant</h3>
+                  <span class="art-tier-pill art-tier-pill--legend">★ FEATURED</span>
+                </div>
                 <div class="art-meta"><span class="chip">BLENDER · FOLIAGE · LOWPOLY</span></div>
                 <p class="art-desc">Stylized 3D vegetation asset designed for game environments and organic level composition. Drag to orbit.</p>
+                <div class="art-card-foot">
+                  <button class="btn btn--ghost btn--sm inspect-btn" type="button" data-inspect="0" aria-label="Inspect Stylized Cattail Plant full size">3D INSPECT ▸</button>
+                  <a class="art-ext-link" href="https://sketchfab.com/3d-models/stylized-cattail-plant-2a1563b0a4ef40d79b52c3112d2d9437" target="_blank" rel="noopener noreferrer">SKETCHFAB ↗</a>
+                </div>
               </div>
             </article>
 
-            <article class="art-card model-card" data-src="https://sketchfab.com/models/699ee2e05bce46749ef93e3330cfb7d4/embed?ui_theme=dark&amp;ui_infos=0&amp;ui_watermark=0&amp;ui_watermark_link=0" data-view-url="https://sketchfab.com/3d-models/base-mesh-chibi-699ee2e05bce46749ef93e3330cfb7d4" data-title="Base Mesh Chibi">
-              <div class="viewer-wrap">
+            <article class="art-card model-card" data-index="1" data-src="https://sketchfab.com/models/699ee2e05bce46749ef93e3330cfb7d4/embed?ui_theme=dark&amp;ui_infos=0&amp;ui_watermark=0&amp;ui_watermark_link=0" data-view-url="https://sketchfab.com/3d-models/base-mesh-chibi-699ee2e05bce46749ef93e3330cfb7d4" data-title="Base Mesh Chibi">
+              <div class="viewer-wrap" data-inline-orbit="1">
                 <iframe class="viewer" title="Base Mesh Chibi — 3D viewer" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>
                 <div class="viewer-placeholder"><div><b>VIEWER STANDBY</b><span>The 3D viewer starts when this card reaches the screen.</span><a href="https://sketchfab.com/3d-models/base-mesh-chibi-699ee2e05bce46749ef93e3330cfb7d4" target="_blank" rel="noopener noreferrer">OPEN ON SKETCHFAB</a></div></div>
+                <span class="viewer-slot-tag">#02 · CHARACTER</span>
+                <button class="viewer-orbit-pill" type="button" data-inline-orbit="1" aria-label="Orbit Base Mesh Chibi in 3D">▶ ORBIT 3D</button>
               </div>
               <div class="art-body">
-                <h3>Base Mesh Chibi</h3>
+                <div class="art-card-head">
+                  <h3>Base Mesh Chibi</h3>
+                  <span class="art-tier-pill art-tier-pill--legend">★ FEATURED</span>
+                </div>
                 <div class="art-meta"><span class="chip">1.4K TRIS · CC BY 4.0</span></div>
                 <p class="art-desc">Lightweight basemesh for small-scale characters — the foundation for an upcoming playable character. Drag to orbit.</p>
+                <div class="art-card-foot">
+                  <button class="btn btn--ghost btn--sm inspect-btn" type="button" data-inspect="1" aria-label="Inspect Base Mesh Chibi full size">3D INSPECT ▸</button>
+                  <a class="art-ext-link" href="https://sketchfab.com/3d-models/base-mesh-chibi-699ee2e05bce46749ef93e3330cfb7d4" target="_blank" rel="noopener noreferrer">SKETCHFAB ↗</a>
+                </div>
               </div>
             </article>
 
-            <article class="art-card model-card" data-src="https://sketchfab.com/models/1fe25295ecc84383a65a109dcb42f60d/embed?ui_theme=dark&amp;ui_infos=0&amp;ui_watermark=0&amp;ui_watermark_link=0" data-view-url="https://sketchfab.com/3d-models/stylized-throne-lowpoly-1-1fe25295ecc84383a65a109dcb42f60d" data-title="Stylized Throne">
-              <div class="viewer-wrap">
+            <article class="art-card model-card" data-index="2" data-src="https://sketchfab.com/models/1fe25295ecc84383a65a109dcb42f60d/embed?ui_theme=dark&amp;ui_infos=0&amp;ui_watermark=0&amp;ui_watermark_link=0" data-view-url="https://sketchfab.com/3d-models/stylized-throne-lowpoly-1-1fe25295ecc84383a65a109dcb42f60d" data-title="Stylized Throne">
+              <div class="viewer-wrap" data-inline-orbit="2">
                 <iframe class="viewer" title="Stylized Throne — 3D viewer" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>
                 <div class="viewer-placeholder"><div><b>VIEWER STANDBY</b><span>The 3D viewer starts when this card reaches the screen.</span><a href="https://sketchfab.com/3d-models/stylized-throne-lowpoly-1-1fe25295ecc84383a65a109dcb42f60d" target="_blank" rel="noopener noreferrer">OPEN ON SKETCHFAB</a></div></div>
+                <span class="viewer-slot-tag">#03 · PROPS</span>
+                <button class="viewer-orbit-pill" type="button" data-inline-orbit="2" aria-label="Orbit Stylized Throne in 3D">▶ ORBIT 3D</button>
               </div>
               <div class="art-body">
-                <h3>Stylized Throne</h3>
+                <div class="art-card-head">
+                  <h3>Stylized Throne</h3>
+                  <span class="art-tier-pill art-tier-pill--legend">★ FEATURED</span>
+                </div>
                 <div class="art-meta"><span class="chip">BLENDER · PROPS · LOWPOLY</span></div>
                 <p class="art-desc">Low-poly stylized throne model featuring game-ready topology and hand-crafted proportions. Drag to orbit.</p>
+                <div class="art-card-foot">
+                  <button class="btn btn--ghost btn--sm inspect-btn" type="button" data-inspect="2" aria-label="Inspect Stylized Throne full size">3D INSPECT ▸</button>
+                  <a class="art-ext-link" href="https://sketchfab.com/3d-models/stylized-throne-lowpoly-1-1fe25295ecc84383a65a109dcb42f60d" target="_blank" rel="noopener noreferrer">SKETCHFAB ↗</a>
+                </div>
               </div>
             </article>
 
-            <article class="art-card model-card" data-src="https://sketchfab.com/models/951d2ca02d2b468391e738d065cebc87/embed?ui_theme=dark&amp;ui_infos=0&amp;ui_watermark=0&amp;ui_watermark_link=0" data-view-url="https://sketchfab.com/3d-models/stylized-cozy-props-1-951d2ca02d2b468391e738d065cebc87" data-title="Stylized Cozy Props">
-              <div class="viewer-wrap">
+            <article class="art-card model-card" data-index="3" data-src="https://sketchfab.com/models/951d2ca02d2b468391e738d065cebc87/embed?ui_theme=dark&amp;ui_infos=0&amp;ui_watermark=0&amp;ui_watermark_link=0" data-view-url="https://sketchfab.com/3d-models/stylized-cozy-props-1-951d2ca02d2b468391e738d065cebc87" data-title="Stylized Cozy Props">
+              <div class="viewer-wrap" data-inline-orbit="3">
                 <iframe class="viewer" title="Stylized Cozy Props — 3D viewer" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>
                 <div class="viewer-placeholder"><div><b>VIEWER STANDBY</b><span>The 3D viewer starts when this card reaches the screen.</span><a href="https://sketchfab.com/3d-models/stylized-cozy-props-1-951d2ca02d2b468391e738d065cebc87" target="_blank" rel="noopener noreferrer">OPEN ON SKETCHFAB</a></div></div>
+                <span class="viewer-slot-tag">#04 · ENVIRONMENT</span>
+                <button class="viewer-orbit-pill" type="button" data-inline-orbit="3" aria-label="Orbit Stylized Cozy Props in 3D">▶ ORBIT 3D</button>
               </div>
               <div class="art-body">
-                <h3>Stylized Cozy Props</h3>
+                <div class="art-card-head">
+                  <h3>Stylized Cozy Props</h3>
+                  <span class="art-tier-pill art-tier-pill--legend">★ FEATURED</span>
+                </div>
                 <div class="art-meta"><span class="chip">BLENDER · ENVIRONMENT · PROPS</span></div>
                 <p class="art-desc">Atmospheric prop collection exploring cozy environment aesthetics, composition, and readable prop design. Drag to orbit.</p>
+                <div class="art-card-foot">
+                  <button class="btn btn--ghost btn--sm inspect-btn" type="button" data-inspect="3" aria-label="Inspect Stylized Cozy Props full size">3D INSPECT ▸</button>
+                  <a class="art-ext-link" href="https://sketchfab.com/3d-models/stylized-cozy-props-1-951d2ca02d2b468391e738d065cebc87" target="_blank" rel="noopener noreferrer">SKETCHFAB ↗</a>
+                </div>
               </div>
             </article>
           </div>
@@ -289,6 +447,51 @@
           </div>
 
           <section class="card mt-4">
+            <div class="showcase-head">
+              <div>
+                <h2 class="card-banner">WORKBENCH // SPECIMEN &amp; EXPERIMENT SLOT</h2>
+                <p class="prose">A dedicated testbench slot for live 3D mesh breakdowns and future shader or Godot prototypes.</p>
+              </div>
+              <label class="art-control" for="lab-specimen-select">
+                SPECIMEN
+                <select class="select" id="lab-specimen-select">
+                  <option value="699ee2e05bce46749ef93e3330cfb7d4">BASE MESH CHIBI</option>
+                  <option value="1fe25295ecc84383a65a109dcb42f60d">STYLIZED THRONE</option>
+                  <option value="2a1563b0a4ef40d79b52c3112d2d9437">CATTAIL PLANT</option>
+                  <option value="951d2ca02d2b468391e738d065cebc87">COZY PROPS</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="lab-grid">
+              <div class="lab-stage" id="lab-specimen-stage">
+                <iframe class="viewer" title="Workbench 3D specimen viewer" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>
+                <div class="lab-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
+                  <b>EXPERIMENT SLOT // 3D SPECIMEN</b>
+                  <span>Load the interactive 3D specimen directly in this bench or reserve this slot for future wireframe &amp; shader tests.</span>
+                  <div class="btn-row u-center-row mt-2">
+                    <button class="btn btn--sm" id="lab-specimen-load" type="button">LOAD 3D SPECIMEN</button>
+                    <button class="btn btn--ghost btn--sm" id="lab-specimen-inspect" type="button">FULLSCREEN ▸</button>
+                  </div>
+                </div>
+                <span class="showcase-tag">LAB SLOT 01</span>
+              </div>
+
+              <div class="lab-side">
+                <div class="stat-grid">
+                  <div class="stat"><strong>DELIVERY FORMAT</strong><span>.GLB · .FBX · .BLEND</span></div>
+                  <div class="stat"><strong>PBR CHANNELS</strong><span>Albedo · Rough · Normal</span></div>
+                  <div class="stat"><strong>WORLD METRICS</strong><span>Pivot (0,0,0) · 1u = 1m</span></div>
+                  <div class="stat"><strong>QA VERIFIED</strong><span>Clean Quads / Tris</span></div>
+                </div>
+
+                <p class="lab-note">// WORKBENCH NOTE: Built to hold live 3D specimens today and interactive blockout-to-final or Godot WebGL experiments next.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="card mt-4">
             <h2 class="card-banner">LOADOUT</h2>
             <p class="prose">The tools that actually get used, and what each one is for.</p>
             <div class="loadout-grid">
@@ -350,25 +553,32 @@
 
               <div class="endorsements">
                 <div class="endorsements-head">
-                  <h3>ENDORSEMENTS // VERIFIED SIGNALS</h3>
+                  <h3>ENDORSEMENTS // COLLABORATOR WALL</h3>
                   <span class="chip chip--sky">4 RECOMMENDATIONS</span>
                 </div>
                 <div class="npc-dialogue" id="endorsement-dialogue" aria-live="polite">
-                  <div class="npc-portrait-frame">
-                    <img class="npc-portrait" id="npc-portrait" src="" alt="" />
-                    <span class="npc-linkedin-icon" aria-label="LinkedIn recommendation">in</span>
-                  </div>
-                  <div class="npc-copy">
+                  <div class="npc-header">
+                    <span class="npc-speaker-tag" aria-hidden="true">★</span>
                     <div class="npc-speaker-line">
-                      <strong><span id="npc-name">LOADING NPC</span></strong>
+                      <strong><span id="npc-name">LOADING ENDORSEMENT</span></strong>
                       <span id="npc-role"></span>
                     </div>
-                    <blockquote id="npc-endorsement"><span id="npc-endorsement-text"></span> <button class="npc-more" id="npc-more" type="button" aria-expanded="false">[MORE]</button></blockquote>
+                  </div>
+                  <div class="npc-body">
+                    <div class="npc-portrait-frame">
+                      <img class="npc-portrait" id="npc-portrait" src="" alt="" />
+                    </div>
+                    <div class="npc-copy">
+                      <blockquote id="npc-endorsement"><span id="npc-endorsement-text"></span> <button class="npc-more is-hidden" id="npc-more" type="button" aria-expanded="false" hidden></button></blockquote>
+                    </div>
                   </div>
                   <div class="npc-controls">
-                    <button class="npc-arrow" id="npc-prev" type="button" aria-label="Previous endorsement">&#9664;</button>
-                    <span class="npc-counter" id="npc-counter">1 / 4</span>
-                    <button class="npc-arrow" id="npc-next" type="button" aria-label="Next endorsement">&#9654;</button>
+                    <div class="npc-pips" id="npc-pips" role="tablist" aria-label="Select recommendation"></div>
+                    <div class="npc-nav-group">
+                      <button class="npc-arrow" id="npc-prev" type="button" aria-label="Previous endorsement">&#9664;</button>
+                      <span class="npc-counter" id="npc-counter">1 / 4</span>
+                      <button class="npc-arrow" id="npc-next" type="button" aria-label="Next endorsement">&#9654;</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -395,6 +605,28 @@
                 <div class="bullet-grid mt-3">
                   <div class="bullet"><b>2023</b><span>B.Tech, Electrical Engineering — Uttarakhand Technical University</span></div>
                   <div class="bullet"><b>2019</b><span>Intermediate — Uttarakhand Board of School Education</span></div>
+                </div>
+              </section>
+
+              <section class="card card--tight">
+                <h3>SKILLS // CAPABILITIES</h3>
+                <div class="filter-bar" role="group" aria-label="Highlight skills by discipline">
+                  <button class="filter-pill" type="button" data-skill-filter="all" aria-pressed="true">ALL</button>
+                  <button class="filter-pill" type="button" data-skill-filter="mesh" aria-pressed="false">MESH</button>
+                  <button class="filter-pill" type="button" data-skill-filter="tex" aria-pressed="false">TEXTURE</button>
+                  <button class="filter-pill" type="button" data-skill-filter="engine" aria-pressed="false">ENGINE &amp; QA</button>
+                </div>
+                <div class="chip-row mt-3" id="about-skills-list">
+                  <span class="chip chip--plain skill-chip" data-skill-cat="mesh">3D Modeling</span>
+                  <span class="chip chip--plain skill-chip" data-skill-cat="mesh">Blender</span>
+                  <span class="chip chip--plain skill-chip" data-skill-cat="tex">Substance Painter</span>
+                  <span class="chip chip--plain skill-chip" data-skill-cat="tex">UV Unwrapping</span>
+                  <span class="chip chip--plain skill-chip" data-skill-cat="tex">PBR Texturing</span>
+                  <span class="chip chip--plain skill-chip" data-skill-cat="mesh engine">Asset Optimization</span>
+                  <span class="chip chip--plain skill-chip" data-skill-cat="mesh">Hard Surface Modeling</span>
+                  <span class="chip chip--plain skill-chip" data-skill-cat="engine">Godot Engine</span>
+                  <span class="chip chip--plain skill-chip" data-skill-cat="tex">Adobe Photoshop</span>
+                  <span class="chip chip--plain skill-chip" data-skill-cat="mesh engine">Game Assets Creation</span>
                 </div>
               </section>
 
@@ -475,6 +707,17 @@
                   </select>
                 </label>
 
+                <div class="field">
+                  <span>QUICK SCOPE TAGS (CLICK TO ADD TO MESSAGE)</span>
+                  <div class="filter-bar">
+                    <button class="scope-chip" type="button" data-scope-tag="Stylized Props" aria-pressed="false">+ STYLIZED PROPS</button>
+                    <button class="scope-chip" type="button" data-scope-tag="Character / Basemesh" aria-pressed="false">+ CHARACTER / BASEMESH</button>
+                    <button class="scope-chip" type="button" data-scope-tag="Environment Assets" aria-pressed="false">+ ENVIRONMENT</button>
+                    <button class="scope-chip" type="button" data-scope-tag="Low-Poly Optimization" aria-pressed="false">+ OPTIMIZATION / QA</button>
+                    <button class="scope-chip" type="button" data-scope-tag="Godot Ready" aria-pressed="false">+ GODOT READY</button>
+                  </div>
+                </div>
+
                 <label class="field" for="contact-message">
                   <span>MESSAGE</span>
                   <textarea class="textarea" id="contact-message" name="message" placeholder="What are you building, and what do you need made?"></textarea>
@@ -511,6 +754,7 @@
       </div>
       <div class="modal-foot">
         <div class="art-meta modal-meta"></div>
+        <p class="modal-desc" id="inspector-desc"></p>
         <div class="modal-actions">
           <button class="btn btn--ghost btn--sm" type="button" data-step="-1">◀ PREV</button>
           <button class="btn btn--ghost btn--sm" type="button" data-step="1">NEXT ▶</button>
@@ -521,17 +765,78 @@
     </div>
   </div>
 
-  <script src="./assets/js/data.js?v=20261009-1"></script>
-  <script src="./assets/characters/database.js?v=20261009-1"></script>
-  <script src="./assets/js/util.js?v=20261009-1"></script>
-  <script src="./assets/js/sfx.js?v=20261009-1"></script>
-  <script src="./assets/js/chrome.js?v=20261009-1"></script>
-  <script src="./assets/js/router.js?v=20261009-1"></script>
-  <script src="./assets/js/art.js?v=20261009-1"></script>
-  <script src="./assets/js/inspector.js?v=20261009-1"></script>
-  <script src="./assets/js/contact.js?v=20261009-1"></script>
-  <script src="./assets/js/endorsements.js?v=20261009-1"></script>
-  <script src="./assets/js/easter.js?v=20261009-1"></script>
-  <script src="./assets/js/main.js?v=20261009-1"></script>
+
+  <!-- ================= EXPLORER MILESTONES WINDOW (XP) ================= -->
+  <div class="modal" id="quest-modal" role="dialog" aria-modal="true" aria-labelledby="quest-modal-title" hidden>
+    <button class="modal-backdrop" type="button" aria-label="Close explorer milestones"></button>
+    <div class="modal-box modal-box--sm">
+      <div class="modal-head">
+        <span class="modal-title" id="quest-modal-title">EXPLORER LOG // MILESTONES</span>
+        <button class="modal-close" type="button">ESC ✕</button>
+      </div>
+      <div class="manual-body scroller">
+        <section class="manual-card">
+          <div class="quest-progress-bar">
+            <span>DISCOVERY STATUS</span>
+            <span id="quest-modal-summary">1 / 5 COMPLETED</span>
+          </div>
+          <p class="art-desc">Explore the portfolio console to complete all 5 discovery checks.</p>
+          <ul class="quest-list" id="manual-quest-list"></ul>
+          <div class="btn-row">
+            <button class="btn btn--ghost btn--sm" id="manual-konami-btn" type="button">UNLOCK SECRET LEVEL (KONAMI)</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CONSOLE CONTROLS & QUICK WARP WINDOW (?) ================= -->
+  <div class="modal" id="manual-modal" role="dialog" aria-modal="true" aria-labelledby="manual-title" hidden>
+    <button class="modal-backdrop" type="button" aria-label="Close controls manual"></button>
+    <div class="modal-box modal-box--sm">
+      <div class="modal-head">
+        <span class="modal-title" id="manual-title">CONSOLE MANUAL // CONTROLS &amp; WARP</span>
+        <button class="modal-close" type="button">ESC ✕</button>
+      </div>
+      <div class="manual-body scroller">
+        <section class="manual-card">
+          <h3>KEYBOARD &amp; CONSOLE MAP</h3>
+          <div class="keymap-list">
+            <div class="keymap-row"><span>Browse Roster</span><span class="key-cap">↑ / ↓</span></div>
+            <div class="keymap-row"><span>Enter / Exit Detail Panel</span><span class="key-cap">→ / ←</span></div>
+            <div class="keymap-row"><span>Direct Section Warp</span><span class="key-cap">1 – 5</span></div>
+            <div class="keymap-row"><span>Toggle UI Sound</span><span class="key-cap">M</span></div>
+            <div class="keymap-row"><span>Open Printable Resume</span><span class="key-cap">R</span></div>
+            <div class="keymap-row"><span>Controls &amp; Warp Manual</span><span class="key-cap">?</span></div>
+            <div class="keymap-row"><span>Secret Code</span><span class="key-cap">↑↑↓↓←→←→BA</span></div>
+          </div>
+
+          <h3>QUICK WARP</h3>
+          <div class="btn-row">
+            <button class="btn btn--ghost btn--sm" type="button" data-warp="home">HOME</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-warp="art">ART</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-warp="pipeline">PIPELINE</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-warp="about">ABOUT</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-warp="contact">CONTACT</button>
+            <button class="btn btn--sm" type="button" data-warp="resume">RESUME ↗</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="./assets/js/data.js?v=20261019-2"></script>
+  <script src="./assets/characters/database.js?v=20261019-2"></script>
+  <script src="./assets/js/util.js?v=20261019-2"></script>
+  <script src="./assets/js/sfx.js?v=20261019-2"></script>
+  <script src="./assets/js/chrome.js?v=20261019-2"></script>
+  <script src="./assets/js/router.js?v=20261019-2"></script>
+  <script src="./assets/js/art.js?v=20261019-2"></script>
+  <script src="./assets/js/inspector.js?v=20261019-2"></script>
+  <script src="./assets/js/contact.js?v=20261019-2"></script>
+  <script src="./assets/js/endorsements.js?v=20261019-2"></script>
+  <script src="./assets/js/easter.js?v=20261019-2"></script>
+  <script src="./assets/js/enhancements.js?v=20261019-2"></script>
+  <script src="./assets/js/main.js?v=20261019-2"></script>
 </body>
 </html>

@@ -182,11 +182,12 @@
   left: var(--roster-w);
   right: 0;
   bottom: 0;
-  height: var(--prompt-h);
+  height: 44px;
   z-index: 40;
   display: flex;
   align-items: center;
-  gap: var(--s-4);
+  justify-content: space-between;
+  gap: var(--s-3);
   padding: 0 var(--s-4);
   background: var(--sky-dark);
   color: var(--white);
@@ -201,12 +202,102 @@
 
 .prompt-bar::-webkit-scrollbar { display: none; }
 
+.prompt-bar__left,
+.prompt-bar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex: none;
+}
+
 .prompt {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-  opacity: .9;
+  opacity: .92;
+}
+
+.prompt--btn {
+  border: 0;
+  background: transparent;
+  color: var(--white);
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 1;
+  transition: background var(--snap), color var(--snap), transform var(--snap);
+}
+
+.prompt--btn:hover,
+.prompt--btn:focus-visible {
+  background: var(--sky-deep);
+  color: var(--gold);
+  transform: translateY(-1px);
+}
+
+.prompt--btn:hover .key-cap,
+.prompt--btn:focus-visible .key-cap {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.prompt-xp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  background: var(--sky-deep);
+  color: var(--white);
+  border: 2px solid var(--white);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1;
+  transition: background var(--snap), color var(--snap), border-color var(--snap), transform var(--snap);
+}
+
+.prompt-xp:hover,
+.prompt-xp:focus-visible {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.prompt-xp__tag {
+  color: var(--gold);
+}
+
+.prompt-xp:hover .prompt-xp__tag,
+.prompt-xp:focus-visible .prompt-xp__tag {
+  color: var(--ink);
+}
+
+.prompt-xp__pips {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.xp-pip {
+  display: inline-block;
+  width: 8px;
+  height: 10px;
+  background: var(--sky-dark);
+  border: 1px solid var(--white);
+  border-radius: 2px;
+}
+
+.xp-pip.is-filled {
+  background: var(--leaf);
+  border-color: var(--white);
+}
+
+.prompt-xp:hover .xp-pip,
+.prompt-xp:focus-visible .xp-pip {
+  border-color: var(--ink);
 }
 
 .key-cap {

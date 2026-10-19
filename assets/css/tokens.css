@@ -88,6 +88,13 @@
   --portrait-bg:       var(--sky-dark);       /* endorsement NPC portrait frame */
   --card-sky-bg:       var(--sky);            /* contact card */
   --card-sky-fg:       var(--white);
+  /* --- showcase, spec & HUD roles --- */
+  --showcase-bg:       var(--sky-deep);
+  --showcase-fg:       var(--white);
+  --showcase-grid:     color-mix(in srgb, var(--sky) 35%, transparent);
+  --hud-bg:            var(--paper);
+  --hud-fg:            var(--ink);
+  --leaf-glow:         color-mix(in srgb, var(--leaf) 45%, transparent);
 
   /* --- ink relationships --- */
   --outline:     var(--ink);   /* border colour; themes can soften it without touching text */

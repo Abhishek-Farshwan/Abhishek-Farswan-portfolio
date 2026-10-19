@@ -124,7 +124,9 @@ window.SITE = (function () {
          descriptionOverrides: {
            'abc123uid': 'A corrected, portfolio-ready description.'
          } */
-      descriptionOverrides: {}
+      descriptionOverrides: {
+        '699ee2e05bce46749ef93e3330cfb7d4': 'Lightweight basemesh for small-scale characters \u2014 built for clean proportions, easy rigging, and upcoming playable game characters.'
+      }
     },
 
     /* ---- curated fallback grid (approved baseline) ---- */

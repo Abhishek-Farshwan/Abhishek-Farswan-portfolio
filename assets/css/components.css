@@ -172,8 +172,9 @@
 .bullet {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
+  height: 100%;
   background: var(--paper);
   border: var(--border-thin);
   border-radius: var(--radius-xs);
@@ -380,3 +381,208 @@
 .u-center-row { justify-content: center !important; }
 .u-fs-body { font-size: var(--fs-body) !important; }
 .u-title-sm { font-size: clamp(18px, 3vw, 28px) !important; }
+
+
+/* ===== TOPBAR HUD BUTTONS & FOCUSED CONSOLE MODALS ===== */
+
+.topbar-hud {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.hud-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 12px;
+  background: var(--hud-bg);
+  color: var(--hud-fg);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.6;
+  transition: transform var(--snap), box-shadow var(--snap), background var(--snap), color var(--snap);
+}
+
+.hud-chip:hover,
+.hud-chip:focus-visible {
+  background: var(--gold);
+  color: var(--ink);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow);
+}
+
+.hud-chip:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.hud-chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--leaf);
+  border: 1px solid var(--ink);
+  flex: none;
+}
+
+/* ===== FILTER PILLS & SCOPE CHIPS ===== */
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--s-3);
+}
+
+.filter-pill,
+.scope-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 10px;
+  background: var(--cream);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.5;
+  transition: transform var(--snap), background var(--snap), color var(--snap), box-shadow var(--snap);
+}
+
+.filter-pill:hover,
+.filter-pill:focus-visible,
+.scope-chip:hover,
+.scope-chip:focus-visible {
+  background: var(--paper);
+  color: var(--ink);
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.filter-pill[aria-pressed="true"],
+.scope-chip[aria-pressed="true"] {
+  background: var(--gold);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+/* ===== COMPACT MODAL WINDOWS (QUEST LOG & CONTROLS MANUAL) ===== */
+
+.modal-box--sm {
+  width: min(540px, 100%);
+}
+
+.manual-body {
+  padding: var(--s-4);
+  overflow-y: auto;
+  display: grid;
+  gap: var(--s-3);
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.manual-card {
+  background: var(--white);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  padding: var(--s-3);
+  display: grid;
+  gap: var(--s-3);
+}
+
+.quest-progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding: 8px 11px;
+  background: var(--sky-dark);
+  color: var(--white);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.5;
+}
+
+.quest-list {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quest-item {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  font-size: var(--fs-body-sm);
+  font-weight: 700;
+}
+
+.quest-item.is-done {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.quest-badge {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  border: 2px solid var(--ink);
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+}
+
+.quest-item.is-done .quest-badge {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.quest-status {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  color: var(--text-accent);
+}
+
+.keymap-list {
+  display: grid;
+  gap: 6px;
+}
+
+.keymap-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 10px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--outline);
+  border-radius: var(--radius-xs);
+  font-size: var(--fs-body-sm);
+  font-weight: 700;
+}

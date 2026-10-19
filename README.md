@@ -1,4 +1,4 @@
-# Abhishek Farshwan — portfolio
+# Abhishek Farswan — portfolio
 
 A 3D artist's portfolio built as a console/JRPG menu. Plain HTML, CSS and JS.
 No framework, no build step, no dependencies to install.

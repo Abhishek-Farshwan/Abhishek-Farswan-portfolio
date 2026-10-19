@@ -65,7 +65,21 @@
   }
 }
 
-.hero-copy { padding: clamp(var(--s-4), 3vw, var(--s-7)); }
+.hero-copy {
+  padding: clamp(var(--s-4), 2.8vw, var(--s-7));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.hero-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
 
 .eyebrow {
   display: inline-block;
@@ -73,62 +87,193 @@
   color: var(--eyebrow-fg);
   border: var(--border-thin);
   border-radius: var(--radius-xs);
-  padding: 7px 9px;
+  padding: 6px 10px;
   font-family: var(--pixel);
   font-size: var(--fs-chrome-xs);
-  line-height: 1.7;
+  line-height: 1.6;
   letter-spacing: .05em;
 }
 
 .hero-title-row {
   display: grid;
-  grid-template-columns: max-content 112px;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--s-4);
-  margin: var(--s-4) 0 var(--s-3);
+  margin: var(--s-1) 0;
+}
+
+.hero-identity {
+  min-width: 0;
+}
+
+.hero-title-row h1 {
+  min-width: 0;
+  margin: 0;
+}
+
+.hero .lead {
+  color: var(--ink);
+  max-width: 48ch;
+}
+
+.hero-portrait-card {
+  margin: 0;
+  padding: 6px;
+  background: var(--cream);
+  color: var(--ink);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  transition: transform var(--snap), box-shadow var(--snap);
+}
+
+.hero-portrait-card:hover {
+  transform: translate(-2px, -2px) rotate(-1deg);
+  box-shadow: var(--shadow);
 }
 
 .hero-avatar {
   display: block;
   width: 112px;
   height: auto;
+  border: var(--border-thin);
+  border-radius: 4px;
 }
 
-.hero-title-row h1 { min-width: 0; margin: 0; }
+.hero-portrait-cap {
+  width: 100%;
+  text-align: center;
+  padding: 3px 6px;
+  background: var(--sky-dark);
+  color: var(--white);
+  border-radius: 3px;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.4;
+}
 
-.hero .lead { color: var(--ink); }
-
-/* A pull-quote, not a button: no shadow, no full border box, no hover
-   state. Gold lives only as a left accent so it doesn't compete with
-   the real CTA in .hero-actions. */
+/* A pull-quote anchored cleanly above the CTA bar */
 .hero-tagline {
-  margin-top: var(--s-4);
   display: block;
-  max-width: 46ch;
+  max-width: 52ch;
   background: var(--cream);
-  border-left: 5px solid var(--gold);
-  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  border: var(--border-thin);
+  border-left: 6px solid var(--gold-dark);
+  border-radius: var(--radius-xs);
   padding: 10px 14px;
   font-family: var(--pixel);
   font-size: var(--fs-chrome-xs);
-  line-height: 1.8;
+  line-height: 1.75;
   color: var(--text-accent);
+}
+
+.hero-cta-bar {
+  margin-top: auto;
+  padding-top: var(--s-3);
+  border-top: 2px dashed var(--ink-dash-30);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-2);
 }
 
 .hero-side {
   background: var(--hero-side-bg);
   color: var(--hero-side-fg);
   border-left: var(--border);
-  padding: clamp(var(--s-4), 2.2vw, var(--s-5));
+  padding: clamp(var(--s-4), 2.4vw, var(--s-5));
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: var(--s-5);
+  justify-content: space-between;
+  gap: var(--s-3);
 }
 
-.hero-side h2 { color: var(--hero-side-accent); margin: 10px 0 var(--s-3); }
+.hero-side-top {
+  display: grid;
+  gap: var(--s-2);
+}
 
-.hero-actions { margin-top: var(--s-4); }
+.hero-side-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hero-side-hint {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  color: var(--gold);
+  opacity: .92;
+}
+
+.hero-side h2 {
+  color: var(--hero-side-accent);
+  margin: 2px 0 var(--s-1);
+}
+
+.stat--interactive {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--snap), box-shadow var(--snap), background var(--snap), color var(--snap);
+}
+
+.stat--interactive:hover,
+.stat--interactive:focus-visible {
+  background: var(--white);
+  color: var(--ink);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.stat--interactive[aria-selected="true"] {
+  background: var(--gold);
+  color: var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.stat--interactive[aria-selected="true"] strong {
+  color: var(--ink);
+}
+
+.hero-spec-readout {
+  margin-top: var(--s-1);
+  padding: 10px 12px;
+  background: var(--cream);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-left: 5px solid var(--gold);
+  border-radius: var(--radius-xs);
+  display: grid;
+  gap: 4px;
+  min-height: 76px;
+  align-content: center;
+}
+
+.hero-spec-readout b {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  color: var(--text-accent);
+  line-height: 1.5;
+}
+
+.hero-spec-readout span {
+  font-size: var(--fs-body-sm);
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.hero-side-foot {
+  margin-top: auto;
+  padding-top: var(--s-2);
+}
 
 /* ===== SITE-WIDE ENTRANCE STAGGER =====
    Same drop-in language as the 404 landmarks, applied to whatever a panel
@@ -162,12 +307,69 @@
 
 /* ===== ART ===== */
 
-.art-controls {
+.art-header-block {
+  display: grid;
+  gap: var(--s-4);
+  margin-bottom: var(--s-4);
+}
+
+.art-title-bar {
   display: flex;
-  flex-wrap: wrap;
   align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+.art-status-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: var(--s-2);
-  margin-top: var(--s-3);
+}
+
+.art-sync-readout {
+  color: var(--muted);
+}
+
+/* ---- INVENTORY COMMAND BAR (.art-toolbar) ---- */
+.art-toolbar {
+  background: var(--white);
+  color: var(--ink);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: var(--s-3) var(--s-4);
+  display: grid;
+  gap: var(--s-3);
+}
+
+.art-toolbar-cats {
+  padding-bottom: var(--s-2);
+  border-bottom: 2px dashed var(--ink-dash-30);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.art-cat-label {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  color: var(--text-accent);
+  margin-right: 4px;
+}
+
+.art-toolbar-cats .filter-bar {
+  margin-top: 0;
+}
+
+.art-controls {
+  display: grid;
+  grid-template-columns: minmax(200px, 1.7fr) minmax(140px, 1fr) minmax(140px, 1fr);
+  align-items: end;
+  gap: var(--s-3);
 }
 
 .art-control {
@@ -175,19 +377,26 @@
   gap: 5px;
   font-family: var(--pixel);
   font-size: var(--fs-chrome-xs);
-  line-height: 1.7;
+  line-height: 1.6;
+  min-width: 0;
 }
 
-.art-control .input { font-family: var(--sans); min-width: 180px; }
+.art-control .input {
+  font-family: var(--sans);
+  min-width: 0;
+}
 
+/* ---- ASSET BLUEPRINT CATALOG GRID ---- */
 .art-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: var(--s-4);
+  align-items: stretch;
 }
 
 .art-card {
   background: var(--white);
+  color: var(--ink);
   border: var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -197,11 +406,14 @@
   transition: transform var(--snap), box-shadow var(--snap);
 }
 
+/* Orthogonal lift ONLY — no sub-degree rotate(-0.6deg) so bitmap pixel fonts stay razor-sharp */
 .art-card:hover,
 .art-card:focus-within {
-  transform: translate(-2px, -2px) rotate(-0.6deg);
+  transform: translate(-3px, -3px);
   box-shadow: var(--shadow-lg);
 }
+
+
 
 @media (prefers-reduced-motion: reduce) {
   .art-card:hover, .art-card:focus-within { transform: translate(-2px, -2px); }
@@ -212,6 +424,8 @@
   aspect-ratio: 4 / 3;
   background: var(--sky-deep);
   border-bottom: var(--border);
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .viewer {
@@ -240,7 +454,7 @@
   background: var(--sky-deep);
   background-size: cover;
   background-position: center;
-  transition: opacity var(--slide);
+  transition: opacity var(--slide), transform var(--slide);
 }
 
 .viewer-placeholder::after {
@@ -248,6 +462,71 @@
   position: absolute;
   inset: 0;
   background: var(--scrim-sky);
+  transition: opacity var(--slide);
+}
+
+/* Poster-First Unobstructed Viewport: when a high-res Sketchfab thumbnail is present
+   and not actively loading/failed, remove the dark scrim and standby text so the
+   3D render is 100% crisp and unobstructed! */
+.art-card.has-poster .viewer-placeholder:not(.is-loading):not(.is-failed)::after {
+  opacity: 0;
+}
+
+.art-card.has-poster .viewer-placeholder:not(.is-loading):not(.is-failed) > div {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.art-card.has-poster .viewer-wrap:hover .viewer-placeholder:not(.is-loading):not(.is-failed) {
+  transform: scale(1.03);
+}
+
+.viewer-slot-tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  padding: 4px 7px;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  background: var(--sky-deep);
+  color: var(--white);
+  font-family: var(--pixel);
+  font-size: 8px;
+  line-height: 1.3;
+  pointer-events: none;
+}
+
+.viewer-orbit-pill {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  padding: 5px 9px;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--pixel);
+  font-size: 8px;
+  line-height: 1.3;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--snap), color var(--snap), transform var(--snap);
+}
+
+.viewer-wrap:hover .viewer-orbit-pill,
+.viewer-orbit-pill:focus-visible {
+  background: var(--gold);
+  color: var(--ink);
+  transform: translate(-1px, -1px);
+}
+
+/* Hide custom corner pills once live 3D iframe is orbiting inside the card */
+.art-card.is-orbiting .viewer-slot-tag,
+.art-card.is-orbiting .viewer-orbit-pill {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .viewer-placeholder > div {
@@ -283,10 +562,6 @@
   text-decoration: none;
 }
 
-/* Once the card scrolls into view art.js swaps the copy to "LOADING
-   MODEL" and adds this class, so the wait between trigger and the
-   real Sketchfab UI popping in has its own honest state instead of
-   sitting on stale "starts when this card reaches the screen" text. */
 .viewer-placeholder.is-loading .spinner-ring {
   display: block;
   width: 26px;
@@ -306,44 +581,138 @@
   .viewer-placeholder.is-loading .spinner-ring { animation: none; }
 }
 
-.inspect-btn {
-  position: absolute;
-  z-index: 2;
-  right: 8px;
-  bottom: 8px;
-  min-height: 44px;
-  min-width: 44px;
-  border: var(--border-thin);
-  border-radius: var(--radius-xs);
-  background: var(--cream);
-  color: var(--ink);
-  box-shadow: 0 3px 0 var(--ink);
-  padding: 7px 12px;
-  cursor: pointer;
-  font-family: var(--pixel);
-  font-size: var(--fs-chrome-xs);
-  line-height: 1;
-  transition: background var(--snap), transform var(--snap);
+.art-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
 }
 
-.inspect-btn:hover,
-.inspect-btn:focus-visible { background: var(--gold); transform: translateY(-2px); }
+.art-tier-pill {
+  flex: none;
+  padding: 3px 6px;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  font-family: var(--pixel);
+  font-size: 8px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.art-tier-pill--legend {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.art-tier-pill--epic {
+  background: var(--badge-staff-bg);
+  color: var(--badge-staff-fg);
+}
 
 .art-body {
   padding: var(--s-3);
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--s-2);
-  align-content: start;
+  flex: 1;
+  min-width: 0;
 }
 
-.art-body h3 { font-size: 11px; line-height: 1.65; }
+.art-body h3 {
+  font-size: var(--fs-chrome-sm);
+  line-height: 1.55;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-.art-meta { display: flex; flex-wrap: wrap; gap: 5px; }
+/* Unified Recessed Blueprint Telemetry Bar — NOT 3 separate button pills */
+.art-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.art-meta .chip {
+  justify-content: center;
+  padding: 6px 4px;
+  border: 0;
+  border-right: 1px dashed var(--ink-dash-35);
+  border-radius: 0;
+  font-size: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: none;
+}
+
+.art-meta .chip:last-of-type {
+  border-right: 0;
+}
+
+/* Curated offline fallback has 1 single meta chip — let it span all 3 columns */
+.art-meta .chip:only-of-type {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+  padding: 6px 8px;
+  border-right: 0;
+}
 
 .art-desc {
   font-size: var(--fs-body-sm);
   line-height: 1.55;
   color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 58px;
+}
+
+.art-card-foot {
+  margin-top: auto;
+  padding-top: var(--s-2);
+  border-top: 1px dashed var(--ink-dash-30);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.inspect-btn {
+  width: 100%;
+}
+
+
+
+.art-ext-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 6px 9px;
+  background: var(--paper);
+  color: var(--text-accent);
+  border: var(--border-thin);
+  border-radius: var(--radius-xs);
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--snap), color var(--snap), transform var(--snap);
+}
+
+.art-ext-link:hover,
+.art-ext-link:focus-visible {
+  background: var(--gold);
+  color: var(--ink);
+  transform: translate(-1px, -1px);
 }
 
 .staff-badge {
@@ -359,10 +728,6 @@
   line-height: 1.6;
 }
 
-/* Marks a piece as one of the curated "featured" set, even while
-   browsing ALL UPLOADS — so a fast-skimming recruiter can tell which
-   pieces to look at first without touching the SHOW filter. Sky, not
-   gold: it's information, not a call to action. */
 .featured-badge {
   display: inline-flex;
   align-items: center;
@@ -564,32 +929,88 @@
 
 .npc-dialogue {
   display: grid;
-  grid-template-columns: 86px minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr) auto;
-  grid-template-areas:
-    "portrait copy"
-    "portrait controls";
-  gap: var(--s-3);
-  align-items: start;
-  height: 180px;
-  padding: var(--s-3);
+  grid-template-rows: auto minmax(0, 1fr) auto;
   background: var(--paper);
+  color: var(--ink);
   border: var(--border);
   border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.npc-header {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: var(--sky-dark);
+  color: var(--white);
+  border-bottom: var(--border-thin);
+}
+
+.npc-speaker-tag {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: var(--gold);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-xs);
+  box-shadow: 2px 2px 0 var(--ink);
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome);
+  line-height: 1;
+}
+
+.npc-speaker-line {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.npc-speaker-line strong {
+  display: block;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-sm);
+  line-height: 1.5;
+  color: var(--white);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.npc-speaker-line > span {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cream);
+  opacity: .92;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.npc-body {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: var(--s-3);
+  align-items: stretch;
+  padding: var(--s-3);
 }
 
 .npc-portrait-frame {
-  grid-area: portrait;
   position: relative;
-  width: 86px;
-  height: 128px;
+  width: 84px;
+  height: 108px;
   display: grid;
   place-items: end center;
   align-self: start;
   background: var(--portrait-bg);
   border: var(--border-thin);
   border-radius: var(--radius-xs);
+  box-shadow: 2px 2px 0 var(--ink);
   overflow: hidden;
 }
 
@@ -600,68 +1021,104 @@
 }
 
 .npc-copy {
-  grid-area: copy;
   min-width: 0;
-  display: grid;
-  gap: var(--s-2);
+  background: var(--white);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-left: 4px solid var(--gold-dark);
+  border-radius: var(--radius-xs);
+  padding: 11px 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 116px;
   overflow: hidden;
 }
 
-.npc-speaker-line {
-  display: grid;
-  gap: 2px;
-}
-
-.npc-speaker-line strong {
-  position: relative;
-  display: block;
-  font-family: var(--pixel);
-  font-size: var(--fs-chrome-sm);
-  line-height: 1.6;
-  color: var(--text-accent);
-}
-
-.npc-speaker-line > span {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--muted);
+.npc-dialogue.is-expanded .npc-copy {
+  height: auto;
+  min-height: 116px;
+  overflow: visible;
 }
 
 .npc-dialogue blockquote {
   margin: 0;
   font-size: var(--fs-body-sm);
-  line-height: 1.6;
+  line-height: 1.62;
   color: var(--ink);
-  overflow: hidden;
 }
-
-.npc-dialogue.is-expanded {
-  height: auto;
-  min-height: 180px;
-}
-
-.npc-dialogue blockquote.is-expanded { overflow: visible; }
 
 .npc-more {
-  display: inline;
-  padding: 0;
-  border: 0;
-  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+  padding: 3px 7px;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  background: var(--cream);
   color: var(--text-accent);
   cursor: pointer;
   font-family: var(--pixel);
   font-size: var(--fs-chrome-xs);
-  font-weight: 800;
+  line-height: 1.4;
+  vertical-align: baseline;
+}
+
+.npc-more[hidden], .npc-more.is-hidden { display: none !important; }
+
+.npc-more:hover,
+.npc-more:focus-visible {
+  background: var(--gold);
+  color: var(--ink);
 }
 
 .npc-controls {
-  grid-area: controls;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--s-2);
-  padding-top: var(--s-2);
+  padding: 8px 12px;
+  background: var(--cream);
+  color: var(--ink);
   border-top: var(--border-thin);
+}
+
+.npc-pips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.npc-pip {
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  background: var(--paper);
+  cursor: pointer;
+  transition: transform var(--snap), background var(--snap);
+}
+
+.npc-pip:hover,
+.npc-pip:focus-visible {
+  background: var(--sky);
+  transform: scale(1.12);
+}
+
+.npc-pip[aria-selected="true"] {
+  background: var(--gold);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.npc-nav-group {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-left: auto;
 }
 
 .npc-arrow {
@@ -887,7 +1344,7 @@
   white-space: nowrap;
 }
 
-.art-card[data-rarity] { border-color: var(--rarity-dark); }
+.art-card[data-rarity] { border-color: var(--outline); }
 
 .status-bar {
   display: flex;
@@ -918,4 +1375,300 @@
   flex: none;
   width: 10px;
   height: 10px;
+}
+
+
+/* ===== HOME: FEATURED 3D LOADOUT SHOWCASE (REAL SKETCHFAB MODELS, MAX 4) ===== */
+
+.showcase-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-bottom: var(--s-3);
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-3);
+}
+
+.showcase-slot {
+  min-width: 0;
+  background: var(--cream);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--snap), box-shadow var(--snap);
+}
+
+.showcase-slot:hover,
+.showcase-slot:focus-within {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow);
+}
+
+.showcase-stage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background-color: var(--showcase-bg);
+  color: var(--showcase-fg);
+  border-bottom: var(--border-thin);
+  overflow: hidden;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.showcase-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--slide);
+}
+
+.showcase-slot:hover .showcase-thumb,
+.showcase-slot:focus-within .showcase-thumb {
+  transform: scale(1.04);
+}
+
+.showcase-fallback {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: var(--s-3);
+  text-align: center;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.5;
+  color: var(--showcase-fg);
+}
+
+.showcase-fallback svg {
+  width: 42px;
+  height: 42px;
+  color: var(--gold);
+  display: block;
+}
+
+.showcase-tag {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  z-index: 2;
+  padding: 3px 6px;
+  background: var(--sky-dark);
+  color: var(--white);
+  border: 1px solid var(--white);
+  border-radius: 4px;
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-xs);
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.showcase-body {
+  min-width: 0;
+  padding: var(--s-2) var(--s-3) var(--s-3);
+  display: grid;
+  gap: 8px;
+  flex: 1;
+  align-content: space-between;
+}
+
+.showcase-info {
+  min-width: 0;
+}
+
+.showcase-body h3 {
+  font-size: var(--fs-chrome-sm);
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.showcase-meta {
+  margin-top: 3px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.showcase-body .btn {
+  width: 100%;
+}
+
+/* ===== HOME: UNLOCKED SECRET SLOT BANNER CARD ===== */
+
+.secret-slot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+/* ===== PIPELINE: WORKBENCH // PLACEHOLDER MODEL & EXPERIMENT SLOT ===== */
+
+.lab-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--s-4);
+  margin-top: var(--s-3);
+  align-items: stretch;
+}
+
+.lab-stage {
+  position: relative;
+  min-height: 250px;
+  aspect-ratio: 16 / 10;
+  background-color: var(--showcase-bg);
+  color: var(--showcase-fg);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.lab-stage .viewer.loaded + .lab-placeholder {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lab-placeholder {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: var(--s-2);
+  padding: var(--s-4);
+  text-align: center;
+  max-width: 36ch;
+  transition: opacity var(--slide);
+}
+
+.lab-placeholder svg {
+  width: 46px;
+  height: 46px;
+  color: var(--gold);
+  display: block;
+}
+
+.lab-placeholder b {
+  font-family: var(--pixel);
+  font-size: var(--fs-chrome-sm);
+  line-height: 1.6;
+  color: var(--white);
+}
+
+.lab-placeholder span {
+  font-size: var(--fs-body-sm);
+  line-height: 1.5;
+  color: var(--cream);
+  opacity: .9;
+}
+
+.lab-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.lab-note {
+  padding: 10px 12px;
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-left: 4px solid var(--gold-dark);
+  border-radius: var(--radius-xs);
+  font-size: var(--fs-body-sm);
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+/* ===== ABOUT: SKILL FILTER ===== */
+
+.skill-chip {
+  transition: opacity var(--snap), transform var(--snap), background var(--snap), color var(--snap);
+}
+
+.skill-chip.is-highlighted {
+  background: var(--gold);
+  color: var(--ink);
+  transform: translate(-1px, -1px);
+}
+
+.skill-chip.is-dimmed {
+  opacity: .42;
+}
+
+/* ===== SECRET LEVEL: ORGANIZED CONSOLE STAGE ===== */
+
+.secret-shell {
+  width: min(640px, 100%);
+  display: grid;
+  gap: var(--s-3);
+}
+
+.secret-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.secret-window {
+  position: relative;
+  background: var(--white);
+  color: var(--ink);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: clamp(var(--s-5), 3.5vw, var(--s-6));
+  display: grid;
+  gap: var(--s-4);
+  justify-items: center;
+  text-align: center;
+}
+
+.secret-emblem {
+  width: 78px;
+  height: 78px;
+  display: grid;
+  place-items: center;
+  background: var(--showcase-bg);
+  color: var(--gold);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.secret-emblem svg {
+  width: 44px;
+  height: 44px;
+  display: block;
+}
+
+.secret-readout {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-2);
+  text-align: left;
 }

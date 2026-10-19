@@ -91,25 +91,44 @@ window.CHROME = (function () {
     return '<nav class="tabbar" id="tabbar" aria-label="Sections">' + buttons + '</nav>';
   }
   function promptBarMarkup(page) {
-    var prompts = page === 'home'
-      ? [
-          ['\u2191\u2193', 'MOVE'],
-          ['\u2192', 'SELECT'],
-          ['\u2190', 'BACK'],
-          ['1-5', 'JUMP'],
-          ['M', 'SOUND']
-        ]
-      : [
-          ['\u2190', 'BACK'],
-          ['P', 'PRINT'],
-          ['M', 'SOUND']
-        ];
+    if (page !== 'home') {
+      var subPrompts = [
+        ['\u2190', 'BACK'],
+        ['P', 'PRINT'],
+        ['M', 'SOUND']
+      ].map(function (pair) {
+        return '<span class="prompt"><span class="key-cap">' + pair[0] + '</span>' + pair[1] + '</span>';
+      }).join('');
+      return '<div class="prompt-bar" aria-hidden="true"><div class="prompt-bar__left">' + subPrompts + '</div></div>';
+    }
 
-    var items = prompts.map(function (pair) {
-      return '<span class="prompt"><span class="key-cap">' + pair[0] + '</span>' + pair[1] + '</span>';
+    var staticPrompts = [
+      ['\u2191\u2193', 'MOVE'],
+      ['\u2192', 'SELECT'],
+      ['\u2190', 'BACK'],
+      ['1-5', 'JUMP']
+    ].map(function (pair) {
+      return '<span class="prompt" aria-hidden="true"><span class="key-cap">' + pair[0] + '</span>' + pair[1] + '</span>';
     }).join('');
 
-    return '<div class="prompt-bar" aria-hidden="true">' + items + '</div>';
+    var controlsBtn = '<button class="prompt prompt--btn" id="prompt-controls-btn" type="button" aria-label="Open keyboard controls manual">' +
+      '<span class="key-cap">?</span>CONTROLS</button>';
+
+    var soundBtn = '<button class="prompt prompt--btn" id="prompt-sound-btn" type="button" aria-label="Toggle UI sounds">' +
+      '<span class="key-cap">M</span><span id="prompt-sound-label">SOUND</span></button>';
+
+    var xpDeck = '<button class="prompt-xp" id="prompt-xp-btn" type="button" aria-label="Open explorer milestones">' +
+      '<span class="prompt-xp__tag">EXPLORER</span>' +
+      '<span class="prompt-xp__pips" id="prompt-xp-pips" aria-hidden="true">' +
+        '<i class="xp-pip is-filled"></i><i class="xp-pip"></i><i class="xp-pip"></i><i class="xp-pip"></i><i class="xp-pip"></i>' +
+      '</span>' +
+      '<span class="prompt-xp__val" id="prompt-xp-label">XP 1 / 5</span>' +
+    '</button>';
+
+    return '<div class="prompt-bar" role="region" aria-label="Console controls and explorer progress">' +
+      '<div class="prompt-bar__left">' + staticPrompts + controlsBtn + soundBtn + '</div>' +
+      '<div class="prompt-bar__right">' + xpDeck + '</div>' +
+    '</div>';
   }
 
   function footerLine() {
@@ -131,10 +150,19 @@ window.CHROME = (function () {
       });
     }
 
+    var promptSound = document.getElementById('prompt-sound-btn');
+    if (promptSound) {
+      promptSound.addEventListener('click', function () {
+        if (buttons[0]) buttons[0].click();
+      });
+    }
+
     buttons.forEach(function (button) {
       button.addEventListener('click', function () {
         var on = window.SFX.toggle();
         paint();
+        var pLabel = document.getElementById('prompt-sound-label');
+        if (pLabel) pLabel.textContent = on ? 'SOUND ON' : 'SOUND';
         UTIL.toast(on ? 'UI sounds on.' : 'UI sounds off.', 1800);
       });
     });

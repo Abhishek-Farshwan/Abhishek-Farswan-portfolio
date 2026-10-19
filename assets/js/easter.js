@@ -22,6 +22,7 @@ window.EASTER = (function () {
   function reveal(announce) {
     var slot = document.getElementById('secret-slot');
     if (slot) slot.hidden = false;
+    if (window.MANUAL) window.MANUAL.unlock('secret', true);
     if (announce) {
       window.SFX.secret();
       UTIL.toast('\uD83C\uDFC6 SECRET LEVEL FOUND \u2014 check the bottom of Home.', 4600, 'achievement');

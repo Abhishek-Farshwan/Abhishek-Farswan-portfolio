@@ -175,7 +175,6 @@
   background-color: var(--sky);
   background-image: conic-gradient(var(--tex-dark) 25%, transparent 0 50%, var(--tex-dark) 0 75%, transparent 0);
   background-size: 8px 8px;
-  box-shadow: 0 0 0 4px var(--ink), 6px 6px 0 4px var(--tex-dark);
 }
 
 /* art: cards are colour-coded like RPG loot, no numbers and no text tags.
@@ -204,19 +203,19 @@
 
 .art-card[data-rarity] {
   position: relative;
-  box-shadow: 0 0 0 3px var(--rarity), 6px 6px 0 3px var(--rarity-dark), 0 0 26px 6px var(--rarity-glow);
+  box-shadow: 5px 5px 0 var(--ink);
 }
 
 .art-card[data-rarity]:hover,
 .art-card[data-rarity]:focus-within {
-  box-shadow: 0 0 0 3px var(--rarity), 8px 8px 0 3px var(--rarity-dark), 0 0 34px 8px var(--rarity-glow);
+  box-shadow: 8px 8px 0 var(--ink), 0 0 18px 2px var(--rarity-glow);
 }
 
 .art-card[data-rarity] .art-body {
   background-image:
-    linear-gradient(var(--rarity), var(--rarity)),
-    linear-gradient(180deg, var(--rarity-tint), var(--rarity-tint-2));
-  background-size: 100% 6px, 100% 100%;
+    linear-gradient(90deg, var(--rarity), var(--rarity-tint-2)),
+    linear-gradient(180deg, var(--rarity-tint), var(--white) 24%);
+  background-size: 100% 5px, 100% 100%;
   background-repeat: no-repeat;
   background-position: top, center;
 }
@@ -356,7 +355,12 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  #panel-about .entry:first-child::before { animation: decor-led 1.8s steps(1, end) infinite; }
+  #panel-about .entry:first-child::before { animation: quest-pulse 2s ease-in-out infinite; }
+}
+
+@keyframes quest-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--leaf-glow); }
+  50%      { box-shadow: 0 0 0 4px var(--leaf-glow); }
 }
 
 /* about: the endorsement carousel is an NPC dialogue box: bolted corners, a
@@ -386,4 +390,38 @@
   background-image:
     linear-gradient(180deg, var(--bevel-hi) 0 3px, transparent 3px),
     linear-gradient(0deg, var(--bevel-lo) 0 3px, transparent 3px);
+}
+
+
+/* ===== STEP 5 — SHOWCASE, SPEC TABS, JRPG DIALOGUE & SECRET STAGE ORNAMENT ===== */
+
+.hud-chip,
+.filter-pill,
+.scope-chip {
+  background-image:
+    linear-gradient(180deg, var(--bevel-hi) 0 2px, transparent 2px),
+    linear-gradient(0deg, var(--bevel-lo) 0 2px, transparent 2px);
+}
+
+.npc-header {
+  background-image:
+    repeating-linear-gradient(0deg, var(--tex-dark) 0 1px, transparent 1px 3px),
+    conic-gradient(var(--tex-dark) 25%, transparent 0 50%, var(--tex-dark) 0 75%, transparent 0);
+  background-size: auto, 8px 8px;
+}
+
+.showcase-stage,
+.lab-stage,
+.secret-emblem {
+  background-image:
+    linear-gradient(var(--showcase-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--showcase-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.manual-card,
+.showcase-slot,
+.secret-window,
+.art-toolbar {
+  background-image: var(--rivets);
 }

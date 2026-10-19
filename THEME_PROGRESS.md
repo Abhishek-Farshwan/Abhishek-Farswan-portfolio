@@ -270,7 +270,7 @@ as long as the theme overrides base colours on `:root` (same element).
 
 ---
 
-# ROUND 2 — ARCADE: ONE standalone game-menu theme. STATUS: COMPLETE (all 5 steps shipped).
+# ROUND 2 — ARCADE: ONE standalone game-menu theme. Roadmap agreed (revised), nothing built yet.
 
 Why: reviewers found cozy too soft ("selling cozy stuff", less game-dev). Wanted: bold pixel
 text, game-menu feel, KEEP the new extras (pins/labels, textures that fill empty space)
@@ -302,13 +302,13 @@ cream fields 1.5 (UI 3:1); muted grey on gold hover 3.85; cream on red labels on
       touch, teal accent used sparingly); retool contrast.js + theme-lint.js for ONE theme
       (strict, absolute; state rules paired with their base rule); add decor.css scaffold;
       revert manifest/theme-color to one colour set; bump cache.
-- [x] Step 2 (2026-10-07) — shell + components in decor.css (roster checker+scanlines, navy menu slabs with
+- [ ] Step 2 — shell + components in decor.css (roster checker+scanlines, navy menu slabs with
       pixel cursor, ID-plate profile card with rivets, chunky buttons, square tags, fields, modal)
-- [x] Step 3 (2026-10-08) — Home (character-select hero: corner brackets, dither band, framed portrait) +
+- [ ] Step 3 — Home (character-select hero: corner brackets, dither band, framed portrait) +
       Art (inventory slots: CSS-counter slot numbers, rarity bar via :has, brackets)
-- [x] Step 4 (2026-10-08) — Pipeline (crafting bench) + About (quest-log timeline, pixel dialogue box with
+- [ ] Step 4 — Pipeline (crafting bench) + About (quest-log timeline, pixel dialogue box with
       name plate) + Contact (quest board, rivets)
-- [x] Step 5 (2026-10-09) — 404 / resume / secret level; RETIRE COZY (delete theme-cozy.css, cozy token block,
+- [ ] Step 5 — 404 / resume / secret level; RETIRE COZY (delete theme-cozy.css, cozy token block,
       prune unused tokens); rewrite docs for a single theme; final QA; final zip
 - [ ] Optional — 404 CSP (needs a real browser); faint pixel-icon texture in empty areas
 
@@ -342,137 +342,3 @@ Home at phone width) before the next step starts.
 - DOCS ARE STALE (PROJECT_GUIDE/README/CHANGES still describe two themes) until Step 5.
 - Not verified here: any rendering. Expect: the original bold look, roster a touch lighter
   blue, red a touch deeper, navy focus rings, no cozy, no toggle.
-
-## Step 2 log (done)
-
-- Ornament tokens (tokens.css): `--rivet`, `--bevel-hi`, `--bevel-lo`, `--tex-dark`. `--tex-dark`
-  only DARKENS: any texture under light text can only raise contrast (measured: white on the
-  roster 4.61 -> 5.09 on a dark cell; a LIGHTENING 7% overlay would have dropped it to 4.08).
-- `decor.css` Step 2 section (ornament only, no layout):
-  roster + mobile tab bar + dialog headers = pixel checker + scanlines; cards = four corner
-  rivets; profile card = ID plate with rivets (desktop only, >=901px, because on small screens
-  it carries the sound icon in its corner); menu slabs + buttons = pixel bevel; banner tab =
-  diagonal stripe; breadcrumb = gold marker square; prompt bar = LED dots along the top edge;
-  stat tiles / bullets / form fields = recessed top edge; stepped (steps(3)) press timing; the
-  OPEN light blinks (only when reduced-motion is not requested).
-- Specificity: `.menu-btn.menu-btn` (doubled) so the bevel survives hover/selected states, whose
-  `background:` shorthand would otherwise wipe it. Pseudo-elements already in use were left
-  alone: `.menu-btn::before` (cursor), `.menu-btn.is-external::after` (arrow), `.btn::after` (shine).
-- NEW lint guard: decor.css may set only ornament properties on real elements (negative-tested
-  by injecting `.card { display: none }`: it failed as it should).
-- decor.css validated against the CSS grammar with css-tree (a one-off, outside the repo): 22
-  declarations, no errors. NOTE the first run reported false errors caused by my own probe
-  (minified output glued `var(--x)0` into `red0`); the probe was fixed before trusting it.
-- Checks: smoke 101 (original suite), contrast 89 pairs 0 fail, lint passed, `npm run check` exit 0.
-- Diff vs Step 1: only tokens.css (+ornament tokens), decor.css and the cache token changed.
-- Cache token `?v=20261007-2`.
-- Not verified here: any rendering. Look at: roster texture (does the checker feel pixel-y or
-  noisy?), rivets on cards and the ID plate, menu bevel in hover/selected, button bevel, the
-  banner stripe, breadcrumb marker, prompt-bar LED dots, recessed fields, the blinking OPEN dot.
-
-## Step 3 log (done)
-
-- Tokens: `--bracket` (ink 55%, for light panels) and `--bracket-lite` (white 55%, for dark panels).
-- decor.css Step 3 section:
-  - Square tags: `.chip`, `.staff-badge`, `.featured-badge` were the only pills in the original
-    look; now `--radius-xs`. (Promised in Step 2 and missed there, done here.)
-  - Hero: HUD corner brackets on `.hero-copy` and `.hero-side` (8 gradient layers, 10px in, 18x3px
-    arms, via `--bk`); dithered band along the bottom of the copy panel (fills the empty strip
-    under the tagline, faded by a mask); dark-only checker + scanlines on the loadout panel;
-    portrait sits in a character-select plate (sky backdrop, checker, ink ring, hard offset shadow).
-  - Art: every card is an inventory slot. CSS counter `slot` numbers the titles in displayed order
-    (`#01 `, follows search/sort; empty alt text so screen readers skip it); a 6px rarity strip
-    under the thumbnail via `--rarity` (gold = featured, red = staff pick, blue = otherwise, using
-    `:has()`); INSPECT gets the chunky bevel (doubled class to survive its hover shorthand).
-  - DELIBERATELY NOT DONE: HUD brackets on the 3D thumbnails. The Sketchfab iframe draws its own UI
-    in all four corners (avatar, share, cube icon) and our INSPECT button sits bottom-right.
-- Lint guard now also allows background-color, border-radius, box-shadow, counters, and
-  `position: relative` ONLY (anchor for a pseudo ornament). Negative-tested: `position: absolute`
-  fails it. Grammar check (css-tree, one-off): 51 declarations + 44 selectors, no errors.
-- Checks: smoke 101, contrast 89 pairs 0 fail, lint passed, `npm run check` exit 0. Diff vs Step 2:
-  only tokens.css (+2 tokens), decor.css and the cache token.
-- Cache token `?v=20261007-3`.
-- Not verified here: any rendering. Look at: hero brackets (too subtle? too busy?), the dithered band,
-  the portrait plate (does the PNG have a transparent background?), the `#01` slot numbers and
-  rarity strips on the art cards, square tags, the INSPECT bevel.
-- Known limits: `:has()` needs a 2023+ browser (older ones just show the blue strip on every card).
-
-## Step 4 log (done)
-
-- FIRST REAL SCREENSHOTS (after Step 3): the bold game-menu look landed. Home, Art and phone Home all
-  read correctly: rivets, brackets, portrait plate, `#01` slot numbers, rarity strips, square tags.
-  One cosmetic issue seen: on phones the loadout bracket sat ~3px from the first line of text. My
-  Step 3 "geometry guard" only proved NO OVERLAP (13px < 16px padding), not good spacing. Fixed:
-  `inset: 5px` for the hero brackets at <=900px.
-- decor.css is now SCREEN-ONLY (`media="screen"` on all 4 pages, enforced by lint, negative-tested).
-  Found while reading print.css: Steps 2-3 ornaments were only blocked from printing by luck
-  (`background: #fff !important` on a few selectors). Generated content would have printed. Now by
-  construction: print never loads decor.css.
-- Pipeline (crafting bench): STAGE label + dark checker on the number tile; tool chips are materials
-  joined by `+` (pseudo in a 22px column gap set in panels.css `.tool-list`: `gap: 8px 22px`) and a gold
-  `-> check` result chip at the end of each list. No copy added.
-- About (quest log + NPC dialogue), scoped to `#panel-about` so the formal resume stays plain: quest
-  numbers `Q01..` via a CSS counter (empty alt), the current quest's marker blinks (reduced-motion
-  respected); the dialogue box gets rivets, a textured portrait frame, and the speaker's name on a
-  dark title bar (box-shadows stand in for padding so nothing moves).
-- Contact (quest board): the blue card gets the dark checker + keeps its rivets (6 background layers,
-  6 sizes, counted); link rows get the menu-slab bevel via `.contact-links a[href]` (ties the hover rule
-  at (0,2,1) and decor loads later).
-- Lint guard: `color` added to the allowed ornament properties; new "decor.css is screen-only" check.
-- Contrast: 95 pairs pass, 0 fail (6 new pairs for the new surfaces). Smoke 101. `npm run check` exit 0.
-- CSS grammar (css-tree, one-off): 87 declarations + 60 selectors, no errors. The first run flagged one
-  false INVALID caused by my probe treating the `--rivets` image list as a colour; fixed and re-proved
-  the probe still rejects real typos.
-- Diff vs Step 3: only panels.css (tool-list gap), decor.css, the lint/contrast tests, and the HTML
-  (decor link gained media="screen", cache token). All other CSS byte-identical.
-- Cache token `?v=20261007-4`.
-- Not verified here: Pipeline, About and Contact rendering. Look at: STAGE label fit in the number tile
-  (esp. phone), the `+` joints and result chip (esp. when chips wrap on phones), `Q01` prefixes and the
-  blinking marker, the dialogue name bar and bolted corners, the Contact board texture and row bevels.
-
-## Step 5 log (done) and final status
-
-- A REAL BROWSER now works in the build sandbox: @sparticuz/chromium ships a Chromium build inside the
-  npm package (no blocked download), driven by puppeteer-core. The site's Google Fonts link is replaced
-  by the same two families served from @fontsource, external requests are aborted. Calibrated first:
-  my render of Pipeline matched the user's own screenshot (layout, fonts, details).
-- Looked at, for the first time: 404 (desktop + phone, full page), resume (screen + PRINT), secret level,
-  tablet (768), laptop (1280), phone (360/457) of Home, Pipeline, About, Contact. NO rendering bugs found.
-  The 404 map pins sit on their landmarks (the Phase 6 inline-style move), print is a plain white resume.
-- NEW `test/render.mjs` (optional, `npm run render`): 8 pages x 4 widths + a print render = 33 renders.
-  All pass: no script errors, nothing past the viewport edge. Takes several minutes (software rendering);
-  use `--only <name>`.
-- THE OVERFLOW DETECTOR WAS WRONG TWICE and was fixed by negative tests: (1) version 1 measured only
-  scroll width, so a forced 700px element on a phone reported "ok" because the hero's overflow:hidden
-  CLIPS instead of scrolling (proved with a sabotaged throwaway copy of the repo); (2) version 2 flagged
-  the 404's decorative SVG scenery, which bleeds off-screen on purpose (verified on a full-page render).
-  Final rule: flag only visible content (text, images, controls) that extends past the viewport; the same
-  sabotage now fails with exit 1, and the clean site passes.
-- Cozy RETIRED: the cozy token block, `theme-cozy.css`, and 5 unused tokens (--lilac --olive --coral
-  --card-bg --header-bg) are gone. Proof: every one of the 108 remaining tokens kept its exact value,
-  nothing referenced the removed ones, all other stylesheets byte-identical. Lint now fails if cozy returns
-  and fails on ANY unused token. (The remaining "cozy" strings in the repo are the user's own content:
-  the model "Stylized Cozy Props 1" and a smoke-test sample.)
-- Docs rebuilt from the user's ORIGINAL files (PROJECT_GUIDE.md, README.md, CHANGES.md) with the numbers
-  computed by script at write time: tokens 43 -> 113, raw colours 17 -> 0 (+10 in lost.css), inline styles
-  24 -> 0, 95 contrast pairs, smoke 101 unchanged. A docs-vs-reality script checks that every
-  `npm run X` and file path the docs mention exists.
-- Two deliberate guide changes the user should know about: "sci-fi HUD styling" is no longer banned
-  (the corner brackets are intentionally HUD-flavoured; neon/terminal glow is still banned), and the guide
-  now admits `404.html` has no CSP meta (the original claimed all pages do).
-- `site.webmanifest` theme_color is now #4177ae (matches the roster). Cache token `?v=20261009-1`.
-- Final checks: smoke 101 (exit 0), lint 39 checks (exit 0), contrast 95 pairs (exit 0), `npm run check`
-  exit 0, 16 JS files parse, 88 local refs resolve, HTML balanced on all 4 pages, 33/33 renders pass.
-
-## Known gaps (honest list)
-
-- Renders had external requests blocked: Sketchfab viewers/thumbnails and social-logo CDNs are NOT
-  exercised (the art grid shows its offline state, contact icons show their text fallbacks). Reduced
-  motion was on, so blink/entrance animations were not captured. The fonts are the same families but
-  served from npm, not Google. Real touch and real hover were not tested.
-- Taste is not testable. Screenshots + render checks prove it renders correctly, not that it is the
-  best-looking option.
-- `404.html` has no CSP meta tag (pre-existing, documented).
-- `:has()` / `color-mix()` / `conic-gradient()` need a 2023+ browser (older ones lose rarity colours and
-  tints, not content).
-- THEME_PROGRESS.md is a work log; delete it whenever you like.
