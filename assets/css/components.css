@@ -487,9 +487,11 @@
   padding: var(--s-4);
   overflow-y: auto;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-3);
   background: var(--cream);
   color: var(--ink);
+  min-width: 0;
 }
 
 .manual-card {
@@ -499,7 +501,9 @@
   border-radius: var(--radius-sm);
   padding: var(--s-3);
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-3);
+  min-width: 0;
 }
 
 .quest-progress-bar {

@@ -303,27 +303,25 @@
 .step-number::before {
   content: "STAGE";
   content: "STAGE" / "";
-  position: absolute;
-  top: 8px;
-  left: 0;
-  right: 0;
+  display: block;
   text-align: center;
   font-family: var(--pixel);
-  font-size: var(--fs-chrome-xs);
+  font-size: 8px;
   letter-spacing: .04em;
   color: var(--white);
 }
 
 .tool-chip { position: relative; }
 
-.tool-chip + .tool-chip::before {
+.tool-chip:not(:last-child)::after {
   content: "+";
+  content: "+" / "";
   position: absolute;
-  left: -16px;
+  right: -15px;
   top: 50%;
   transform: translateY(-50%);
   font-family: var(--pixel);
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1;
   color: var(--sky-dark);
 }

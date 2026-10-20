@@ -30,6 +30,7 @@
   max-height: 94dvh;
   overflow: hidden;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr) auto;
   background: var(--cream);
   border: var(--border);

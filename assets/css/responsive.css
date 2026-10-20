@@ -5,7 +5,7 @@
 
 /* ===== NARROW LAPTOP: shrink the roster, keep the mechanic ===== */
 
-@media (max-width: 1080px) {
+@media (max-width: 1180px) {
   :root { --roster-w: 208px; }
 
   .hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
@@ -20,8 +20,25 @@
 }
 
 @media (min-width: 901px) and (max-width: 1180px) {
-  .hero-avatar { width: 86px; }
+  .hero-avatar { width: 84px; }
   .hero-title-row { padding: var(--s-3); gap: var(--s-2); }
+  .hero-portrait-card { padding-left: var(--s-2); }
+
+  /* Keep the bottom prompt bar compact so 1024px laptops have zero horizontal overflow */
+  .prompt-bar {
+    padding: 0 var(--s-3);
+    gap: var(--s-2);
+    font-size: 8px;
+  }
+
+  .prompt-bar__left,
+  .prompt-bar__right {
+    gap: var(--s-2);
+  }
+
+  .prompt { gap: 4px; }
+  .key-cap { padding: 4px 5px; font-size: 8px; min-width: 18px; }
+  .prompt-xp { padding: 4px 8px; gap: 6px; font-size: 8px; }
 }
 
 /* ===== TABLET & MOBILE SHELL (<= 900px): stack hero and split columns ===== */
@@ -132,7 +149,7 @@
   }
 
   .pipeline-step { grid-template-columns: 58px minmax(0, 1fr); }
-  .step-number { font-size: 14px; padding-top: 14px; }
+  .step-number { font-size: 14px; }
   .step-copy { padding: var(--s-3); }
 
   .npc-body {
@@ -175,6 +192,17 @@
     border-width: 0;
   }
 
+  /* Keep compact HUD dialogs (Quest Log & Controls Manual) as framed floating console cards on mobile */
+  .modal-box.modal-box--sm {
+    width: calc(100% - 24px);
+    height: auto;
+    max-height: 88vh;
+    max-height: 88dvh;
+    border: var(--border);
+    border-radius: var(--radius);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
   .modal-foot { max-height: 40vh; }
 
   .entry-when { margin-left: 0; width: 100%; }
@@ -196,19 +224,26 @@
 /* ===== MOBILE PHONES (<= 600px): optimize all 5 tabs for handheld ergonomics ===== */
 
 @media (max-width: 600px) {
-  /* Single-line HUD topbar so Crumb + XP + Controls don't waste vertical screen space */
+  /* Single-line HUD topbar where Crumb + XP + [?] fit cleanly without truncation */
   .topbar {
     flex-wrap: nowrap;
     gap: 6px;
   }
 
   .crumb {
-    padding: 7px 9px;
-    font-size: var(--fs-chrome-xs);
+    padding: 6px 8px;
+    font-size: 8px;
+    letter-spacing: .02em;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .crumb::before {
+    width: 6px;
+    height: 6px;
+    margin-right: 6px;
   }
 
   .topbar-hud {
@@ -218,11 +253,27 @@
     flex: none;
   }
 
-  .hud-chip,
-  #manual-open-btn {
-    min-height: 34px;
-    padding: 6px 8px;
+  .hud-chip {
+    min-height: 32px;
+    padding: 5px 7px;
     font-size: 8px;
+    gap: 5px;
+  }
+
+  /* Compact the Controls / Quick Warp button to a [?] square on phones so the crumb never truncates */
+  #manual-open-btn {
+    min-height: 32px;
+    min-width: 32px;
+    padding: 5px 7px;
+    font-size: 0;
+    gap: 0;
+  }
+
+  #manual-open-btn::before {
+    content: "?";
+    font-family: var(--pixel);
+    font-size: 9px;
+    line-height: 1;
   }
 
   /* Home: Single-Frame Player Deck + Balanced CTA Grid */
@@ -231,14 +282,13 @@
   }
 
   .hero-meta-row {
-    padding: 6px 10px;
     gap: 6px;
   }
 
   .eyebrow,
   .hero-meta-row .chip {
     font-size: 8px;
-    padding: 4px 8px;
+    padding: 4px 7px;
   }
 
   .hero-title-row {
@@ -246,8 +296,12 @@
     gap: var(--s-2);
   }
 
+  .hero-portrait-card {
+    padding-left: var(--s-2);
+  }
+
   .hero-avatar {
-    width: 76px;
+    width: 78px;
   }
 
   .hero-cta-bar .btn-row {
@@ -272,7 +326,12 @@
     aspect-ratio: 16 / 9;
   }
 
-  /* Art: Single-row touch-scroll category filter ribbon + 16:10 cards */
+  /* Art: 2x2 Category Filter Grid (all 4 visible, zero horizontal overflow) + 16:10 cards */
+  .art-sync-readout {
+    font-size: 8px;
+    line-height: 1.5;
+  }
+
   .art-grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -287,29 +346,45 @@
   }
 
   .art-toolbar-cats .filter-bar {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    scrollbar-width: none;
-  }
-
-  .art-toolbar-cats .filter-bar::-webkit-scrollbar {
-    display: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 6px;
   }
 
   .art-toolbar-cats .filter-pill {
-    flex: none;
+    justify-content: center;
+    text-align: center;
+    font-size: 8px;
+    padding: 6px 6px;
+    white-space: normal;
+    line-height: 1.35;
   }
 
-  /* Pipeline: Workbench stage height & unclipped tool chips */
+  /* Art footer CTA buttons: balanced full-width or even row on mobile */
+  #panel-art .card--tight .btn-row .btn {
+    flex: 1 1 auto;
+  }
+
+  /* Pipeline: Full-width specimen selector, Workbench stage height & unclipped tool chips */
+  #panel-pipeline .showcase-head .art-control {
+    width: 100%;
+  }
+
   .lab-stage {
     aspect-ratio: auto;
-    min-height: 256px;
+    min-height: 248px;
     padding-top: 28px;
   }
 
-  .tool-list {
-    gap: 6px 18px;
+  .lab-placeholder {
+    width: 100%;
+    max-width: none;
+    padding: var(--s-3);
+  }
+
+  .lab-placeholder .btn-row .btn {
+    flex: 1 1 auto;
   }
 
   /* About: Prevent fixed-height clipping of NPC endorsements & [MORE] button on narrow phones */
@@ -320,6 +395,91 @@
     justify-content: flex-start;
   }
 
+  #panel-about .endorsements + .btn-row .btn {
+    width: 100%;
+  }
+
+  /* Fit all 4 skill filter pills on one clean row on mobile */
+  #panel-about .filter-bar {
+    gap: 5px;
+  }
+
+  #panel-about .filter-pill {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 6px 6px;
+    font-size: 8px;
+  }
+
+  /* Contact: Balanced 50/50 top card buttons & compact scope tags grid */
+  .card--sky .btn-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #contact-form .scope-chip {
+    flex: 1 1 auto;
+    justify-content: center;
+    font-size: 8px;
+    padding: 5px 8px;
+  }
+
+  /* Compact Modals: 2x3 Quick Warp pad & tighter keymap/quest rows so the full dialog fits on mobile without scrolling */
+  .modal-head {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .modal-title {
+    font-size: 8px;
+  }
+
+  .modal-close {
+    padding: 6px 8px;
+    font-size: 8px;
+  }
+  .manual-body {
+    padding: var(--s-2);
+  }
+
+  .manual-card {
+    padding: var(--s-2) var(--s-3);
+    gap: var(--s-2);
+  }
+
+  .quest-list {
+    gap: 5px;
+  }
+
+  .quest-item {
+    padding: 6px 8px;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .keymap-list {
+    gap: 4px;
+  }
+
+  .keymap-row {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .keymap-row .key-cap {
+    padding: 3px 5px;
+    font-size: 8px;
+  }
+
+  #manual-modal .manual-card .btn-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #quest-modal .manual-card .btn-row .btn {
+    width: 100%;
+  }
+
   .secret-readout {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -328,7 +488,7 @@
 /* ===== SMALL PHONES (<= 480px) ===== */
 
 @media (max-width: 480px) {
-  .hero-avatar { width: 70px; }
+  .hero-avatar { width: 72px; }
 
   /* Keep compact bottom tabs icon-only without shrinking labels past legibility */
   .tabbar-btn span:not(.tab-glyph) { display: none; }
@@ -355,14 +515,11 @@
 }
 
 @media (max-width: 380px) {
-  .hero-meta-row {
-    padding: 6px 8px;
-  }
   .hero-title-row {
-    padding: var(--s-2) 10px;
+    padding: 10px;
     gap: 8px;
   }
-  .hero-avatar { width: 64px; }
+  .hero-avatar { width: 66px; }
 }
 
 /* ===== SHORT LANDSCAPE PHONES ===== */

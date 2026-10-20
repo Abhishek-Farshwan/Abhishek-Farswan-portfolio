@@ -73,26 +73,12 @@
   gap: var(--s-3);
 }
 
-.hero-player-frame {
-  background: var(--cream);
-  color: var(--ink);
-  border: var(--border);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  display: grid;
-}
-
 .hero-meta-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--s-2);
-  padding: 8px 12px;
-  background: var(--paper);
-  color: var(--ink);
-  border-bottom: var(--border-thin);
 }
 
 .eyebrow {
@@ -108,15 +94,21 @@
   letter-spacing: .05em;
 }
 
+/* Unified Single-Frame Character-Select Deck: houses both the player name
+   and the character portrait inside one cohesive console frame. */
 .hero-title-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--s-3);
   padding: var(--s-3) var(--s-4);
-  margin: 0;
-  background: var(--white);
+  margin: var(--s-1) 0;
+  background: var(--cream);
   color: var(--ink);
+  border: var(--border-thin);
+  border-left: 6px solid var(--sky-dark);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
 }
 
 .hero-identity {
@@ -127,9 +119,9 @@
 .hero-title-row h1 {
   min-width: 0;
   margin: 0;
-  font-size: clamp(16px, 2.4vw, 34px);
-  font-size: clamp(15px, 10.6cqw, 36px);
-  line-height: 1.32;
+  font-size: clamp(18px, 2.6vw, 36px);
+  font-size: clamp(16px, 10.8cqw, 38px);
+  line-height: 1.3;
 }
 
 .hero .lead {
@@ -139,31 +131,27 @@
 
 .hero-portrait-card {
   margin: 0;
-  padding: 6px;
+  padding: 0 0 0 var(--s-3);
   width: min-content;
-  background: var(--cream);
-  color: var(--ink);
-  border: var(--border-thin);
-  border-radius: var(--radius-xs);
-  box-shadow: var(--shadow-sm);
+  border-left: 2px dashed var(--ink-dash-35);
   display: grid;
   justify-items: center;
   gap: 5px;
-  transition: transform var(--snap), box-shadow var(--snap);
+  transition: transform var(--snap);
 }
 
 .hero-portrait-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--shadow);
+  transform: translateY(-2px);
 }
 
 .hero-avatar {
   display: block;
-  width: clamp(74px, 8vw, 108px);
+  width: clamp(76px, 8.2vw, 108px);
   max-width: none;
   height: auto;
   border: var(--border-thin);
   border-radius: 4px;
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
 .hero-portrait-cap {
@@ -334,6 +322,7 @@
   display: grid;
   gap: var(--s-4);
   margin-bottom: var(--s-4);
+  min-width: 0;
 }
 
 .art-title-bar {
@@ -342,6 +331,11 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--s-3);
+  min-width: 0;
+}
+
+.art-title-bar > div {
+  min-width: 0;
 }
 
 .art-status-group {
@@ -349,10 +343,12 @@
   align-items: center;
   flex-wrap: wrap;
   gap: var(--s-2);
+  min-width: 0;
 }
 
 .art-sync-readout {
   color: var(--muted);
+  min-width: 0;
 }
 
 /* ---- INVENTORY COMMAND BAR (.art-toolbar) ---- */
@@ -365,6 +361,7 @@
   padding: var(--s-3) var(--s-4);
   display: grid;
   gap: var(--s-3);
+  min-width: 0;
 }
 
 .art-toolbar-cats {
@@ -375,6 +372,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--s-2);
+  min-width: 0;
 }
 
 .art-cat-label {
@@ -843,8 +841,11 @@
 }
 
 .step-number {
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   background: var(--step-bg);
   color: var(--step-fg);
   border-right: var(--border);
