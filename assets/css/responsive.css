@@ -224,7 +224,7 @@
 /* ===== MOBILE PHONES (<= 600px): optimize all 5 tabs for handheld ergonomics ===== */
 
 @media (max-width: 600px) {
-  /* Single-line HUD topbar where Crumb + XP + [?] fit cleanly without truncation */
+  /* Keep the handheld HUD focused on touch-friendly controls. */
   .topbar {
     flex-wrap: nowrap;
     gap: 6px;
@@ -260,21 +260,8 @@
     gap: 5px;
   }
 
-  /* Compact the Controls / Quick Warp button to a [?] square on phones so the crumb never truncates */
-  #manual-open-btn {
-    min-height: 32px;
-    min-width: 32px;
-    padding: 5px 7px;
-    font-size: 0;
-    gap: 0;
-  }
-
-  #manual-open-btn::before {
-    content: "?";
-    font-family: var(--pixel);
-    font-size: 9px;
-    line-height: 1;
-  }
+  #manual-open-btn,
+  #prompt-controls-btn { display: none; }
 
   /* Home: Single-Frame Player Deck + Balanced CTA Grid */
   .hero-copy {

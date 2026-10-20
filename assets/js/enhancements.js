@@ -20,6 +20,17 @@ window.MANUAL = (function () {
   var questModal = null;
   var manualModal = null;
 
+  function sideQuestsComplete() {
+    return QUESTS.filter(function (q) { return q.id !== 'secret'; })
+      .every(function (q) { return Boolean(state[q.id]); });
+  }
+
+  function requireSideQuests() {
+    if (sideQuestsComplete()) return true;
+    UTIL.toast('COMPLETE ALL SIDE QUESTS TO UNLOCK THE SECRET LEVEL.', 3400);
+    return false;
+  }
+
   function loadState() {
     var raw = UTIL.storage.get(STORAGE_KEY);
     if (raw) {
@@ -33,6 +44,11 @@ window.MANUAL = (function () {
     state.boot = true;
     if (UTIL.storage.get('af-portfolio-unlocked') === 'yes') {
       state.secret = true;
+    }
+    if (state.secret && !sideQuestsComplete()) {
+      state.secret = false;
+      UTIL.storage.set('af-portfolio-unlocked', 'no');
+      saveState();
     }
   }
 
@@ -75,7 +91,8 @@ window.MANUAL = (function () {
   }
 
   function unlock(id, silent) {
-    if (state[id]) return;
+    if (id === 'secret' && !requireSideQuests()) return false;
+    if (state[id]) return true;
     state[id] = true;
     saveState();
     paintHud();
@@ -87,6 +104,7 @@ window.MANUAL = (function () {
         UTIL.toast('\uD83C\uDFC6 ACHIEVEMENT UNLOCKED \u2014 ' + match.title.toUpperCase() + ' (' + doneCount + '/' + QUESTS.length + ' XP)', 3400, 'achievement');
       }
     }
+    return true;
   }
 
   function closeAll() {
@@ -173,12 +191,12 @@ window.MANUAL = (function () {
     var konamiBtn = document.getElementById('manual-konami-btn');
     if (konamiBtn) {
       konamiBtn.addEventListener('click', function () {
+        if (!requireSideQuests()) return;
         closeAll();
         ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a']
           .forEach(function (key) {
             document.dispatchEvent(new window.KeyboardEvent('keydown', { key: key, bubbles: true }));
           });
-        unlock('secret', true);
       });
     }
 

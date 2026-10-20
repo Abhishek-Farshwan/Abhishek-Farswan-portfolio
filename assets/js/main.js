@@ -20,9 +20,9 @@
     if (page === 'home') {
       window.ART.init();
       window.INSPECTOR.init();
-      window.EASTER.init();
       window.ENDORSEMENTS.init();
       if (window.ENHANCEMENTS) window.ENHANCEMENTS.init();
+      window.EASTER.init();
     }
 
     // fire the initial panel activation only after every module has had a

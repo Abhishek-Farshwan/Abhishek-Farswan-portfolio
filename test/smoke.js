@@ -249,6 +249,35 @@ function tick(ms = 0) {
   check('konami fires the achievement toast',
     !!doc.querySelector('.toast.toast--achievement') && /SECRET LEVEL FOUND/.test(doc.querySelector('.toast--achievement').textContent));
 
+  /* ---------------- secret level quest gate ---------------- */
+  console.log('\n=== secret level quest gate ===');
+  const gate = load('index.html', { fetchImpl: fetchOk });
+  const gateWin = gate.dom.window;
+  const gateDoc = gateWin.document;
+  gateDoc.getElementById('manual-konami-btn').click();
+  check('secret unlock button remains blocked before side quests', gateDoc.getElementById('secret-slot').hidden === true);
+  check('blocked secret unlock explains the requirement',
+    /COMPLETE ALL SIDE QUESTS TO UNLOCK THE SECRET LEVEL/.test(gateDoc.querySelector('.toast').textContent));
+  ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a']
+    .forEach(key => gateDoc.dispatchEvent(new gateWin.KeyboardEvent('keydown', { key, bubbles: true })));
+  check('konami code cannot bypass side quest requirement', gateDoc.getElementById('secret-slot').hidden === true);
+  gateWin.MANUAL.unlock('inspect', true);
+  gateWin.MANUAL.unlock('pipeline', true);
+  gateWin.MANUAL.unlock('npc', true);
+  gateDoc.getElementById('manual-konami-btn').click();
+  check('secret unlock button works after all side quests', gateDoc.getElementById('secret-slot').hidden === false);
+
+  const legacyGate = load('index.html', {
+    fetchImpl: fetchOk,
+    seed(window) {
+      window.localStorage.setItem('af-explorer-quests', JSON.stringify({ boot: true, secret: true }));
+      window.localStorage.setItem('af-portfolio-unlocked', 'yes');
+    }
+  });
+  check('legacy unlock is cleared when side quests are incomplete',
+    legacyGate.dom.window.document.getElementById('secret-slot').hidden === true &&
+    legacyGate.dom.window.localStorage.getItem('af-portfolio-unlocked') === 'no');
+
   /* ---------------- offline fallback ---------------- */
   console.log('\n=== index.html (sketchfab offline) ===');
   const offline = load('index.html', { fetchImpl: () => Promise.reject(new Error('offline')) });
