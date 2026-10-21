@@ -72,6 +72,15 @@ function tick(ms = 0) {
 }
 
 (async function run() {
+  /* ---------------- progressive & priority loading ---------------- */
+  console.log('\n=== progressive & priority loading ===');
+  const rawIndexHtml = fs.readFileSync(path.join(SITE, 'index.html'), 'utf8');
+  const rawResumeHtml = fs.readFileSync(path.join(SITE, 'resume.html'), 'utf8');
+  check('index.html pre-renders Left Panel (#roster-slot) in initial HTML',
+    /<aside class="roster scroller" id="roster-slot"/.test(rawIndexHtml) && /ROSTER \/\/ 001/.test(rawIndexHtml));
+  check('resume.html pre-renders Left Panel (#roster-slot) in initial HTML',
+    /<aside class="roster scroller" id="roster-slot"/.test(rawResumeHtml) && /ROSTER \/\/ 001/.test(rawResumeHtml));
+
   /* ---------------- index.html ---------------- */
   const fetchOk = () => Promise.resolve({
     ok: true,
@@ -90,6 +99,9 @@ function tick(ms = 0) {
   check('5 panel menu entries', doc.querySelectorAll('.menu-btn[data-panel]').length === 5);
   check('resume entry present', !!doc.querySelector('.menu-btn.is-external'));
   check('resume entry has a document icon', /document\.svg$/.test(doc.querySelector('.menu-btn.is-external .menu-icon').getAttribute('src')));
+  check('LOADER prioritizes home on initial boot', win.LOADER && win.LOADER.isLoaded('home') === true);
+  check('LOADER defers non-home panels until background warmup or early click',
+    win.LOADER && win.LOADER.isLoaded('contact') === false && win.LOADER.isLoaded('about') === false);
   const resumeMenuSounds = [];
   win.SFX.select = () => resumeMenuSounds.push('select');
   const resumeMenuLink = doc.querySelector('.menu-btn.is-external');
@@ -101,22 +113,26 @@ function tick(ms = 0) {
   check('footer tagline filled', /SHIPPED LIKE A PORTFOLIO/.test(doc.querySelector('.footer-line').textContent));
   check('home panel active by default', doc.getElementById('panel-home').classList.contains('active'));
 
-  // panel switching
+  // panel switching + early-click priority
   doc.getElementById('tab-pipeline').click();
   check('pipeline panel activates', doc.getElementById('panel-pipeline').classList.contains('active')
     && doc.getElementById('panel-home').hidden === true);
+  check('early click on pipeline loads pipeline immediately', win.LOADER.isLoaded('pipeline') === true);
   check('crumb updates', doc.getElementById('crumb').textContent === 'PROFILE / PIPELINE');
   check('tabbar syncs', doc.querySelector('.tabbar-btn[data-panel="pipeline"]').getAttribute('aria-selected') === 'true');
 
   // keyboard: number jump
   doc.dispatchEvent(new win.KeyboardEvent('keydown', { key: '4', bubbles: true }));
   check('number key jumps to about', doc.getElementById('panel-about').classList.contains('active'));
+  check('early jump to about loads about & NPC portrait immediately',
+    win.LOADER.isLoaded('about') === true && !!doc.getElementById('npc-portrait').getAttribute('src'));
 
   // keyboard: vertical arrows browse and open panels live; horizontal keys
   // keep the classic menu meanings of select and back.
   doc.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
   check('arrow down switches to the next panel', doc.getElementById('panel-contact').classList.contains('active'));
   check('arrow down moves focus to the next tab', doc.activeElement && doc.activeElement.id === 'tab-contact');
+  check('early navigation to contact loads contact immediately', win.LOADER.isLoaded('contact') === true);
 
   doc.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }));
   check('arrow up switches back to about', doc.getElementById('panel-about').classList.contains('active'));

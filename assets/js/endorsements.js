@@ -2,6 +2,8 @@
    endorsements.js - Collaborator recommendation showcase.
    Shows full text immediately if it fits inside the fixed speech
    window; only shows [MORE] when the text exceeds the window.
+   Defers NPC portrait image network fetches until the About
+   panel warms up in the background or is selected early.
    ============================================================ */
 
 window.ENDORSEMENTS = (function () {
@@ -13,6 +15,8 @@ window.ENDORSEMENTS = (function () {
   var portraits = window.NPC_PORTRAITS || {};
   var root = './assets/pixel-npc/';
   var expanded = false;
+  var initialized = false;
+  var assetsLoaded = false;
 
   var FIT_LIMIT = 270;
   var CLIP_LIMIT = 235;
@@ -55,7 +59,11 @@ window.ENDORSEMENTS = (function () {
 
     expanded = false;
     dialogue.classList.remove('is-expanded');
-    portrait.src = root + assignments[current];
+    var targetSrc = root + assignments[current];
+    portrait.setAttribute('data-src', targetSrc);
+    if (assetsLoaded) {
+      portrait.src = targetSrc;
+    }
     portrait.alt = character.name + ' portrait';
     name.textContent = character.name.toUpperCase();
     role.textContent = character.role;
@@ -84,7 +92,39 @@ window.ENDORSEMENTS = (function () {
     });
   }
 
+  function loadAssets(highPriority) {
+    if (!initialized) init();
+    if (!characters.length) return;
+    var portrait = document.getElementById('npc-portrait');
+    if (!assetsLoaded) {
+      assetsLoaded = true;
+      if (portrait && assignments[current]) {
+        portrait.decoding = 'async';
+        if ('fetchPriority' in portrait) portrait.fetchPriority = highPriority ? 'high' : 'low';
+        portrait.src = root + assignments[current];
+      }
+      var preloadOthers = function () {
+        if (typeof Image === 'undefined') return;
+        assignments.forEach(function (file, idx) {
+          if (idx === current || !file) return;
+          var img = new Image();
+          img.decoding = 'async';
+          if ('fetchPriority' in img) img.fetchPriority = 'low';
+          img.src = root + file;
+        });
+      };
+      if (typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(preloadOthers, { timeout: 1500 });
+      } else {
+        window.setTimeout(preloadOthers, 280);
+      }
+    } else if (portrait && highPriority && 'fetchPriority' in portrait) {
+      portrait.fetchPriority = 'high';
+    }
+  }
+
   function move(step) {
+    assetsLoaded = true;
     current = (current + step + characters.length) % characters.length;
     window.SFX.move();
     if (window.MANUAL) window.MANUAL.unlock('npc');
@@ -92,7 +132,9 @@ window.ENDORSEMENTS = (function () {
   }
 
   function init() {
+    if (initialized) return;
     if (!characters.length || !document.getElementById('endorsement-dialogue')) return;
+    initialized = true;
 
     assignments = characters.map(function (character, index) {
       return pickPortrait(character, index);
@@ -107,6 +149,7 @@ window.ENDORSEMENTS = (function () {
       }).join('');
       Array.prototype.forEach.call(pipsNode.querySelectorAll('.npc-pip'), function (pip) {
         pip.addEventListener('click', function () {
+          assetsLoaded = true;
           current = Number(pip.getAttribute('data-npc-pip')) || 0;
           window.SFX.move();
           if (window.MANUAL) window.MANUAL.unlock('npc');
@@ -147,5 +190,5 @@ window.ENDORSEMENTS = (function () {
     paint();
   }
 
-  return { init: init, move: move };
+  return { init: init, move: move, loadAssets: loadAssets };
 })();

@@ -1,6 +1,7 @@
 /* ============================================================
    art.js — Clean Blueprint Inventory + live Sketchfab sync
-   with Poster-First on-demand 3D orbit.
+   with Poster-First on-demand 3D orbit and shared progressive
+   prefetching.
    ============================================================ */
 
 window.ART = (function () {
@@ -16,8 +17,10 @@ window.ART = (function () {
   var visible = [];
   var synced = false;
   var opened = false;
+  var initialized = false;
   var observer = null;
   var syncListeners = [];
+  var sharedFetchPromise = null;
 
   /* ---------- clean up known live Sketchfab draft typos ---------- */
   function cleanLiveDescription(raw, uid) {
@@ -149,7 +152,7 @@ window.ART = (function () {
     }
   }
 
-  /* ---------- fetching ---------- */
+  /* ---------- fetching & shared cache ---------- */
 
   function fetchModels() {
     var collected = [];
@@ -180,6 +183,53 @@ window.ART = (function () {
     }
 
     return step();
+  }
+
+  function ensureRawFetch() {
+    if (!sharedFetchPromise) {
+      sharedFetchPromise = fetchModels().then(
+        function (results) {
+          if (!results || !results.length) throw new Error('No models returned');
+          return { ok: true, results: results };
+        },
+        function (err) {
+          return { ok: false, error: err };
+        }
+      );
+    }
+    return sharedFetchPromise;
+  }
+
+  function mapRawResults(rawResults) {
+    var hidden = CONFIG.hiddenIds || [];
+    return (rawResults || [])
+      .filter(function (model) { return hidden.indexOf(model.uid) === -1; })
+      .map(fromApi);
+  }
+
+  function warmThumbnails(list, highPriority) {
+    if (typeof Image === 'undefined') return;
+    (list || []).slice(0, 4).forEach(function (item) {
+      if (!item || !item.thumb) return;
+      var img = new Image();
+      img.decoding = 'async';
+      if ('fetchPriority' in img) img.fetchPriority = highPriority ? 'high' : 'low';
+      img.src = item.thumb;
+    });
+  }
+
+  function prefetch(highPriority) {
+    return ensureRawFetch().then(function (outcome) {
+      if (!outcome.ok) return [];
+      var mapped = mapRawResults(outcome.results);
+      if (!opened && mapped.length) {
+        models = mapped.slice();
+        visible = models.slice();
+      }
+      notifyListeners();
+      warmThumbnails(getFeaturedFour(), Boolean(highPriority));
+      return mapped;
+    });
   }
 
   /* ---------- rendering ---------- */
@@ -379,10 +429,6 @@ window.ART = (function () {
       cards.forEach(function (c) { loadViewer(c, false); });
       return;
     }
-    /* In real browsers, cards that already have a crisp Sketchfab thumbnail (.has-poster)
-       stay in clean Poster-First mode so Sketchfab's un-started iframe doesn't cover
-       every card with a giant black play button, avatar, share icon, and cyan cube.
-       Users can click the viewport or [▶ ORBIT 3D] to boot inline 3D with autostart=1! */
     observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
@@ -424,7 +470,8 @@ window.ART = (function () {
   }
 
   function load() {
-    if (opened) return;
+    if (!initialized) init();
+    if (opened || !grid) return;
     opened = true;
 
     models = FEATURED.map(fromCurated);
@@ -432,17 +479,15 @@ window.ART = (function () {
     grid.innerHTML = skeletonMarkup(4);
     status.textContent = 'SYNCING WITH SKETCHFAB\u2026';
 
-    fetchModels()
-      .then(function (results) {
-        if (!results.length) throw new Error('No models returned');
-        var hidden = CONFIG.hiddenIds || [];
-        models = results
-          .filter(function (model) { return hidden.indexOf(model.uid) === -1; })
-          .map(fromApi);
+    ensureRawFetch()
+      .then(function (outcome) {
+        if (!outcome || !outcome.ok) throw new Error('Sync unavailable');
+        models = mapRawResults(outcome.results);
         synced = true;
         modeSelect.disabled = false;
         apply();
         notifyListeners();
+        warmThumbnails(visible, true);
       })
       .catch(function () {
         synced = false;
@@ -478,6 +523,7 @@ window.ART = (function () {
   }
 
   function init() {
+    if (initialized) return;
     grid = document.getElementById('art-grid');
     status = document.getElementById('art-status');
     modeSelect = document.getElementById('art-mode');
@@ -485,9 +531,12 @@ window.ART = (function () {
     searchInput = document.getElementById('art-search');
     countChip = document.getElementById('art-count');
     if (!grid) return;
+    initialized = true;
 
-    models = FEATURED.map(fromCurated);
-    visible = models.slice();
+    if (!models.length) {
+      models = FEATURED.map(fromCurated);
+      visible = models.slice();
+    }
 
     [modeSelect, sortSelect].forEach(function (control) {
       control.addEventListener('change', function () { window.SFX.move(); apply(); });
@@ -541,6 +590,8 @@ window.ART = (function () {
 
   return {
     init: init,
+    load: load,
+    prefetch: prefetch,
     at: at,
     count: count,
     loadViewer: loadViewer,

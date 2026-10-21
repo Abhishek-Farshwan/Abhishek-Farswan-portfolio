@@ -163,6 +163,26 @@ inspection, and restrained, opt-in UI sounds.
      3:1. `npm run contrast` enforces this with no exceptions: any failure exits
      non-zero.
 
+5. **Progressive & Priority-On-Click Loading (`window.LOADER`)**:
+   - **First-Frame Left Panel + Home Loadout**: `index.html` and `resume.html`
+     pre-render `<aside class="roster scroller" id="roster-slot">` in static
+     HTML and preload `player-character.png` with `fetchpriority="high"`. The
+     core shell scripts (`data.js`, `util.js`, `sfx.js`, `chrome.js`,
+     `router.js`) load and mount before secondary panel modules so the Left
+     Panel and Home screen paint together on Frame 1 even on slow networks.
+   - **Shared Sketchfab Sync & Background Idle Queue**: `window.ART.prefetch()`
+     deduplicates Sketchfab API calls between the Home Featured Showcase and the
+     Art Inventory. After the initial loadout paints, `window.LOADER` warms up
+     remaining sections (`art`, `pipeline`, `about`, `contact`) progressively
+     during idle frames—deferring hidden-panel network assets (NPC portraits in
+     `endorsements.js` and external CDN social icons in `contact.js`) until the
+     first loadout is complete.
+   - **Early-Click & Hover Priority Pre-emption**: Activating any panel via click,
+     keyboard shortcut, or hash jump invokes `window.LOADER.prioritize(panel)`
+     synchronously to pull that section out of the background queue and load its
+     assets first. Hovering or focusing a tab invokes `window.LOADER.bump(panel)`
+     to move it to the front of the background queue.
+
 ## Current Behavior
 
 - Desktop uses a persistent roster and detail panel; mobile uses a compact

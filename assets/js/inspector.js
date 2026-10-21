@@ -13,6 +13,7 @@ window.INSPECTOR = (function () {
   var index = -1;
   var customPool = null;
   var lastFocused = null;
+  var initialized = false;
 
   function itemAt(i) {
     if (customPool && customPool.length) return customPool[i];
@@ -60,6 +61,7 @@ window.INSPECTOR = (function () {
   }
 
   function open(next, pool) {
+    if (!initialized) init();
     if (!modal) return;
     customPool = Array.isArray(pool) && pool.length ? pool.slice(0, 4) : null;
     index = next;
@@ -102,8 +104,10 @@ window.INSPECTOR = (function () {
   }
 
   function init() {
+    if (initialized) return;
     modal = document.getElementById('inspector');
     if (!modal) return;
+    initialized = true;
 
     stage = modal.querySelector('.modal-stage');
     frame = modal.querySelector('iframe');

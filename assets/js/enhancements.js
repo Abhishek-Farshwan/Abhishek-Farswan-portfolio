@@ -2,6 +2,7 @@
    enhancements.js — Separate Quest Log & Controls Modals,
    Home Featured Loadout (live Sketchfab MAX 4), Pipeline Engine
    Readiness Spec Sheet, About Skill Filter, and Contact Scope Tags.
+   Supports per-panel progressive initialization via window.LOADER.
    ============================================================ */
 
 window.MANUAL = (function () {
@@ -19,6 +20,7 @@ window.MANUAL = (function () {
   var state = { boot: true };
   var questModal = null;
   var manualModal = null;
+  var initialized = false;
 
   function sideQuestsComplete() {
     return QUESTS.filter(function (q) { return q.id !== 'secret'; })
@@ -100,7 +102,6 @@ window.MANUAL = (function () {
       var match = QUESTS.filter(function (q) { return q.id === id; })[0];
       var doneCount = QUESTS.filter(function (q) { return Boolean(state[q.id]); }).length;
       if (match) {
-        /* achievement toast is visual; calling action already played its own SFX cue */
         UTIL.toast('\uD83C\uDFC6 ACHIEVEMENT UNLOCKED \u2014 ' + match.title.toUpperCase() + ' (' + doneCount + '/' + QUESTS.length + ' XP)', 3400, 'achievement');
       }
     }
@@ -151,6 +152,9 @@ window.MANUAL = (function () {
   }
 
   function init() {
+    if (initialized) return;
+    initialized = true;
+
     loadState();
     questModal = document.getElementById('quest-modal');
     manualModal = document.getElementById('manual-modal');
@@ -234,48 +238,17 @@ window.ENHANCEMENTS = (function () {
   var UTIL = window.UTIL;
   var CONFIG = window.SITE.sketchfab;
   var featuredPool = [];
+  var homeReady = false;
+  var homeSynced = false;
+  var pipelineReady = false;
+  var aboutReady = false;
+  var contactReady = false;
 
   var CUBE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">' +
     '<path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/>' +
     '<path d="M3 7l9 5 9-5"/>' +
     '<path d="M12 12v10"/>' +
     '</svg>';
-
-  var PIPELINE_SPECS = {
-    '0': [
-      { kicker: 'CAMERA READABILITY', title: 'Silhouette-First Blockout', body: 'Primary shapes are tested at actual gameplay camera distance so props and characters read clearly before adding secondary detail.' },
-      { kicker: 'PROPORTION & SCALE', title: 'Consistent World Metrics', body: 'Built against a 1 unit = 1 meter scale human/chibi reference so doors, seating, and hand-held props match level metrics.' },
-      { kicker: 'FORM HIERARCHY', title: 'Clean Sub-Object Separation', body: 'Logical mesh grouping for pivots, lids, wheels, or riggable joints so animators and gameplay scripts can drive parts cleanly.' }
-    ],
-    '1': [
-      { kicker: 'UV PACKING', title: 'Non-Overlapping UV Islands', body: 'Cleanly unwrapped islands with deliberate padding to prevent mipmap bleeding at lower LODs and distance rendering.' },
-      { kicker: 'TEXEL DENSITY', title: 'Balanced Resolution Across Kits', body: 'Uniform texel density across environment and prop sets so no asset looks blurry next to a crisp neighbor.' },
-      { kicker: 'PBR WORKFLOW', title: 'Real-Time Material Channels', body: 'Baked Albedo, Roughness, Metallic, and Normal maps in Substance Painter tuned to hold up under dynamic engine lighting.' }
-    ],
-    '2': [
-      { kicker: 'MESH INTEGRITY', title: 'Quad / Tri Discipline', body: 'Zero stray N-gons, non-manifold edges, or unmerged vertices. Unseen bottom and interior faces are stripped to save budget.' },
-      { kicker: 'SHADING & NORMALS', title: 'Verified Smoothing & Bakes', body: 'Hard/soft edges and custom split normals checked against normal maps to eliminate shading seams or dark gradients.' },
-      { kicker: 'QA VERIFICATION', title: 'Pre-Delivery Audit Pass', body: 'Every mesh undergoes a structured QA pass for naming conventions, material slot count, and clean outliner hierarchy.' }
-    ],
-    '3': [
-      { kicker: 'ORIGIN & TRANSFORMS', title: 'Zeroed Ground-Contact Pivot', body: 'Location, rotation, and scale applied (1, 1, 1) with the pivot placed at ground contact (0, 0, 0) for instant level snapping.' },
-      { kicker: 'PHYSICS & COLLISION', title: 'Simplified Collision Hulls', body: 'Tested in Godot with lightweight box, capsule, or convex collision shapes instead of expensive raw trimesh colliders.' },
-      { kicker: 'ENGINE FORMAT', title: 'Drop-In GLB / FBX Delivery', body: 'Exported and verified inside a live Godot test scene so materials, scale, and animations work out of the box.' }
-    ]
-  };
-
-  function embedFor(model) {
-    var base = model.embed || model.embedUrl || ('https://sketchfab.com/models/' + model.uid + '/embed');
-    try {
-      var url = new URL(base);
-      Object.keys(CONFIG.embedParams).forEach(function (key) {
-        url.searchParams.set(key, CONFIG.embedParams[key]);
-      });
-      return url.toString();
-    } catch (error) {
-      return base;
-    }
-  }
 
   function tagLabelFor(model, index) {
     if (model.tag) {
@@ -315,7 +288,7 @@ window.ENHANCEMENTS = (function () {
         '<article class="showcase-slot" data-showcase-uid="' + UTIL.escapeHtml(model.uid) + '">' +
           '<div class="showcase-stage" data-showcase-inspect="' + UTIL.escapeHtml(model.uid) + '" role="button" tabindex="0" aria-label="Inspect ' + UTIL.escapeHtml(model.name) + ' in 3D">' +
             '<div class="showcase-fallback">' + CUBE_SVG + '<span>LIVE 3D MODEL</span></div>' +
-            (model.thumb ? '<img class="showcase-thumb" data-src="' + UTIL.escapeHtml(model.thumb) + '" alt="' + UTIL.escapeHtml(model.name) + ' preview" />' : '') +
+            (model.thumb ? '<img class="showcase-thumb" data-src="' + UTIL.escapeHtml(model.thumb) + '" alt="' + UTIL.escapeHtml(model.name) + ' preview" decoding="async" loading="lazy" />' : '') +
             '<span class="showcase-tag">' + UTIL.escapeHtml(tag) + '</span>' +
           '</div>' +
           '<div class="showcase-body">' +
@@ -336,76 +309,12 @@ window.ENHANCEMENTS = (function () {
     });
   }
 
-  function fetchFeaturedFromSketchfab() {
-    if (typeof window.fetch !== 'function') return;
-    var controller = typeof AbortController === 'function' ? new AbortController() : null;
-    var timer = controller ? window.setTimeout(function () { controller.abort(); }, CONFIG.timeoutMs || 8000) : null;
-
-    window.fetch(CONFIG.api, controller ? { signal: controller.signal } : undefined)
-      .then(function (res) {
-        if (timer) window.clearTimeout(timer);
-        if (!res || !res.ok) throw new Error('Sketchfab sync failed');
-        return res.json();
-      })
-      .then(function (payload) {
-        var results = (payload && payload.results) || [];
-        if (!results.length) return;
-        var hidden = CONFIG.hiddenIds || [];
-        var mapped = results
-          .filter(function (m) { return hidden.indexOf(m.uid) === -1; })
-          .map(function (m) {
-            var thumb = '';
-            if (m.thumbnails && m.thumbnails.images && m.thumbnails.images.length) {
-              var imgs = m.thumbnails.images.slice().sort(function (a, b) { return b.width - a.width; });
-              var pick = imgs.filter(function (img) { return img.width <= 1024; })[0] || imgs[imgs.length - 1];
-              thumb = pick ? pick.url : '';
-            }
-            var curated = window.SITE.featured.filter(function (f) { return f.uid === m.uid; })[0];
-            var override = CONFIG.descriptionOverrides && CONFIG.descriptionOverrides[m.uid];
-            return {
-              uid: m.uid,
-              name: m.name || 'Untitled model',
-              description: override || (m.description || '').trim(),
-              views: m.viewCount || 0,
-              likes: m.likeCount || 0,
-              tris: m.faceCount || 0,
-              published: m.publishedAt || '',
-              staffPick: Boolean(m.staffpickedAt),
-              thumb: thumb,
-              embed: embedFor(m),
-              view: m.viewerUrl || ('https://sketchfab.com/3d-models/' + m.uid),
-              tag: curated ? curated.tag : '',
-              meta: curated ? curated.meta : ''
-            };
-          });
-
-        if (window.ART && typeof window.ART.setSyncedPoolIfIdle === 'function') {
-          window.ART.setSyncedPoolIfIdle(mapped);
-        }
-
-        var picked = [];
-        var seen = {};
-        CONFIG.featuredIds.forEach(function (fid) {
-          var match = mapped.filter(function (item) { return item.uid === fid; })[0];
-          if (match && picked.length < 4) {
-            picked.push(match);
-            seen[match.uid] = true;
-          }
-        });
-        mapped.forEach(function (item) {
-          if (picked.length < 4 && !seen[item.uid]) {
-            picked.push(item);
-            seen[item.uid] = true;
-          }
-        });
-
-        if (picked.length) {
-          renderFeaturedShowcase(picked.slice(0, 4));
-        }
-      })
-      .catch(function () {
-        /* Keep curated fallback cards */
-      });
+  function syncHomeShowcase(highPriority) {
+    if (homeSynced) return;
+    homeSynced = true;
+    if (window.ART && typeof window.ART.prefetch === 'function') {
+      window.ART.prefetch(Boolean(highPriority));
+    }
   }
 
   function initHomeShowcase() {
@@ -441,11 +350,12 @@ window.ENHANCEMENTS = (function () {
         renderFeaturedShowcase(topFour);
       });
     }
-
-    fetchFeaturedFromSketchfab();
   }
 
   function initPipelineSpecs() {
+    if (pipelineReady) return;
+    pipelineReady = true;
+
     var inspectBtn = document.getElementById('lab-specimen-inspect');
     var loadEmbedBtn = document.getElementById('lab-specimen-load');
     var stage = document.getElementById('lab-specimen-stage');
@@ -501,6 +411,9 @@ window.ENHANCEMENTS = (function () {
   }
 
   function initSkillFilter() {
+    if (aboutReady) return;
+    aboutReady = true;
+
     var buttons = UTIL.qsa('[data-skill-filter]');
     var chips = UTIL.qsa('#about-skills-list .skill-chip');
     if (!buttons.length || !chips.length) return;
@@ -529,6 +442,9 @@ window.ENHANCEMENTS = (function () {
   }
 
   function initContactScopeTags() {
+    if (contactReady) return;
+    contactReady = true;
+
     var chips = UTIL.qsa('[data-scope-tag]');
     var textarea = document.getElementById('contact-message');
     if (!chips.length || !textarea) return;
@@ -590,14 +506,27 @@ window.ENHANCEMENTS = (function () {
     });
   }
 
-  function init() {
-    window.MANUAL.init();
+  function initHome() {
+    if (homeReady) return;
+    homeReady = true;
     initHeroLoadoutInspector();
     initHomeShowcase();
+  }
+
+  function init() {
+    window.MANUAL.init();
+    initHome();
     initPipelineSpecs();
     initSkillFilter();
     initContactScopeTags();
   }
 
-  return { init: init };
+  return {
+    init: init,
+    initHome: initHome,
+    syncHomeShowcase: syncHomeShowcase,
+    initPipeline: initPipelineSpecs,
+    initAbout: initSkillFilter,
+    initContact: initContactScopeTags
+  };
 })();

@@ -50,21 +50,22 @@
   }
   </script>
 
+  <link rel="preload" as="image" href="./assets/img/player-character.png" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://api.sketchfab.com" />
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="./assets/css/tokens.css?v=20261020-1" />
-  <link rel="stylesheet" href="./assets/css/base.css?v=20261020-1" />
-  <link rel="stylesheet" href="./assets/css/layout.css?v=20261020-1" />
-  <link rel="stylesheet" href="./assets/css/nav.css?v=20261020-1" />
-  <link rel="stylesheet" href="./assets/css/components.css?v=20261020-1" />
-  <link rel="stylesheet" href="./assets/css/panels.css?v=20261020-1" />
-  <link rel="stylesheet" href="./assets/css/modal.css?v=20261020-1" />
-  <link rel="stylesheet" href="./assets/css/responsive.css?v=20261020-1" />
-  <link rel="stylesheet" href="./assets/css/decor.css?v=20261020-1" media="screen" />
-  <link rel="stylesheet" href="./assets/css/print.css?v=20261020-1" media="print" />
+  <link rel="stylesheet" href="./assets/css/tokens.css?v=20261021-1" />
+  <link rel="stylesheet" href="./assets/css/base.css?v=20261021-1" />
+  <link rel="stylesheet" href="./assets/css/layout.css?v=20261021-1" />
+  <link rel="stylesheet" href="./assets/css/nav.css?v=20261021-1" />
+  <link rel="stylesheet" href="./assets/css/components.css?v=20261021-1" />
+  <link rel="stylesheet" href="./assets/css/panels.css?v=20261021-1" />
+  <link rel="stylesheet" href="./assets/css/modal.css?v=20261021-1" />
+  <link rel="stylesheet" href="./assets/css/responsive.css?v=20261021-1" />
+  <link rel="stylesheet" href="./assets/css/decor.css?v=20261021-1" media="screen" />
+  <link rel="stylesheet" href="./assets/css/print.css?v=20261021-1" media="print" />
 
   <noscript>
     <style>
@@ -80,8 +81,39 @@
   <a class="skip-link" href="#detail">Skip to content</a>
 
   <div class="app">
-    <!-- roster is rendered by assets/js/chrome.js so every page shares one source -->
-    <div id="roster-slot"></div>
+    <!-- roster is pre-rendered for instant first-frame paint on slow networks and hydrated by assets/js/chrome.js -->
+    <aside class="roster scroller" id="roster-slot" aria-label="Profile and menu">
+      <div class="roster-header">
+        <span>ROSTER // 001</span>
+        <span class="roster-status">OPEN</span>
+      </div>
+
+      <section class="profile-card" aria-label="Artist profile">
+        <div class="profile-name">ABHISHEK</div>
+        <div class="profile-role">3D Game Artist</div>
+        <p class="profile-note">Stylized worlds, readable shapes, game-ready assets.</p>
+        <button class="sound-toggle sound-toggle--mobile" id="sound-toggle-mobile" type="button" aria-label="Toggle UI sounds" aria-pressed="false">
+          <img class="sound-glyph" src="assets/icon/selected/mute.svg" alt="" aria-hidden="true" decoding="async" /><span class="sound-label">SOUND OFF</span>
+        </button>
+      </section>
+
+      <nav class="menu" role="tablist" aria-label="Portfolio sections">
+        <button class="menu-btn" role="tab" id="tab-home" aria-controls="panel-home" aria-selected="true" tabindex="0" data-panel="home"><img class="menu-icon" src="assets/icon/selected/house.svg" alt="" aria-hidden="true" decoding="async" /><span class="menu-label">HOME</span></button>
+        <button class="menu-btn" role="tab" id="tab-art" aria-controls="panel-art" aria-selected="false" tabindex="-1" data-panel="art"><img class="menu-icon" src="assets/icon/selected/image.svg" alt="" aria-hidden="true" decoding="async" /><span class="menu-label">ART</span></button>
+        <button class="menu-btn" role="tab" id="tab-pipeline" aria-controls="panel-pipeline" aria-selected="false" tabindex="-1" data-panel="pipeline"><img class="menu-icon" src="assets/icon/selected/tool-kit.svg" alt="" aria-hidden="true" decoding="async" /><span class="menu-label">PIPELINE</span></button>
+        <button class="menu-btn" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1" data-panel="about"><img class="menu-icon" src="assets/icon/selected/user.svg" alt="" aria-hidden="true" decoding="async" /><span class="menu-label">ABOUT</span></button>
+        <button class="menu-btn" role="tab" id="tab-contact" aria-controls="panel-contact" aria-selected="false" tabindex="-1" data-panel="contact"><img class="menu-icon" src="assets/icon/selected/mail.svg" alt="" aria-hidden="true" decoding="async" /><span class="menu-label">CONTACT</span></button>
+        <div class="menu-divider" role="presentation"></div>
+        <a class="menu-btn is-external" href="resume.html"><img class="menu-icon" src="assets/icon/selected/document.svg" alt="" aria-hidden="true" decoding="async" /><span class="menu-label">RESUME</span></a>
+      </nav>
+
+      <div class="roster-footer">
+        <button class="sound-toggle sound-toggle--desktop" id="sound-toggle" type="button" aria-label="Toggle UI sounds" aria-pressed="false">
+          <img class="sound-glyph" src="assets/icon/selected/mute.svg" alt="" aria-hidden="true" decoding="async" /><span class="sound-label">SOUND OFF</span>
+        </button>
+        <p class="roster-hint">Up/down browse.<br>Right reads, Left exits.</p>
+      </div>
+    </aside>
 
     <main class="detail scroller" id="detail">
       <div class="detail-inner">
@@ -111,7 +143,7 @@
                   <h1>Abhishek<br />Farshwan</h1>
                 </div>
                 <figure class="hero-portrait-card">
-                  <img class="hero-avatar" src="./assets/img/player-character.png" alt="Abhishek Farshwan character portrait" width="147" height="125" />
+                  <img class="hero-avatar" src="./assets/img/player-character.png" alt="Abhishek Farshwan character portrait" width="147" height="125" fetchpriority="high" decoding="async" />
                   <figcaption class="hero-portrait-cap">3D GAME ARTIST</figcaption>
                 </figure>
               </div>
@@ -566,7 +598,7 @@
                   </div>
                   <div class="npc-body">
                     <div class="npc-portrait-frame">
-                      <img class="npc-portrait" id="npc-portrait" src="" alt="" />
+                      <img class="npc-portrait" id="npc-portrait" alt="" decoding="async" />
                     </div>
                     <div class="npc-copy">
                       <blockquote id="npc-endorsement"><span id="npc-endorsement-text"></span> <button class="npc-more is-hidden" id="npc-more" type="button" aria-expanded="false" hidden></button></blockquote>
@@ -825,18 +857,20 @@
     </div>
   </div>
 
-  <script src="./assets/js/data.js?v=20261020-1"></script>
-  <script src="./assets/characters/database.js?v=20261020-1"></script>
-  <script src="./assets/js/util.js?v=20261020-1"></script>
-  <script src="./assets/js/sfx.js?v=20261020-1"></script>
-  <script src="./assets/js/chrome.js?v=20261020-1"></script>
-  <script src="./assets/js/router.js?v=20261020-1"></script>
-  <script src="./assets/js/art.js?v=20261020-1"></script>
-  <script src="./assets/js/inspector.js?v=20261020-1"></script>
-  <script src="./assets/js/contact.js?v=20261020-1"></script>
-  <script src="./assets/js/endorsements.js?v=20261020-1"></script>
-  <script src="./assets/js/easter.js?v=20261020-1"></script>
-  <script src="./assets/js/enhancements.js?v=20261020-1"></script>
-  <script src="./assets/js/main.js?v=20261020-1"></script>
+  <!-- Core shell + navigation (mounts Left Panel & Router immediately) -->
+  <script src="./assets/js/data.js?v=20261021-1"></script>
+  <script src="./assets/js/util.js?v=20261021-1"></script>
+  <script src="./assets/js/sfx.js?v=20261021-1"></script>
+  <script src="./assets/js/chrome.js?v=20261021-1"></script>
+  <script src="./assets/js/router.js?v=20261021-1"></script>
+  <!-- Progressive & priority-on-click section modules -->
+  <script src="./assets/js/art.js?v=20261021-1"></script>
+  <script src="./assets/js/inspector.js?v=20261021-1"></script>
+  <script src="./assets/js/contact.js?v=20261021-1"></script>
+  <script src="./assets/characters/database.js?v=20261021-1"></script>
+  <script src="./assets/js/endorsements.js?v=20261021-1"></script>
+  <script src="./assets/js/easter.js?v=20261021-1"></script>
+  <script src="./assets/js/enhancements.js?v=20261021-1"></script>
+  <script src="./assets/js/main.js?v=20261021-1"></script>
 </body>
 </html>

@@ -6,8 +6,8 @@
    visitor's own mail app. Honest about what it does, and it
    works on a plain file host.
 
-   To switch to a hosted form service later: POST the same
-   payload in send() and keep the validation above it.
+   External CDN social icons defer their network requests until
+   the Contact panel warms up in the background or is selected early.
    ============================================================ */
 
 window.CONTACT = (function () {
@@ -15,6 +15,8 @@ window.CONTACT = (function () {
 
   var UTIL = window.UTIL;
   var SITE = window.SITE;
+  var initialized = false;
+  var iconsLoaded = false;
 
   function setError(input, message) {
     var slot = document.getElementById(input.id + '-error');
@@ -69,7 +71,34 @@ window.CONTACT = (function () {
       '&body=' + encodeURIComponent(body);
   }
 
+  function loadAssets(highPriority) {
+    if (!initialized) init();
+    if (iconsLoaded) return;
+    iconsLoaded = true;
+
+    UTIL.qsa('.social-icon').forEach(function (img) {
+      var dataSrc = img.getAttribute('data-src');
+      if (!dataSrc) return;
+      img.decoding = 'async';
+      if ('fetchPriority' in img) img.fetchPriority = highPriority ? 'high' : 'low';
+      img.addEventListener('error', function () {
+        var fallback = document.createElement('span');
+        fallback.className = 'icon-fallback';
+        fallback.setAttribute('aria-hidden', 'true');
+        fallback.textContent = img.getAttribute('data-fallback') || '';
+        img.replaceWith(fallback);
+      }, { once: true });
+      // src is assigned only after the listener exists, so a request that
+      // fails immediately (offline, blocked, DNS failure) can't fire the
+      // error event before anything is listening for it.
+      img.src = dataSrc;
+    });
+  }
+
   function init() {
+    if (initialized) return;
+    initialized = true;
+
     var form = document.getElementById('contact-form');
     if (form) {
       var fields = {
@@ -105,20 +134,6 @@ window.CONTACT = (function () {
       link.addEventListener('click', function () { window.SFX.select(); });
     });
 
-    UTIL.qsa('.social-icon').forEach(function (img) {
-      img.addEventListener('error', function () {
-        var fallback = document.createElement('span');
-        fallback.className = 'icon-fallback';
-        fallback.setAttribute('aria-hidden', 'true');
-        fallback.textContent = img.getAttribute('data-fallback') || '';
-        img.replaceWith(fallback);
-      }, { once: true });
-      // src is assigned only after the listener exists, so a request that
-      // fails immediately (offline, blocked, DNS failure) can't fire the
-      // error event before anything is listening for it.
-      img.src = img.getAttribute('data-src');
-    });
-
     UTIL.qsa('[data-copy]').forEach(function (button) {
       button.addEventListener('click', function () {
         var value = button.getAttribute('data-copy');
@@ -133,5 +148,5 @@ window.CONTACT = (function () {
     });
   }
 
-  return { init: init };
+  return { init: init, loadAssets: loadAssets };
 })();

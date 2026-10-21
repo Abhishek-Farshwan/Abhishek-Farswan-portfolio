@@ -15,6 +15,7 @@ window.ROUTER = (function () {
   var detail = null;
   var current = null;
   var listeners = [];
+  var initialized = false;
   var mode = 'tabs'; // 'tabs' = arrow keys browse the roster; 'detail' = arrow keys scroll the open panel
 
   function isTypingTarget(node) {
@@ -28,6 +29,13 @@ window.ROUTER = (function () {
   function activate(name, options) {
     options = options || {};
     if (!panels.some(function (panel) { return panel.id === 'panel-' + name; })) name = 'home';
+
+    // Priority pre-emption: if the visitor clicks or keys into a section
+    // before the background queue has reached it, load that section first.
+    if (window.LOADER && typeof window.LOADER.prioritize === 'function') {
+      window.LOADER.prioritize(name);
+    }
+
     if (name === current && !options.force) return;
 
     tabs.forEach(function (tab) {
@@ -171,6 +179,9 @@ window.ROUTER = (function () {
   }
 
   function init(page) {
+    if (initialized) return;
+    initialized = true;
+
     tabs = UTIL.qsa('.menu-btn[data-panel]');
     tabbarButtons = UTIL.qsa('.tabbar-btn[data-panel]');
     panels = UTIL.qsa('.panel');
@@ -186,17 +197,34 @@ window.ROUTER = (function () {
     }
 
     tabs.concat(tabbarButtons).forEach(function (control) {
+      var targetPanel = control.getAttribute('data-panel');
+      control.addEventListener('mouseenter', function () {
+        if (window.LOADER && typeof window.LOADER.bump === 'function') {
+          window.LOADER.bump(targetPanel);
+        }
+      });
+      control.addEventListener('focusin', function () {
+        if (window.LOADER && typeof window.LOADER.bump === 'function') {
+          window.LOADER.bump(targetPanel);
+        }
+      });
       control.addEventListener('click', function () {
         window.SFX.select();
-        activate(control.getAttribute('data-panel'));
+        activate(targetPanel);
       });
     });
 
     UTIL.qsa('[data-goto]').forEach(function (link) {
+      var targetPanel = link.getAttribute('data-goto');
+      link.addEventListener('mouseenter', function () {
+        if (window.LOADER && typeof window.LOADER.bump === 'function') {
+          window.LOADER.bump(targetPanel);
+        }
+      });
       link.addEventListener('click', function (event) {
         event.preventDefault();
         window.SFX.select();
-        activate(link.getAttribute('data-goto'));
+        activate(targetPanel);
       });
     });
 
@@ -207,8 +235,16 @@ window.ROUTER = (function () {
 
   function start() {
     if (!panels.length) return;
-    var initial = (location.hash || '').replace('#', '');
+    var initial = current || (location.hash || '').replace('#', '');
     activate(initial || 'home', { updateHash: false, force: true });
+  }
+
+  // Early shell boot: as soon as chrome.js + router.js finish downloading,
+  // mount the Left Panel and bind navigation immediately so the visitor can
+  // switch panels even while secondary scripts finish loading on slow networks.
+  if (document.body && window.CHROME && typeof window.CHROME.mount === 'function') {
+    var earlyPage = window.CHROME.mount();
+    init(earlyPage);
   }
 
   return {

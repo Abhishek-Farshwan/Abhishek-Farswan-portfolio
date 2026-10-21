@@ -16,6 +16,7 @@ window.CHROME = (function () {
 
   var SITE = window.SITE;
   var UTIL = window.UTIL;
+  var mounted = false;
 
   function root() {
     return document.body.getAttribute('data-root') || '';
@@ -25,7 +26,7 @@ window.CHROME = (function () {
     var isHome = page === 'home';
 
     var entries = SITE.nav.map(function (item, index) {
-      var icon = '<img class="menu-icon" src="' + UTIL.escapeHtml(root() + 'assets/icon/selected/' + item.icon) + '" alt="" aria-hidden="true" />';
+      var icon = '<img class="menu-icon" src="' + UTIL.escapeHtml(root() + 'assets/icon/selected/' + item.icon) + '" alt="" aria-hidden="true" decoding="async" />';
       var label = '<span class="menu-label">' + item.label.toUpperCase() + '</span>';
       if (isHome) {
         return '<button class="menu-btn" role="tab" id="tab-' + item.id + '" ' +
@@ -40,7 +41,7 @@ window.CHROME = (function () {
     var resumeCurrent = page === 'resume' ? ' aria-current="page"' : '';
     var resumeEntry = '<div class="menu-divider" role="presentation"></div>' +
       '<a class="menu-btn is-external" href="' + root() + 'resume.html"' + resumeCurrent + '>' +
-      '<img class="menu-icon" src="' + UTIL.escapeHtml(root() + 'assets/icon/selected/document.svg') + '" alt="" aria-hidden="true" />' +
+      '<img class="menu-icon" src="' + UTIL.escapeHtml(root() + 'assets/icon/selected/document.svg') + '" alt="" aria-hidden="true" decoding="async" />' +
       '<span class="menu-label">RESUME</span></a>';
 
     return '<nav class="menu"' + (isHome ? ' role="tablist" aria-label="Portfolio sections"' : ' aria-label="Site sections"') + '>' +
@@ -49,7 +50,7 @@ window.CHROME = (function () {
 
   function rosterMarkup(page) {
     return '' +
-      '<aside class="roster scroller" aria-label="Profile and menu">' +
+      '<aside class="roster scroller" id="roster-slot" aria-label="Profile and menu">' +
         '<div class="roster-header">' +
           '<span>ROSTER // 001</span>' +
           '<span class="roster-status">OPEN</span>' +
@@ -60,7 +61,7 @@ window.CHROME = (function () {
           '<div class="profile-role">' + UTIL.escapeHtml(SITE.identity.role) + '</div>' +
           '<p class="profile-note">' + UTIL.escapeHtml(SITE.identity.note) + '</p>' +
           '<button class="sound-toggle sound-toggle--mobile" id="sound-toggle-mobile" type="button" aria-label="Toggle UI sounds" aria-pressed="false">' +
-            '<img class="sound-glyph" src="' + root() + 'assets/icon/selected/mute.svg" alt="" aria-hidden="true" /><span class="sound-label">SOUND OFF</span>' +
+            '<img class="sound-glyph" src="' + root() + 'assets/icon/selected/mute.svg" alt="" aria-hidden="true" decoding="async" /><span class="sound-label">SOUND OFF</span>' +
           '</button>' +
         '</section>' +
 
@@ -68,7 +69,7 @@ window.CHROME = (function () {
 
         '<div class="roster-footer">' +
           '<button class="sound-toggle sound-toggle--desktop" id="sound-toggle" type="button" aria-label="Toggle UI sounds" aria-pressed="false">' +
-            '<img class="sound-glyph" src="' + root() + 'assets/icon/selected/mute.svg" alt="" aria-hidden="true" /><span class="sound-label">SOUND OFF</span>' +
+            '<img class="sound-glyph" src="' + root() + 'assets/icon/selected/mute.svg" alt="" aria-hidden="true" decoding="async" /><span class="sound-label">SOUND OFF</span>' +
           '</button>' +
           '<p class="roster-hint">Up/down browse.<br>Right reads, Left exits.</p>' +
         '</div>' +
@@ -78,7 +79,7 @@ window.CHROME = (function () {
   function tabbarMarkup(page) {
     var isHome = page === 'home';
     var buttons = SITE.nav.map(function (item, index) {
-      var glyph = '<img class="tab-glyph" src="' + UTIL.escapeHtml(root() + 'assets/icon/selected/' + item.icon) + '" alt="" aria-hidden="true" />';
+      var glyph = '<img class="tab-glyph" src="' + UTIL.escapeHtml(root() + 'assets/icon/selected/' + item.icon) + '" alt="" aria-hidden="true" decoding="async" />';
       var label = '<span>' + item.label.toUpperCase() + '</span>';
       var aria = ' aria-label="' + UTIL.escapeHtml(item.label) + '"';
       if (isHome) {
@@ -90,6 +91,7 @@ window.CHROME = (function () {
 
     return '<nav class="tabbar" id="tabbar" aria-label="Sections">' + buttons + '</nav>';
   }
+
   function promptBarMarkup(page) {
     if (page !== 'home') {
       var subPrompts = [
@@ -172,9 +174,12 @@ window.CHROME = (function () {
 
   function mount() {
     var page = document.body.getAttribute('data-page') || 'none';
+    if (mounted) return page;
+    mounted = true;
+
     if (page === 'none') { wireSoundToggle(); return page; }
 
-    var rosterSlot = document.getElementById('roster-slot');
+    var rosterSlot = document.getElementById('roster-slot') || document.querySelector('.roster');
     if (rosterSlot) rosterSlot.outerHTML = rosterMarkup(page);
 
     var footerSlot = document.getElementById('footer-slot');
@@ -183,8 +188,13 @@ window.CHROME = (function () {
       footerSlot.textContent = footerLine();
     }
 
-    document.body.insertAdjacentHTML('beforeend', tabbarMarkup(page));
-    document.body.insertAdjacentHTML('beforeend', promptBarMarkup(page));
+    var existingTabbar = document.getElementById('tabbar');
+    if (existingTabbar) existingTabbar.outerHTML = tabbarMarkup(page);
+    else document.body.insertAdjacentHTML('beforeend', tabbarMarkup(page));
+
+    var existingPrompt = document.querySelector('.prompt-bar');
+    if (existingPrompt) existingPrompt.outerHTML = promptBarMarkup(page);
+    else document.body.insertAdjacentHTML('beforeend', promptBarMarkup(page));
 
     wireSoundToggle();
     return page;
